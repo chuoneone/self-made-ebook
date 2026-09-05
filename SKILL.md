@@ -67,23 +67,37 @@ description: >-
 
 ---
 
-## 課堂懸浮工具列（Sleek Floating Pill Toolbar）
+## 課堂懸浮工具列（Pure Emoji 極簡膠囊工具列＋章節目錄導覽）
 
-必須在 `<body>` 開頭插入固定懸浮膠囊工具列（標記 `.no-print`）：
+必須在 `<body>` 開頭插入固定懸浮膠囊工具列（標記 `.no-print`）。
+**設計重點**：工具列一律採用**純 Emoji 圖示極簡設計（無中文文字按鈕）**，外觀乾淨不遮擋投影教材，按鈕使用 `title="..."` 提供無障礙與懸停提示；並內建「章節目錄導覽選單」，方便教師於大屏/投影授課時隨時跨章節平滑跳轉：
 
 ```html
 <div class="classroom-toolbar no-print">
-  <!-- 1. 一鍵全開答案 -->
-  <button class="tool-btn btn-toggle-ans" id="toggleAllAnsBtn" onclick="toggleAllAnswers()">
-    <span id="ansIcon">👁️</span> 答案
+  <!-- 1. 章節目錄跳轉選單 -->
+  <div style="position: relative;">
+    <button class="tool-btn" id="tocBtn" onclick="toggleTocMenu(event)" title="章節目錄導覽">
+      📑
+    </button>
+    <div class="toc-menu" id="tocMenu">
+      <div class="toc-menu-title">📖 單元章節目錄</div>
+      <div class="toc-menu-item" onclick="jumpTo('page-1')"><span>封面與導讀</span><span class="toc-page-badge">P.1</span></div>
+      <div class="toc-menu-item" onclick="jumpTo('sec-1')"><span>一、章節主題</span><span class="toc-page-badge">P.2</span></div>
+      <!-- 依該本電子書實際章節清單填入 -->
+    </div>
+  </div>
+
+  <!-- 2. 一鍵全開答案 -->
+  <button class="tool-btn btn-toggle-ans" id="toggleAllAnsBtn" onclick="toggleAllAnswers()" title="一鍵全開/全隱答案">
+    <span id="ansIcon">👁️</span>
   </button>
   
-  <!-- 2. 畫筆工具開關 -->
-  <button class="tool-btn" id="penBtn" onclick="togglePenMode()">
-    ✏️ 畫筆
+  <!-- 3. 畫筆工具開關 -->
+  <button class="tool-btn" id="penBtn" onclick="togglePenMode()" title="螢光筆/板書筆">
+    ✏️
   </button>
   
-  <!-- 3. 畫筆顏色與粗細選單 (啟用畫筆時展開) -->
+  <!-- 4. 畫筆顏色與粗細選單 (啟用畫筆時展開) -->
   <div class="pen-options" id="penOptions">
     <div class="color-picker">
       <span class="color-dot active" style="background:#facc15;" onclick="setPenColor('rgba(250, 204, 21, 0.45)', this)" title="螢光黃"></span>
@@ -91,7 +105,7 @@ description: >-
       <span class="color-dot" style="background:#3b82f6;" onclick="setPenColor('rgba(37, 99, 235, 0.8)', this)" title="藍筆"></span>
       <span class="color-dot" style="background:#10b981;" onclick="setPenColor('rgba(16, 185, 129, 0.8)', this)" title="綠筆"></span>
     </div>
-    <div class="sub-divider"></div>
+    <div class="sub-divider" style="width:1px; height:14px; background:#cbd5e1; margin:0 2px;"></div>
     <div class="size-picker">
       <button class="size-btn" onclick="setPenSize(4, this)">細</button>
       <button class="size-btn" onclick="setPenSize(10, this)">中</button>
@@ -99,16 +113,16 @@ description: >-
     </div>
   </div>
   
-  <!-- 4. 清除畫跡 -->
-  <button class="tool-btn" onclick="clearAllDrawings()">
-    清除
+  <!-- 5. 清除畫跡 -->
+  <button class="tool-btn" onclick="clearAllDrawings()" title="清除本頁/全卷畫筆">
+    🧹
   </button>
   
   <div class="toolbar-divider"></div>
   
-  <!-- 5. 直接列印 -->
-  <button class="tool-btn" onclick="window.print()">
-    列印
+  <!-- 6. 直接列印 -->
+  <button class="tool-btn" onclick="window.print()" title="列印為學生白紙考卷">
+    🖨️
   </button>
 </div>
 ```
