@@ -61,9 +61,11 @@ interactive-lesson-worksheet/
 ├── assets/
 │   └── preview.png           # 教學現場操作預覽圖
 ├── resources/
-│   └── template.html         # 通用講義 HTML/CSS/JS 完整模板（開箱即用）
+│   └── template.html         # 通用自製電子書 HTML/CSS/JS 完整模板（開箱即用）
 └── examples/
-    └── reference_example.html # 國中英語 5 頁完整示範講義
+    ├── reference_example.html                # 國中英語 5 頁完整示範電子書
+    ├── 七上數學1-1正數與負數_自製電子書.html   # 國中數學 1-1 範例（含策略卡地圖、數線 SVG 與目錄跳轉）
+    └── 七上數學1-2正負數的加減_自製電子書.html # 國中數學 1-2 範例（含 3~4 行留白計算空間 .calc-workspace）
 ```
 
 ---
