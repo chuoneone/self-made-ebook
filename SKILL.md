@@ -1,13 +1,13 @@
-﻿---
-name: interactive-lesson-worksheet
+---
+name: self-made-ebook
 description: >-
-  Transforms any teaching materials or lesson preparation documents (regardless of subject: English, Math, Science, Social Studies, Chinese, etc.) into a dual-purpose interactive HTML worksheet. Use this skill whenever the user provides curriculum documents, question banks, or lesson notes and requests a handout that can be directly printed for students as a clean paper test/worksheet, and simultaneously used by the teacher on a classroom projector with mouse-driven click-to-reveal answers and multi-color/thickness drawing tools.
+  自製電子書（雙模式教學互動電子書產生器）。專門將教師提供的任何學科備課資料或教學教材（國文、英文、數學、自然、社會、特教等），轉換為單一獨立的「自製電子書」HTML 檔案。該自製電子書同時具備兩大核心功能：1.「學生端純淨 A4 列印」（直接列印即還原為無解答、無操作干擾文字的標準白紙作業/評量卷）；2.「教師端大屏／投影教學」（逐題點擊秀答案、一鍵揭曉全書答案、多色粗細螢光筆/板書筆圈記劃線）。當使用者提到「自製電子書」、「製作電子書」、「電子教材」、「雙模式互動html」、「互動學習單」或提供備課教材時，皆啟動此 skill。
 ---
 
-# Interactive Lesson Worksheet (雙模式互動備課講義產生器)
+# 自製電子書 (Self-Made E-Book) — 雙模式教學互動電子書產生器
 
-此技能專門將教師提供的備課資料（包含單字卷、文法題、句型練寫卷、數學試題、自然科圖表、社會科講義等各科教材），轉換為**單一獨立 HTML 檔案**。
-該 HTML 同時具備以下兩大核心能力：
+此技能專門將教師提供的備課資料（包含單字卷、文法題、句型練寫卷、數學試題、自然科圖表、社會科講義等各科教材），轉換為**單一獨立的「自製電子書」HTML 檔案**。
+該自製電子書同時具備以下兩大核心能力：
 1. **學生端純淨 A4 列印**：直接按列印即還原為無解答、無操作干擾文字的標準學生作業／評量卷。
 2. **教師端大屏／投影教學**：無論在電子白板、觸控大屏、平板或傳統滑鼠投影環境下，皆可「逐題點擊秀答案」、「一鍵揭曉全卷答案」，並使用「多色粗細螢光筆」進行畫線與重點圈記。
 
@@ -115,7 +115,7 @@ description: >-
 
 ---
 
-## 教學講義鷹架架構（適用各學科）
+## 自製電子書教材鷹架架構（適用各學科）
 
 當使用者提供任何學科教材時，依據確認後的學生能力，轉化為**循序漸進的闖關鷹架（Scaffolded Quest）**：
 
