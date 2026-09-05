@@ -65,17 +65,17 @@ description: >-
   - 嚴禁使用表格空格硬湊。
   - 採用左側主詞／概念卡片、右側目標歸納盒、中間透過 SVG `<line>` 動態計算座標繪製虛線連線。
 
-### 5. 計算題與問答題必須預留 3～4 行書寫／計算空間（Calculation Workspace）
+### 5. 計算題與問答題必須預留 3～4 行純淨書寫／計算空間（Calculation Workspace）
 - **核心目的**：凡數學、自然理化、非選題或需要列式計算之題目，**嚴禁題與題之間緊密堆擠**。每道計算題下方**必須預留 3～4 行（高度約 80px～110px）的留白計算空間**，讓學生在紙本列印時有充裕的手寫計算與算式草稿區域。
+- **純淨無字原則**：留白框內**切勿印出任何提示文字**（例如不用寫「計算空間」或「思考與記錄空間」等字眼），保持 100% 純淨俐落的淺色虛線書寫格。
 - **雙模式運作機制**：
-  1. **學生端純淨列印**：計算框維持淺色細虛線邊框，解答完全隱藏，保留完整的 3～4 行手寫高度供學生書寫。
+  1. **學生端純淨列印**：計算框維持淺色細虛線邊框，內無解答亦無干擾提示字，保留完整乾淨的 3～4 行手寫高度供學生書寫。
   2. **教師端大屏教學**：點擊題目或計算框時，立即於框內浮現以紅字排版的【逐步計算過程與最終解答】；教師亦可在框內直接啟用螢光筆/板書筆帶領學生板書運算。
 - **標準 HTML 結構**：
   ```html
   <div class="interactive-item" onclick="toggleItemAnswer(this)">
     <div class="item-line"><b>題目：</b>計算 \((-15) + (-8) =\) ？</div>
     <div class="calc-workspace">
-      <div class="calc-hint">【計算空間】</div>
       <div class="calc-solution">
         原式 \(= -(15 + 8) = -23\)<br>
         <b>答：</b> \(-23\)
@@ -247,15 +247,12 @@ body.pen-mode .drawing-canvas {
     background: transparent !important;
     min-height: 85px !important;
   }
-  .calc-hint {
-    color: #64748b !important;
-  }
   .calc-solution {
     display: none !important;
   }
 }
 
-/* 計算題 3~4 行留白書寫空間 */
+/* 計算題 3~4 行留白書寫空間（純淨無提示字） */
 .calc-workspace {
   min-height: 85px; /* 預留 3~4 行手寫空間 */
   margin: 8px 0 14px 0;
@@ -264,12 +261,6 @@ body.pen-mode .drawing-canvas {
   border-radius: 6px;
   background-color: #f8fafc;
   position: relative;
-}
-.calc-hint {
-  font-size: 11pt;
-  color: #94a3b8;
-  user-select: none;
-  margin-bottom: 4px;
 }
 .calc-solution {
   color: transparent;
