@@ -72,7 +72,7 @@ interactive-lesson-worksheet/
 
 1. **一鍵安裝 Skill**：
    複製本專案網址，直接對您的 AI 助手（如 Antigravity）說：
-   > **「請幫我安裝這個 skill：https://github.com/chuoneone/interactive-lesson-worksheet」**
+   > **「請幫我安裝這個 skill：https://github.com/chuoneone/self-made-ebook」**
 
 2. **開始備課**：
    將任何備課資料（國文、英文、數學、自然、社會等題庫、講義或筆記）傳給 AI：
