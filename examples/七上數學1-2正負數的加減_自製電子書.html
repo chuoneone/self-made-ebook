@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>七上數學 1-2 正負數的加減（自製電子書）</title>
+  <title>七上數學 1-2 正負數的加減 - 自製電子書</title>
   <style>
     @page {
       size: A4 portrait;
@@ -14,18 +14,18 @@
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
-    html, body {
+    body {
       margin: 0;
       padding: 0;
       background-color: #e2e8f0;
       font-family: "Times New Roman", "標楷體", "DFKai-SB", "BiauKai", serif;
       font-size: 14pt;
-      line-height: 1.55;
-      color: #111;
-      user-select: text;
+      line-height: 1.4;
+      color: #0f172a;
+      user-select: auto;
     }
 
-    /* 課堂懸浮工具列 (純 Emoji 極簡版) */
+    /* 課堂懸浮工具列 (純 Emoji 極簡膠囊) */
     .classroom-toolbar {
       position: fixed;
       top: 14px;
@@ -89,7 +89,7 @@
       border-radius: 12px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.18);
       padding: 6px 0;
-      min-width: 250px;
+      min-width: 260px;
       max-height: 420px;
       overflow-y: auto;
       z-index: 10000;
@@ -133,7 +133,7 @@
       color: #2563eb;
     }
 
-    /* 畫筆顏色與粗細選單 */
+    /* 畫筆面板 */
     .pen-options {
       display: none;
       align-items: center;
@@ -150,20 +150,15 @@
       gap: 5px;
     }
     .color-dot {
-      width: 17px;
-      height: 17px;
+      width: 16px;
+      height: 16px;
       border-radius: 50%;
       cursor: pointer;
-      border: 2px solid transparent;
       box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
-      transition: transform 0.15s, box-shadow 0.15s;
-    }
-    .color-dot:hover {
-      transform: scale(1.18);
     }
     .color-dot.active {
-      transform: scale(1.22);
-      box-shadow: 0 0 0 2px #0f172a, inset 0 0 0 1px #fff;
+      transform: scale(1.2);
+      box-shadow: 0 0 0 2px #0f172a;
     }
     .sub-divider {
       width: 1px;
@@ -177,24 +172,18 @@
       gap: 3px;
     }
     .size-btn {
-      border: none;
-      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      background: #fff;
       color: #475569;
       font-size: 11px;
       font-weight: bold;
       padding: 2px 7px;
       border-radius: 10px;
       cursor: pointer;
-      border: 1px solid #cbd5e1;
-      transition: all 0.15s;
-    }
-    .size-btn:hover {
-      background: #e2e8f0;
-      color: #0f172a;
     }
     .size-btn.active {
       background: #0f172a;
-      color: #ffffff;
+      color: #fff;
       border-color: #0f172a;
     }
 
@@ -236,10 +225,10 @@
       align-items: baseline;
       border-bottom: 2px solid #222;
       padding-bottom: 4px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     .main-title {
-      font-size: 18pt;
+      font-size: 17pt;
       font-weight: bold;
       letter-spacing: 1px;
     }
@@ -251,72 +240,26 @@
       position: absolute;
       bottom: 8mm;
       left: 0;
-      width: 100%;
+      right: 0;
       text-align: center;
       font-size: 11pt;
-      color: #475569;
+      color: #64748b;
     }
 
-    /* 目錄與單元區塊 */
+    /* 章節大標題 */
     .section-banner {
+      font-size: 14.5pt;
+      font-weight: bold;
       background: #f1f5f9;
       border-left: 6px solid #2563eb;
       padding: 4px 10px;
-      font-size: 15pt;
-      font-weight: bold;
-      margin: 12px 0 10px 0;
-      border-radius: 3px;
-      color: #0f172a;
-    }
-    .toc-box {
-      border: 2px solid #94a3b8;
-      border-radius: 8px;
-      padding: 14px 20px;
-      background: #f8fafc;
-      margin-top: 15px;
-    }
-    .toc-item {
-      display: flex;
-      justify-content: space-between;
-      padding: 6px 0;
-      border-bottom: 1px dashed #cbd5e1;
-      font-size: 14pt;
-      cursor: pointer;
-      text-decoration: none;
-      color: #1e293b;
-      transition: color 0.15s;
-    }
-    .toc-item:hover {
-      color: #2563eb;
-      font-weight: bold;
+      margin: 6px 0 10px 0;
+      border-radius: 4px;
     }
 
-    /* 數學分數樣式 */
-    .frac {
-      display: inline-flex;
-      flex-direction: column;
-      vertical-align: -0.55em;
-      text-align: center;
-      font-size: 0.88em;
-      line-height: 1;
-      padding: 0 1px;
-    }
-    .frac-top {
-      border-bottom: 1.4px solid currentColor;
-      padding-bottom: 1px;
-    }
-    .frac-bottom {
-      padding-top: 1px;
-    }
-    .overline {
-      text-decoration: overline;
-      letter-spacing: 0.5px;
-    }
-
-    /* 互動式題目與答案槽 */
+    /* 題目互動項目 */
     .interactive-item {
       padding: 4px 6px;
-      margin-bottom: 8px;
       border-radius: 6px;
       transition: background 0.15s;
     }
@@ -327,6 +270,11 @@
       background-color: #f8fafc;
       outline: 1.5px dashed #93c5fd;
     }
+    .item-title {
+      font-weight: bold;
+      margin-bottom: 4px;
+      font-size: 14pt;
+    }
 
     /* 答案顯現樣式 */
     .ans-reveal {
@@ -336,33 +284,8 @@
       font-weight: bold;
       transition: color 0.2s, border-color 0.2s;
     }
-    .ans-underline {
-      border-bottom: 1.5px solid #333;
-      padding: 0 8px;
-    }
     .show-ans .ans-reveal,
     .interactive-item.show-one .ans-reveal {
-      color: #dc2626 !important;
-    }
-
-    /* 勾選方框 Checkbox */
-    .chk-box {
-      display: inline-block;
-      width: 17px;
-      height: 17px;
-      border: 1.8px solid #334155;
-      border-radius: 3px;
-      vertical-align: -2px;
-      margin: 0 4px 0 8px;
-      text-align: center;
-      line-height: 15px;
-      font-size: 13pt;
-      color: transparent;
-      font-weight: bold;
-      background: #fff;
-    }
-    .show-ans .chk-box.is-correct,
-    .interactive-item.show-one .chk-box.is-correct {
       color: #dc2626 !important;
     }
 
@@ -370,28 +293,28 @@
     .grid-2col {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      column-gap: 24px;
-      row-gap: 12px;
+      column-gap: 20px;
+      row-gap: 8px;
     }
     .col-divider {
       border-right: 1px solid #cbd5e1;
-      padding-right: 16px;
+      padding-right: 14px;
     }
 
     /* 答題寫作空白線 */
     .write-blank {
       display: inline-block;
-      min-width: 110px;
+      min-width: 90px;
       border-bottom: 1.5px solid #222;
       text-align: center;
     }
 
     /* 計算題 3~4 行留白書寫空間 */
     .calc-workspace {
-      min-height: 75px; /* 3~4 行手寫高度 */
-      margin: 8px 0 12px 0;
-      padding: 6px 12px;
-      border: 1px dashed #cbd5e1;
+      min-height: 80px; /* 3~4 行標準手寫空間 */
+      margin: 6px 0 12px 0;
+      padding: 6px 10px;
+      border: 1.5px dashed #94a3b8;
       border-radius: 6px;
       background-color: #f8fafc;
       position: relative;
@@ -405,11 +328,31 @@
     .calc-solution {
       color: transparent;
       font-size: 13pt;
-      line-height: 1.6;
+      line-height: 1.5;
     }
     .show-ans .calc-solution,
     .interactive-item.show-one .calc-solution {
       color: #dc2626 !important;
+      font-weight: bold;
+    }
+
+    /* 目錄與提示框 */
+    .toc-box {
+      border: 2px solid #2563eb;
+      border-radius: 8px;
+      padding: 14px 18px;
+      background: #eff6ff;
+    }
+    .toc-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
+      border-bottom: 1px dashed #bfdbfe;
+      color: #1e3a8a;
+      text-decoration: none;
+      font-size: 13.5pt;
+    }
+    .toc-item:hover {
       font-weight: bold;
     }
 
@@ -444,16 +387,13 @@
       .ans-reveal {
         color: transparent !important;
       }
-      .chk-box.is-correct {
-        color: transparent !important;
-      }
       .write-blank {
         border-bottom: 1.5px solid #000 !important;
       }
       .calc-workspace {
-        border: 1px dashed #94a3b8 !important;
+        border: 1.5px dashed #94a3b8 !important;
         background: transparent !important;
-        min-height: 75px !important;
+        min-height: 80px !important;
       }
       .calc-hint {
         color: #64748b !important;
@@ -475,17 +415,17 @@
       </button>
       <div class="toc-menu" id="tocMenu">
         <div class="toc-menu-title">📖 單元章節目錄</div>
-        <div class="toc-menu-item" onclick="jumpTo('page-1')"><span>封面與導讀</span><span class="toc-page-badge">P.1</span></div>
-        <div class="toc-menu-item" onclick="jumpTo('sec-1')"><span>一、同號相加</span><span class="toc-page-badge">P.2</span></div>
-        <div class="toc-menu-item" onclick="jumpTo('sec-2')"><span>二、異號數相減</span><span class="toc-page-badge">P.3</span></div>
-        <div class="toc-menu-item" onclick="jumpTo('sec-3')"><span>三、加法交換律與結合律</span><span class="toc-page-badge">P.4</span></div>
-        <div class="toc-menu-item" onclick="jumpTo('sec-4')"><span>四、數的減法</span><span class="toc-page-badge">P.7</span></div>
-        <div class="toc-menu-item" onclick="jumpTo('sec-5')"><span>五、正負數加減混合運算</span><span class="toc-page-badge">P.8</span></div>
-        <div class="toc-menu-item" onclick="jumpTo('sec-6')"><span>六、含絕對值的加減運算</span><span class="toc-page-badge">P.9</span></div>
-        <div class="toc-menu-item" onclick="jumpTo('sec-7')"><span>七、去括號的運算</span><span class="toc-page-badge">P.11</span></div>
-        <div class="toc-menu-item" onclick="jumpTo('sec-8')"><span>八、數線上兩點間的距離</span><span class="toc-page-badge">P.14</span></div>
-        <div class="toc-menu-item" onclick="jumpTo('sec-9')"><span>九、與定點等距離的坐標</span><span class="toc-page-badge">P.16</span></div>
-        <div class="toc-menu-item" onclick="jumpTo('sec-10')"><span>十、求中點坐標</span><span class="toc-page-badge">P.18</span></div>
+        <div class="toc-menu-item" onclick="jumpTo('page-1')"><span>封面與重點導讀</span><span class="toc-page-badge">P.1</span></div>
+        <div class="toc-menu-item" onclick="jumpTo('sec-1')"><span>一、同號相加 (前6題)</span><span class="toc-page-badge">P.2</span></div>
+        <div class="toc-menu-item" onclick="jumpTo('sec-2')"><span>二、異號數相減 (前6題)</span><span class="toc-page-badge">P.3</span></div>
+        <div class="toc-menu-item" onclick="jumpTo('sec-3')"><span>三、加法交換律與結合律 (前6題)</span><span class="toc-page-badge">P.4</span></div>
+        <div class="toc-menu-item" onclick="jumpTo('sec-4')"><span>四、數的減法 (前6題)</span><span class="toc-page-badge">P.5</span></div>
+        <div class="toc-menu-item" onclick="jumpTo('sec-5')"><span>五、正負數加減混合運算 (前6題)</span><span class="toc-page-badge">P.6</span></div>
+        <div class="toc-menu-item" onclick="jumpTo('sec-6')"><span>六、含絕對值的加減運算 (前6題)</span><span class="toc-page-badge">P.7</span></div>
+        <div class="toc-menu-item" onclick="jumpTo('sec-7')"><span>七、去括號的運算 (前6題)</span><span class="toc-page-badge">P.8</span></div>
+        <div class="toc-menu-item" onclick="jumpTo('sec-8')"><span>八、數線上兩點間的距離 (前6題)</span><span class="toc-page-badge">P.9</span></div>
+        <div class="toc-menu-item" onclick="jumpTo('sec-9')"><span>九、與定點等距離的坐標 (前6題)</span><span class="toc-page-badge">P.10</span></div>
+        <div class="toc-menu-item" onclick="jumpTo('sec-10')"><span>十、求中點坐標 (前6題)</span><span class="toc-page-badge">P.11</span></div>
       </div>
     </div>
 
@@ -541,893 +481,887 @@
       <div style="margin-top: 15px;">
         <div class="toc-box">
           <div style="font-size: 16pt; font-weight: bold; margin-bottom: 10px; color: #1e3a8a; border-bottom: 2px solid #cbd5e1; padding-bottom: 6px;">
-            📖 本自製電子書主題目錄
+            📖 本自製電子書主題目錄（每單元精選 6 題，附留白計算空間）
           </div>
-          <a href="#sec-1" class="toc-item"><span>一、同號相加</span><span>Page 2</span></a>
-          <a href="#sec-2" class="toc-item"><span>二、異號數相減（相加運算）</span><span>Page 3</span></a>
-          <a href="#sec-3" class="toc-item"><span>三、利用加法交換律與結合律解題</span><span>Page 4</span></a>
-          <a href="#sec-4" class="toc-item"><span>四、數的減法</span><span>Page 7</span></a>
-          <a href="#sec-5" class="toc-item"><span>五、正負數的加減混合運算</span><span>Page 8</span></a>
-          <a href="#sec-6" class="toc-item"><span>六、含絕對值的加減運算</span><span>Page 9</span></a>
-          <a href="#sec-7" class="toc-item"><span>七、去括號的運算</span><span>Page 11</span></a>
-          <a href="#sec-8" class="toc-item"><span>八、數線上兩點間的距離</span><span>Page 14</span></a>
-          <a href="#sec-9" class="toc-item"><span>九、與定點等距離的坐標</span><span>Page 16</span></a>
-          <a href="#sec-10" class="toc-item"><span>十、求中點坐標</span><span>Page 18</span></a>
+          <a href="#sec-1" class="toc-item"><span>一、同號相加（6 題）</span><span>Page 2</span></a>
+          <a href="#sec-2" class="toc-item"><span>二、異號數相減（6 題）</span><span>Page 3</span></a>
+          <a href="#sec-3" class="toc-item"><span>三、利用加法交換律與結合律解題（6 題）</span><span>Page 4</span></a>
+          <a href="#sec-4" class="toc-item"><span>四、數的減法（6 題）</span><span>Page 5</span></a>
+          <a href="#sec-5" class="toc-item"><span>五、正負數的加減混合運算（6 題）</span><span>Page 6</span></a>
+          <a href="#sec-6" class="toc-item"><span>六、含絕對值的加減運算（6 題）</span><span>Page 7</span></a>
+          <a href="#sec-7" class="toc-item"><span>七、去括號的運算（6 題）</span><span>Page 8</span></a>
+          <a href="#sec-8" class="toc-item"><span>八、數線上兩點間的距離（6 題）</span><span>Page 9</span></a>
+          <a href="#sec-9" class="toc-item"><span>九、與定點等距離的坐標（6 題）</span><span>Page 10</span></a>
+          <a href="#sec-10" class="toc-item"><span>十、求中點坐標（6 題）</span><span>Page 11</span></a>
         </div>
 
         <div style="margin-top: 25px; padding: 16px; border: 1.5px solid #cbd5e1; background: #f8fafc; border-radius: 8px;">
           <div style="font-weight: bold; color: #0f172a; margin-bottom: 6px;">💡 1-2 核心重點速記：</div>
-          <ul style="margin: 0; padding-left: 24px; color: #334155; line-height: 1.7;">
-            <li><b>同號相加</b>：符號相同，數字相加，結果保持同號（例如：(－2)＋(－3)＝－5）。</li>
-            <li><b>異號相加</b>：正負抵銷，以絕對值較大者的符號為結果符號，大數減小數。</li>
-            <li><b>減法法則</b>：<b>「減去一個數，等於加上它的相反數」</b>（例如：a－b ＝ a＋(－b)）。</li>
-            <li><b>去括號法則</b>：括號前是「＋」，拆括號符號不變；括號前是「－」，拆括號正負相反！</li>
-            <li><b>兩點距離</b>：數線上 A(a)、B(b) 兩點距離為 <span class="overline">AB</span> ＝ |a－b| ＝ 大數－小數。</li>
-            <li><b>中點坐標</b>：A(a)、B(b) 的中點坐標 M ＝ <span class="frac"><span class="frac-top">a＋b</span><span class="frac-bottom">2</span></span>。</li>
+          <ul style="margin: 0; padding-left: 22px; line-height: 1.7;">
+            <li><b>同號相加</b>：符號不變，兩數絕對值相加。例：(-2) + (-3) = -(2 + 3) = -5。</li>
+            <li><b>異號相加</b>：取絕對值較大者的符號，大減小。例：(-7) + 3 = -(7 - 3) = -4。</li>
+            <li><b>減法轉加法</b>：減去一個數，等於加上它的「相反數」：a - b = a + (-b)；a - (-b) = a + b。</li>
+            <li><b>兩點間距離</b>：數線上 A(a)、B(b) 兩點距離為 |a - b|（大數減小數）。</li>
+            <li><b>中點坐標</b>：中點 M = (A + B) ÷ 2。</li>
           </ul>
         </div>
       </div>
-      <div class="page-footer">第 1 頁，共 19 頁</div>
+      <div class="page-footer">第 1 頁，共 11 頁</div>
     </div>
 
-    <!-- PAGE 2: 一、同號相加 (1~12) -->
-    <div class="page" id="page-2">
+    <!-- PAGE 2: 一、同號相加 (前6題) -->
+    <div class="page" id="sec-1">
       <canvas class="drawing-canvas"></canvas>
       <div class="header-bar">
         <div class="main-title">七上數學 1-2 正負數的加減</div>
         <div class="user-info">姓名：___________</div>
       </div>
 
-      <div class="section-banner" id="sec-1">一、同號相加</div>
+      <div class="section-banner">一、同號相加（前 6 題，附計算空間）</div>
 
-      <div class="grid-2col" style="margin-top: 15px;">
+      <div class="grid-2col" style="margin-top: 10px;">
         <div class="col-divider">
           <div class="interactive-item" onclick="toggleItemAnswer(this)">
-            (1) 33＋26＝<span class="write-blank"><span class="ans-reveal">59</span></span>。
+            <div class="item-title">(1) 33＋26＝<span class="write-blank"><span class="ans-reveal">59</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                同為正數：33 ＋ 26 ＝ 59<br>
+                <b>答：</b> 59
+              </div>
+            </div>
           </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (2) 67＋18＝<span class="write-blank"><span class="ans-reveal">85</span></span>。
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(2) 67＋18＝<span class="write-blank"><span class="ans-reveal">85</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                同為正數：67 ＋ 18 ＝ 85<br>
+                <b>答：</b> 85
+              </div>
+            </div>
           </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (3) 49＋55＝<span class="write-blank"><span class="ans-reveal">104</span></span>。
-          </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (4)（－2）＋（－3）＝<span class="write-blank"><span class="ans-reveal">－5</span></span>。
-          </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (5)（－4）＋（－6）＝<span class="write-blank"><span class="ans-reveal">－10</span></span>。
-          </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (6)（－9）＋（－8）＝<span class="write-blank"><span class="ans-reveal">－17</span></span>。
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(3) 49＋55＝<span class="write-blank"><span class="ans-reveal">104</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                同為正數：49 ＋ 55 ＝ 104<br>
+                <b>答：</b> 104
+              </div>
+            </div>
           </div>
         </div>
 
         <div>
           <div class="interactive-item" onclick="toggleItemAnswer(this)">
-            (7)（－7）＋（－11）＝<span class="write-blank"><span class="ans-reveal">－18</span></span>。
+            <div class="item-title">(4)（－2）＋（－3）＝<span class="write-blank"><span class="ans-reveal">－5</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                同為負數：－(2 ＋ 3) ＝ －5<br>
+                <b>答：</b> －5
+              </div>
+            </div>
           </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (8)（－5）＋（－25）＝<span class="write-blank"><span class="ans-reveal">－30</span></span>。
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(5)（－4）＋（－6）＝<span class="write-blank"><span class="ans-reveal">－10</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                同為負數：－(4 ＋ 6) ＝ －10<br>
+                <b>答：</b> －10
+              </div>
+            </div>
           </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (9)（－13）＋（－9）＝<span class="write-blank"><span class="ans-reveal">－22</span></span>。
-          </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (10)（－27）＋（－4）＝<span class="write-blank"><span class="ans-reveal">－31</span></span>。
-          </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (11)（－36）＋（－40）＝<span class="write-blank"><span class="ans-reveal">－76</span></span>。
-          </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (12)（－51）＋（－14）＝<span class="write-blank"><span class="ans-reveal">－65</span></span>。
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(6)（－9）＋（－8）＝<span class="write-blank"><span class="ans-reveal">－17</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                同為負數：－(9 ＋ 8) ＝ －17<br>
+                <b>答：</b> －17
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="page-footer">第 2 頁，共 19 頁</div>
+      <div class="page-footer">第 2 頁，共 11 頁</div>
     </div>
 
-    <!-- PAGE 3: 二、異號數相減 (1~12) -->
-    <div class="page" id="page-3">
+    <!-- PAGE 3: 二、異號數相減 (前6題) -->
+    <div class="page" id="sec-2">
       <canvas class="drawing-canvas"></canvas>
       <div class="header-bar">
         <div class="main-title">七上數學 1-2 正負數的加減</div>
         <div class="user-info">姓名：___________</div>
       </div>
 
-      <div class="section-banner" id="sec-2">二、異號數相減</div>
+      <div class="section-banner">二、異號數相減／加法（前 6 題，附計算空間）</div>
 
-      <div class="grid-2col" style="margin-top: 15px;">
+      <div class="grid-2col" style="margin-top: 10px;">
         <div class="col-divider">
           <div class="interactive-item" onclick="toggleItemAnswer(this)">
-            (1)（－4）＋5＝<span class="write-blank"><span class="ans-reveal">1</span></span>。
+            <div class="item-title">(1)（－4）＋5＝<span class="write-blank"><span class="ans-reveal">1</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                正數絕對值較大：＋(5 － 4) ＝ 1<br>
+                <b>答：</b> 1
+              </div>
+            </div>
           </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (2)（－6）＋9＝<span class="write-blank"><span class="ans-reveal">3</span></span>。
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(2)（－6）＋9＝<span class="write-blank"><span class="ans-reveal">3</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                正數絕對值較大：＋(9 － 6) ＝ 3<br>
+                <b>答：</b> 3
+              </div>
+            </div>
           </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (3)（－7）＋3＝<span class="write-blank"><span class="ans-reveal">－4</span></span>。
-          </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (4) 9＋（－4）＝<span class="write-blank"><span class="ans-reveal">5</span></span>。
-          </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (5) 8＋（－9）＝<span class="write-blank"><span class="ans-reveal">－1</span></span>。
-          </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (6) 0＋（－2）＝<span class="write-blank"><span class="ans-reveal">－2</span></span>。
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(3)（－7）＋3＝<span class="write-blank"><span class="ans-reveal">－4</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                負數絕對值較大：－(7 － 3) ＝ －4<br>
+                <b>答：</b> －4
+              </div>
+            </div>
           </div>
         </div>
 
         <div>
           <div class="interactive-item" onclick="toggleItemAnswer(this)">
-            (7)（－18）＋4＝<span class="write-blank"><span class="ans-reveal">－14</span></span>。
+            <div class="item-title">(4) 9＋（－4）＝<span class="write-blank"><span class="ans-reveal">5</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                正數大於負數：9 － 4 ＝ 5<br>
+                <b>答：</b> 5
+              </div>
+            </div>
           </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (8)（－25）＋9＝<span class="write-blank"><span class="ans-reveal">－16</span></span>。
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(5) 8＋（－9）＝<span class="write-blank"><span class="ans-reveal">－1</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                負數絕對值大：－(9 － 8) ＝ －1<br>
+                <b>答：</b> －1
+              </div>
+            </div>
           </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (9) 35＋（－11）＝<span class="write-blank"><span class="ans-reveal">24</span></span>。
-          </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (10) 64＋（－29）＝<span class="write-blank"><span class="ans-reveal">35</span></span>。
-          </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (11)（－56）＋27＝<span class="write-blank"><span class="ans-reveal">－29</span></span>。
-          </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (12)（－93）＋46＝<span class="write-blank"><span class="ans-reveal">－47</span></span>。
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(6) 0＋（－2）＝<span class="write-blank"><span class="ans-reveal">－2</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                任何數加 0 仍為原數：－2<br>
+                <b>答：</b> －2
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="page-footer">第 3 頁，共 19 頁</div>
+      <div class="page-footer">第 3 頁，共 11 頁</div>
     </div>
 
-    <!-- PAGE 4: 三、利用加法交換律與結合律解題 (1~6) -->
-    <div class="page" id="page-4">
+    <!-- PAGE 4: 三、利用加法交換律與結合律解題 (前6題) -->
+    <div class="page" id="sec-3">
       <canvas class="drawing-canvas"></canvas>
       <div class="header-bar">
         <div class="main-title">七上數學 1-2 正負數的加減</div>
         <div class="user-info">姓名：___________</div>
       </div>
 
-      <div class="section-banner" id="sec-3">三、利用加法交換律與結合律解題</div>
+      <div class="section-banner">三、利用加法交換律與結合律解題（前 6 題，附計算空間）</div>
 
-      <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 26px;">
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (1)（－3）＋9＋3＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">9</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (2)（－17）＋14＋17＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">14</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (3) 24＋98＋（－24）＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">98</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (4) 69＋73＋（－69）＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">73</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (5)（－26）＋（－31）＋26＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">－31</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (6) 42＋（－63）＋（－42）＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">－63</span></span>。
-        </div>
-      </div>
-
-      <div class="page-footer">第 4 頁，共 19 頁</div>
-    </div>
-
-    <!-- PAGE 5: 三、利用加法交換律與結合律解題 (7~8, 2.(1)~(4)) -->
-    <div class="page" id="page-5">
-      <canvas class="drawing-canvas"></canvas>
-      <div class="header-bar">
-        <div class="main-title">七上數學 1-2 正負數的加減</div>
-        <div class="user-info">姓名：___________</div>
-      </div>
-
-      <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 20px;">
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (7)（－0.2）＋7＋0.2＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">7</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (8) 98＋（－150）＋2＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">－50</span></span>。
-        </div>
-
-        <div style="font-weight: bold; margin-top: 10px; color: #1e3a8a;">
-          2. 利用加法結合律，計算下列各式的值：
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (1) 24＋（－39）＋39＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">24</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (2)（－65）＋27＋（－27）＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">－65</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (3)（－53）＋91＋9＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">47</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (4)（－22）＋47＋53＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">78</span></span>。
-        </div>
-      </div>
-
-      <div class="page-footer">第 5 頁，共 19 頁</div>
-    </div>
-
-    <!-- PAGE 6: 三、利用加法交換律與結合律解題 (2.(5)~(8)) -->
-    <div class="page" id="page-6">
-      <canvas class="drawing-canvas"></canvas>
-      <div class="header-bar">
-        <div class="main-title">七上數學 1-2 正負數的加減</div>
-        <div class="user-info">姓名：___________</div>
-      </div>
-
-      <div style="margin-top: 25px; display: flex; flex-direction: column; gap: 30px;">
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (5) 95＋（－27）＋（－73）＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">－5</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (6) 200＋（－89）＋（－11）＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">100</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (7) 10＋（－90.3）＋0.3＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">－80</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (8) 14＋（－4.8）＋（－5.2）＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">4</span></span>。
-        </div>
-      </div>
-
-      <div class="page-footer">第 6 頁，共 19 頁</div>
-    </div>
-
-    <!-- PAGE 7: 四、數的減法 (1~12) -->
-    <div class="page" id="page-7">
-      <canvas class="drawing-canvas"></canvas>
-      <div class="header-bar">
-        <div class="main-title">七上數學 1-2 正負數的加減</div>
-        <div class="user-info">姓名：___________</div>
-      </div>
-
-      <div class="section-banner" id="sec-4">四、數的減法</div>
-      <div style="margin-bottom: 12px; font-weight: bold;">計算下列各式的值：</div>
-
-      <div class="grid-2col">
+      <div class="grid-2col" style="margin-top: 10px;">
         <div class="col-divider">
           <div class="interactive-item" onclick="toggleItemAnswer(this)">
-            (1) 2－9＝<span class="write-blank"><span class="ans-reveal">－7</span></span>。
+            <div class="item-title">(1)（－3）＋9＋3＝<span class="write-blank"><span class="ans-reveal">9</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                交換結合：[(-3) + 3] + 9 = 0 + 9 = 9<br>
+                <b>答：</b> 9
+              </div>
+            </div>
           </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (2) 13－18＝<span class="write-blank"><span class="ans-reveal">－5</span></span>。
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(2)（－17）＋14＋17＝<span class="write-blank"><span class="ans-reveal">14</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                [(-17) + 17] + 14 = 0 + 14 = 14<br>
+                <b>答：</b> 14
+              </div>
+            </div>
           </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (3) 38－77＝<span class="write-blank"><span class="ans-reveal">－39</span></span>。
-          </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (4)（－24）－45＝<span class="write-blank"><span class="ans-reveal">－69</span></span>。
-          </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (5)（－55）－26＝<span class="write-blank"><span class="ans-reveal">－81</span></span>。
-          </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (6)（－31）－59＝<span class="write-blank"><span class="ans-reveal">－90</span></span>。
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(3) 24＋98＋（－24）＝<span class="write-blank"><span class="ans-reveal">98</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                [24 + (-24)] + 98 = 0 + 98 = 98<br>
+                <b>答：</b> 98
+              </div>
+            </div>
           </div>
         </div>
 
         <div>
           <div class="interactive-item" onclick="toggleItemAnswer(this)">
-            (7) 0－（－24）＝<span class="write-blank"><span class="ans-reveal">24</span></span>。
+            <div class="item-title">(4) 69＋73＋（－69）＝<span class="write-blank"><span class="ans-reveal">73</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                [69 + (-69)] + 73 = 0 + 73 = 73<br>
+                <b>答：</b> 73
+              </div>
+            </div>
           </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (8) 22－（－33）＝<span class="write-blank"><span class="ans-reveal">55</span></span>。
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(5)（－26）＋（－31）＋26＝<span class="write-blank"><span class="ans-reveal">－31</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                [(-26) + 26] + (-31) = 0 + (-31) = -31<br>
+                <b>答：</b> －31
+              </div>
+            </div>
           </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (9) 39－（－61）＝<span class="write-blank"><span class="ans-reveal">100</span></span>。
-          </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (10)（－7）－（－14）＝<span class="write-blank"><span class="ans-reveal">7</span></span>。
-          </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (11)（－48）－（－48）＝<span class="write-blank"><span class="ans-reveal">0</span></span>。
-          </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (12)（－86）－（－14）＝<span class="write-blank"><span class="ans-reveal">－72</span></span>。
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(6) 42＋（－63）＋（－42）＝<span class="write-blank"><span class="ans-reveal">－63</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                [42 + (-42)] + (-63) = 0 + (-63) = -63<br>
+                <b>答：</b> －63
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="page-footer">第 7 頁，共 19 頁</div>
+      <div class="page-footer">第 4 頁，共 11 頁</div>
     </div>
 
-    <!-- PAGE 8: 五、正負數的加減混合運算 (1~14) -->
-    <div class="page" id="page-8">
+    <!-- PAGE 5: 四、數的減法 (前6題) -->
+    <div class="page" id="sec-4">
       <canvas class="drawing-canvas"></canvas>
       <div class="header-bar">
         <div class="main-title">七上數學 1-2 正負數的加減</div>
         <div class="user-info">姓名：___________</div>
       </div>
 
-      <div class="section-banner" id="sec-5">五、正負數的加減混合運算</div>
+      <div class="section-banner">四、數的減法（前 6 題，附計算空間）</div>
 
-      <div class="grid-2col" style="margin-top: 15px;">
+      <div class="grid-2col" style="margin-top: 10px;">
         <div class="col-divider">
           <div class="interactive-item" onclick="toggleItemAnswer(this)">
-            (1) 22＋（－4）－15＝<span class="write-blank"><span class="ans-reveal">3</span></span>。
+            <div class="item-title">(1) 18－26＝<span class="write-blank"><span class="ans-reveal">－8</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                18 ＋ (－26) ＝ －(26 － 18) ＝ －8<br>
+                <b>答：</b> －8
+              </div>
+            </div>
           </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (2) 18＋（－15）－4＝<span class="write-blank"><span class="ans-reveal">－1</span></span>。
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(2) 27－45＝<span class="write-blank"><span class="ans-reveal">－18</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                27 ＋ (－45) ＝ －(45 － 27) ＝ －18<br>
+                <b>答：</b> －18
+              </div>
+            </div>
           </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (3)（－8）＋（－12）－20＝<span class="write-blank"><span class="ans-reveal">－40</span></span>。
-          </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (4) 30＋（－8）－（－42）＝<span class="write-blank"><span class="ans-reveal">64</span></span>。
-          </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (5)（－35）＋（－7）－（－17）＝<span class="write-blank"><span class="ans-reveal">－25</span></span>。
-          </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (6)（－14）－23＋38＝<span class="write-blank"><span class="ans-reveal">1</span></span>。
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(3) 0－32＝<span class="write-blank"><span class="ans-reveal">－32</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                0 減任何數等於其相反數：－32<br>
+                <b>答：</b> －32
+              </div>
+            </div>
           </div>
         </div>
 
         <div>
           <div class="interactive-item" onclick="toggleItemAnswer(this)">
-            (9) 28－（－10）－41＝<span class="write-blank"><span class="ans-reveal">－3</span></span>。
-          </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (10) 46－（－34）－36＝<span class="write-blank"><span class="ans-reveal">44</span></span>。
-          </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (11)（－25）－（－4）－31＝<span class="write-blank"><span class="ans-reveal">－52</span></span>。
-          </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (12) 69－（－23）－（－8）＝<span class="write-blank"><span class="ans-reveal">100</span></span>。
-          </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (13)（－74）－（－42）－（－32）＝<span class="write-blank"><span class="ans-reveal">0</span></span>。
-          </div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-            (14)（－36）＋49－（－15）＝<span class="write-blank"><span class="ans-reveal">28</span></span>。
-          </div>
-        </div>
-      </div>
-
-      <div class="page-footer">第 8 頁，共 19 頁</div>
-    </div>
-
-    <!-- PAGE 9: 六、含絕對值的加減運算 (1~7) -->
-    <div class="page" id="page-9">
-      <canvas class="drawing-canvas"></canvas>
-      <div class="header-bar">
-        <div class="main-title">七上數學 1-2 正負數的加減</div>
-        <div class="user-info">姓名：___________</div>
-      </div>
-
-      <div class="section-banner" id="sec-6">六、含絕對值的加減運算</div>
-
-      <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 24px;">
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (1) 8＋｜－8｜－10＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">6</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (2) 30＋（－8）－｜－42｜＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">－20</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (3) 15－54＋｜－37｜＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">－2</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (4) 59－｜－21｜－36＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">2</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (5) 63－｜－17｜＋（－8）＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">38</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (6) 28－｜－10｜－41＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">－23</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (7)（－75）－｜－15｜－（－13）＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">－77</span></span>。
-        </div>
-      </div>
-
-      <div class="page-footer">第 9 頁，共 19 頁</div>
-    </div>
-
-    <!-- PAGE 10: 六、含絕對值的加減運算 (8~14) -->
-    <div class="page" id="page-10">
-      <canvas class="drawing-canvas"></canvas>
-      <div class="header-bar">
-        <div class="main-title">七上數學 1-2 正負數的加減</div>
-        <div class="user-info">姓名：___________</div>
-      </div>
-
-      <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 24px;">
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (8) ｜－25｜－｜－4｜－31＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">－10</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (9) ｜5｜＋｜－15｜－20＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">0</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (10) ｜－57｜－（－19）－｜－28｜＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">48</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (11) ｜9－16｜－30＋17＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">－6</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (12) 18＋｜6－9｜－4＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">17</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (13) ｜33－47｜－31＋45＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">28</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (14) ｜－5｜＋｜16－28｜－（－13）＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">30</span></span>。
-        </div>
-      </div>
-
-      <div class="page-footer">第 10 頁，共 19 頁</div>
-    </div>
-
-    <!-- PAGE 11: 七、去括號的運算 (1~3) -->
-    <div class="page" id="page-11">
-      <canvas class="drawing-canvas"></canvas>
-      <div class="header-bar">
-        <div class="main-title">七上數學 1-2 正負數的加減</div>
-        <div class="user-info">姓名：___________</div>
-      </div>
-
-      <div class="section-banner" id="sec-7">七、去括號的運算</div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 15px;">
-        <div><b>1. 判別 100＋（47－56）的值等於下列哪一個算式的值？在空格內打「✓」：</b></div>
-        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px; padding-left: 16px;">
-          <div><span class="chk-box">✓</span> ① 100＋47＋56</div>
-          <div><span class="chk-box is-correct">✓</span> ② 100＋47－56</div>
-          <div><span class="chk-box">✓</span> ③ 100－47＋56</div>
-          <div><span class="chk-box">✓</span> ④ 100－47－56</div>
-        </div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-        <div><b>2. 判別 200－（33＋92）的值等於下列哪一個算式的值？在空格內打「✓」：</b></div>
-        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px; padding-left: 16px;">
-          <div><span class="chk-box">✓</span> ① 200＋33＋92</div>
-          <div><span class="chk-box">✓</span> ② 200＋33－92</div>
-          <div><span class="chk-box">✓</span> ③ 200－33＋92</div>
-          <div><span class="chk-box is-correct">✓</span> ④ 200－33－92</div>
-        </div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 25px;">
-        <div><b>3. 判別 300－（54－103）的值等於下列哪一個算式的值？在空格內打「✓」：</b></div>
-        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px; padding-left: 16px;">
-          <div><span class="chk-box">✓</span> ① 300＋54＋103</div>
-          <div><span class="chk-box">✓</span> ② 300＋54－103</div>
-          <div><span class="chk-box is-correct">✓</span> ③ 300－54＋103</div>
-          <div><span class="chk-box">✓</span> ④ 300－54－103</div>
-        </div>
-      </div>
-
-      <div class="page-footer">第 11 頁，共 19 頁</div>
-    </div>
-
-    <!-- PAGE 12: 七、去括號的運算 (4~6) -->
-    <div class="page" id="page-12">
-      <canvas class="drawing-canvas"></canvas>
-      <div class="header-bar">
-        <div class="main-title">七上數學 1-2 正負數的加減</div>
-        <div class="user-info">姓名：___________</div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 10px;">
-        <div><b>4. 判別 400＋［（－25）－19］的值等於下列哪一個算式的值？在空格內打「✓」：</b></div>
-        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px; padding-left: 16px;">
-          <div><span class="chk-box">✓</span> ① 400＋25＋19</div>
-          <div><span class="chk-box">✓</span> ② 400＋25－19</div>
-          <div><span class="chk-box">✓</span> ③ 400－25＋19</div>
-          <div><span class="chk-box is-correct">✓</span> ④ 400－25－19</div>
-        </div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 20px;">
-        <div><b>5. 判別 500－［（－36）＋72］的值等於下列哪一個算式的值？在空格內打「✓」：</b></div>
-        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px; padding-left: 16px;">
-          <div><span class="chk-box">✓</span> ① 500＋36＋72</div>
-          <div><span class="chk-box is-correct">✓</span> ② 500＋36－72</div>
-          <div><span class="chk-box">✓</span> ③ 500－36＋72</div>
-          <div><span class="chk-box">✓</span> ④ 500－36－72</div>
-        </div>
-      </div>
-
-      <div style="margin-top: 20px; font-weight: bold; color: #1e3a8a;">6. 計算下列各式的值：</div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 8px; padding-left: 14px;">
-        (1) 16－（28＋16）＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">－28</span></span>。
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 16px; padding-left: 14px;">
-        (2)（－47）－［（－37）－47］＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">37</span></span>。
-      </div>
-
-      <div class="page-footer">第 12 頁，共 19 頁</div>
-    </div>
-
-    <!-- PAGE 13: 七、去括號的運算 (6.(3)~(10)) -->
-    <div class="page" id="page-13">
-      <canvas class="drawing-canvas"></canvas>
-      <div class="header-bar">
-        <div class="main-title">七上數學 1-2 正負數的加減</div>
-        <div class="user-info">姓名：___________</div>
-      </div>
-
-      <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 20px;">
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (3)（－51）－［（－49）－14］＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">12</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (4)（－16）－（271－16）＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">－271</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (5) 199＋［78＋（－199）］＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">78</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (6) 281＋［（－64）－281］＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">－64</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (7) 119－［（－100）＋119］＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">100</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (8) 125＋［（－198）－（－75）］＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">2</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (9)（121－177）－［（－177）＋121］＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">0</span></span>。
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          (10)（243－38）－（63＋243）＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">－101</span></span>。
-        </div>
-      </div>
-
-      <div class="page-footer">第 13 頁，共 19 頁</div>
-    </div>
-
-    <!-- PAGE 14: 八、數線上兩點間的距離 (1~7) -->
-    <div class="page" id="page-14">
-      <canvas class="drawing-canvas"></canvas>
-      <div class="header-bar">
-        <div class="main-title">七上數學 1-2 正負數的加減</div>
-        <div class="user-info">姓名：___________</div>
-      </div>
-
-      <div class="section-banner" id="sec-8">八、數線上兩點間的距離</div>
-
-      <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 24px;">
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          1. 數線上有 A（3）、B（9）兩點，求 <span class="overline">AB</span>。<br>
-          答：<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">6</span></span>
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          2. 數線上有 A（－4）、B（7）兩點，求 <span class="overline">AB</span>。<br>
-          答：<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">11</span></span>
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          3. 數線上有 A（－6）、B（－5）兩點，求 <span class="overline">AB</span>。<br>
-          答：<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">1</span></span>
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          4. 數線上有 A（0）、B（－24）兩點，求 <span class="overline">AB</span>。<br>
-          答：<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">24</span></span>
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          5. 數線上有 A（31）、B（－27）兩點，求 <span class="overline">AB</span>。<br>
-          答：<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">58</span></span>
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          6. 數線上有 A（81）、B（76）兩點，求 <span class="overline">AB</span>。<br>
-          答：<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">5</span></span>
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          7. 數線上有 A（－19）、B（19）兩點，求 <span class="overline">AB</span>。<br>
-          答：<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">38</span></span>
-        </div>
-      </div>
-
-      <div class="page-footer">第 14 頁，共 19 頁</div>
-    </div>
-
-    <!-- PAGE 15: 八、數線上兩點間的距離 (8~12) -->
-    <div class="page" id="page-15">
-      <canvas class="drawing-canvas"></canvas>
-      <div class="header-bar">
-        <div class="main-title">七上數學 1-2 正負數的加減</div>
-        <div class="user-info">姓名：___________</div>
-      </div>
-
-      <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 20px;">
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          8. 數線上有 A（26）、B（－54）兩點，求 <span class="overline">AB</span>。<br>
-          答：<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">80</span></span>
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          9. 數線上有 A（－3）、B（2）、C（1）三點，求：<br>
-          (1) <span class="overline">AB</span> ＝ <span class="write-blank" style="min-width: 80px;"><span class="ans-reveal">5</span></span><br>
-          (2) <span class="overline">AC</span> ＝ <span class="write-blank" style="min-width: 80px;"><span class="ans-reveal">4</span></span>
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          10. 數線上有 A（3）、B（－5）、C（－7）三點，求：<br>
-          (1) <span class="overline">AB</span> ＝ <span class="write-blank" style="min-width: 80px;"><span class="ans-reveal">8</span></span><br>
-          (2) <span class="overline">AC</span> ＝ <span class="write-blank" style="min-width: 80px;"><span class="ans-reveal">10</span></span>
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          11. 數線上有 A（0）、B（9）、C（－6）三點，求：<br>
-          (1) <span class="overline">AB</span> ＝ <span class="write-blank" style="min-width: 80px;"><span class="ans-reveal">9</span></span><br>
-          (2) <span class="overline">AC</span> ＝ <span class="write-blank" style="min-width: 80px;"><span class="ans-reveal">15</span></span>
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          12. 數線上有 A（－11）、B（－4）、C（－8）三點，求：<br>
-          (1) <span class="overline">AB</span> ＝ <span class="write-blank" style="min-width: 80px;"><span class="ans-reveal">7</span></span><br>
-          (2) <span class="overline">AC</span> ＝ <span class="write-blank" style="min-width: 80px;"><span class="ans-reveal">3</span></span>
-        </div>
-      </div>
-
-      <div class="page-footer">第 15 頁，共 19 頁</div>
-    </div>
-
-    <!-- PAGE 16: 九、與定點等距離的坐標 (1~6) -->
-    <div class="page" id="page-16">
-      <canvas class="drawing-canvas"></canvas>
-      <div class="header-bar">
-        <div class="main-title">七上數學 1-2 正負數的加減</div>
-        <div class="user-info">姓名：___________</div>
-      </div>
-
-      <div class="section-banner" id="sec-9">九、與定點等距離的坐標</div>
-
-      <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 14px;">
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          1. 數線上有 A、B 兩點，其中 A 點的坐標為 6，且 <span class="overline">AB</span> ＝4，求 B 點的坐標。
-          <div class="calc-workspace">
-            <div class="calc-hint">【計算空間】</div>
-            <div class="calc-solution">
-              B 點在 A 點右方或左方：<br>
-              \(6 + 4 = 10\) 或 \(6 - 4 = 2\)<br>
-              <b>答：</b> 2 或 10
+            <div class="item-title">(4) 0－（－15）＝<span class="write-blank"><span class="ans-reveal">15</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                負負得正：0 ＋ 15 ＝ 15<br>
+                <b>答：</b> 15
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          2. 數線上有 C、D 兩點，其中 C 點的坐標為 7，且 <span class="overline">CD</span> ＝8，求 D 點的坐標。
-          <div class="calc-workspace">
-            <div class="calc-hint">【計算空間】</div>
-            <div class="calc-solution">
-              D 點在 C 點右方或左方：<br>
-              \(7 + 8 = 15\) 或 \(7 - 8 = -1\)<br>
-              <b>答：</b> －1 或 15
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(5)（－7）－11＝<span class="write-blank"><span class="ans-reveal">－18</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                (－7) ＋ (－11) ＝ －(7 ＋ 11) ＝ －18<br>
+                <b>答：</b> －18
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          3. 數線上有 E、F 兩點，其中 E 點的坐標為－1，且 <span class="overline">EF</span> ＝7，求 F 點的坐標。
-          <div class="calc-workspace">
-            <div class="calc-hint">【計算空間】</div>
-            <div class="calc-solution">
-              F 點在 E 點右方或左方：<br>
-              \((-1) + 7 = 6\) 或 \((-1) - 7 = -8\)<br>
-              <b>答：</b> －8 或 6
-            </div>
-          </div>
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          4. 數線上有 G、H 兩點，其中 H 點的坐標為－10，且 <span class="overline">GH</span> ＝6，求 G 點的坐標。
-          <div class="calc-workspace">
-            <div class="calc-hint">【計算空間】</div>
-            <div class="calc-solution">
-              G 點在 H 點右方或左方：<br>
-              \((-10) + 6 = -4\) 或 \((-10) - 6 = -16\)<br>
-              <b>答：</b> －16 或 －4
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(6)（－15）－15＝<span class="write-blank"><span class="ans-reveal">－30</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                (－15) ＋ (－15) ＝ －(15 ＋ 15) ＝ －30<br>
+                <b>答：</b> －30
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="page-footer">第 16 頁，共 19 頁</div>
+      <div class="page-footer">第 5 頁，共 11 頁</div>
     </div>
 
-    <!-- PAGE 17: 九、與定點等距離的坐標 (7~12) -->
-    <div class="page" id="page-17">
+    <!-- PAGE 6: 五、正負數的加減混合運算 (前6題) -->
+    <div class="page" id="sec-5">
       <canvas class="drawing-canvas"></canvas>
       <div class="header-bar">
         <div class="main-title">七上數學 1-2 正負數的加減</div>
         <div class="user-info">姓名：___________</div>
       </div>
 
-      <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 24px;">
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          5. 數線上有 M、N 兩點，其中 N 點的坐標為－13，且 <span class="overline">MN</span> ＝13，求 M 點的坐標。<br>
-          答：<span class="write-blank" style="min-width: 160px;"><span class="ans-reveal">－26 或 0</span></span>
+      <div class="section-banner">五、正負數的加減混合運算（前 6 題，附計算空間）</div>
+
+      <div class="grid-2col" style="margin-top: 10px;">
+        <div class="col-divider">
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(1) 22＋（－4）－15＝<span class="write-blank"><span class="ans-reveal">3</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                22 － 4 － 15 ＝ 18 － 15 ＝ 3<br>
+                <b>答：</b> 3
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(2) 18＋（－15）－4＝<span class="write-blank"><span class="ans-reveal">－1</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                18 － 15 － 4 ＝ 3 － 4 ＝ －1<br>
+                <b>答：</b> －1
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(3)（－8）＋（－12）－20＝<span class="write-blank"><span class="ans-reveal">－40</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                (－20) － 20 ＝ －40<br>
+                <b>答：</b> －40
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          6. 數線上有 P、Q 兩點，其中 P 點的坐標為 20，且 <span class="overline">PQ</span> ＝50，求 Q 點的坐標。<br>
-          答：<span class="write-blank" style="min-width: 160px;"><span class="ans-reveal">－30 或 70</span></span>
-        </div>
+        <div>
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(4) 30＋（－8）－（－42）＝<span class="write-blank"><span class="ans-reveal">64</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                30 － 8 ＋ 42 ＝ 22 ＋ 42 ＝ 64<br>
+                <b>答：</b> 64
+              </div>
+            </div>
+          </div>
 
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          7. 數線上有 S、T 兩點，其中 T 點的坐標為 45，且 <span class="overline">ST</span> ＝31，求 S 點的坐標。<br>
-          答：<span class="write-blank" style="min-width: 160px;"><span class="ans-reveal">14 或 76</span></span>
-        </div>
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(5)（－35）＋（－7）－（－17）＝<span class="write-blank"><span class="ans-reveal">－25</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                (－42) ＋ 17 ＝ －25<br>
+                <b>答：</b> －25
+              </div>
+            </div>
+          </div>
 
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          8. 數線上有 R、W 兩點，其中 R 點的坐標為 0，且 <span class="overline">RW</span> ＝49，求 W 點的坐標。<br>
-          答：<span class="write-blank" style="min-width: 160px;"><span class="ans-reveal">－49 或 49</span></span>
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          9. 數線上有 U、V 兩點，其中 V 點的坐標為－21，且 <span class="overline">UV</span> ＝19，求 U 點的坐標。<br>
-          答：<span class="write-blank" style="min-width: 160px;"><span class="ans-reveal">－40 或 －2</span></span>
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          10. 數線上有 X、Y 兩點，其中 X 點的坐標為－1，且 <span class="overline">XY</span> ＝2.7，求 Y 點的坐標。<br>
-          答：<span class="write-blank" style="min-width: 160px;"><span class="ans-reveal">－3.7 或 1.7</span></span>
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(6)（－14）－23＋38＝<span class="write-blank"><span class="ans-reveal">1</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                (－37) ＋ 38 ＝ 1<br>
+                <b>答：</b> 1
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="page-footer">第 17 頁，共 19 頁</div>
+      <div class="page-footer">第 6 頁，共 11 頁</div>
     </div>
 
-    <!-- PAGE 18: 十、求中點坐標 (1~6) -->
-    <div class="page" id="page-18">
+    <!-- PAGE 7: 六、含絕對值的加減運算 (前6題) -->
+    <div class="page" id="sec-6">
       <canvas class="drawing-canvas"></canvas>
       <div class="header-bar">
         <div class="main-title">七上數學 1-2 正負數的加減</div>
         <div class="user-info">姓名：___________</div>
       </div>
 
-      <div class="section-banner" id="sec-10">十、求中點坐標</div>
+      <div class="section-banner">六、含絕對值的加減運算（前 6 題，附計算空間）</div>
 
-      <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 14px;">
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          1. 若 A 點坐標為 4，B 點坐標為 12，M 點為 A、B 兩點的中點，求 M 點坐標。
-          <div class="calc-workspace">
-            <div class="calc-hint">【計算空間】</div>
-            <div class="calc-solution">
-              中點公式：\(M = \frac{A + B}{2}\)<br>
-              \(M = \frac{4 + 12}{2} = \frac{16}{2} = 8\)<br>
-              <b>答：</b> 8
+      <div class="grid-2col" style="margin-top: 10px;">
+        <div class="col-divider">
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(1)｜－8｜＋｜－12｜＝<span class="write-blank"><span class="ans-reveal">20</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                先化簡絕對值：8 ＋ 12 ＝ 20<br>
+                <b>答：</b> 20
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(2)｜－25｜－｜－14｜＝<span class="write-blank"><span class="ans-reveal">11</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                25 － 14 ＝ 11<br>
+                <b>答：</b> 11
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(3)｜－17｜＋13＝<span class="write-blank"><span class="ans-reveal">30</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                17 ＋ 13 ＝ 30<br>
+                <b>答：</b> 30
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          2. 若 A 點坐標為－8，B 點坐標為 14，M 點為 A、B 兩點的中點，求 M 點坐標。
-          <div class="calc-workspace">
-            <div class="calc-hint">【計算空間】</div>
-            <div class="calc-solution">
-              中點公式：\(M = \frac{(-8) + 14}{2}\)<br>
-              \(M = \frac{6}{2} = 3\)<br>
-              <b>答：</b> 3
+        <div>
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(4) 36－｜－24｜＝<span class="write-blank"><span class="ans-reveal">12</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                36 － 24 ＝ 12<br>
+                <b>答：</b> 12
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          3. 若 A 點坐標為－5，B 點坐標為－15，M 點為 A、B 兩點的中點，求 M 點坐標。
-          <div class="calc-workspace">
-            <div class="calc-hint">【計算空間】</div>
-            <div class="calc-solution">
-              中點公式：\(M = \frac{(-5) + (-15)}{2}\)<br>
-              \(M = \frac{-20}{2} = -10\)<br>
-              <b>答：</b> －10
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(5)｜－45｜＋｜－18｜＝<span class="write-blank"><span class="ans-reveal">63</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                45 ＋ 18 ＝ 63<br>
+                <b>答：</b> 63
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          4. 若 A 點坐標為－17，B 點坐標為 17，M 點為 A、B 兩點的中點，求 M 點坐標。
-          <div class="calc-workspace">
-            <div class="calc-hint">【計算空間】</div>
-            <div class="calc-solution">
-              中點公式：\(M = \frac{(-17) + 17}{2}\)<br>
-              \(M = \frac{0}{2} = 0\)<br>
-              <b>答：</b> 0
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(6)｜－32｜－｜－15｜＝<span class="write-blank"><span class="ans-reveal">17</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                32 － 15 ＝ 17<br>
+                <b>答：</b> 17
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="page-footer">第 18 頁，共 19 頁</div>
+      <div class="page-footer">第 7 頁，共 11 頁</div>
     </div>
 
-    <!-- PAGE 19: 十、求中點坐標 (7~12) -->
-    <div class="page" id="page-19">
+    <!-- PAGE 8: 七、去括號的運算 (前6題) -->
+    <div class="page" id="sec-7">
       <canvas class="drawing-canvas"></canvas>
       <div class="header-bar">
         <div class="main-title">七上數學 1-2 正負數的加減</div>
         <div class="user-info">姓名：___________</div>
       </div>
 
-      <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 24px;">
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          7. 若 A（1）、B（23）為數線上兩點，求 A、B 兩點的中點坐標。<br>
-          答：<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">12</span></span>
+      <div class="section-banner">七、去括號的運算（前 6 題，附計算空間）</div>
+
+      <div class="grid-2col" style="margin-top: 10px;">
+        <div class="col-divider">
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(1) 23－（15－7）＝<span class="write-blank"><span class="ans-reveal">15</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                括號前為減號需變號：23 － 15 ＋ 7 ＝ 8 ＋ 7 ＝ 15<br>
+                <b>答：</b> 15
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(2) 45＋（－18＋12）＝<span class="write-blank"><span class="ans-reveal">39</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                45 － 18 ＋ 12 ＝ 27 ＋ 12 ＝ 39<br>
+                <b>答：</b> 39
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(3) 56－（24＋16）＝<span class="write-blank"><span class="ans-reveal">16</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                56 － 40 ＝ 16<br>
+                <b>答：</b> 16
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          8. 若 A（－9）、B（17）為數線上兩點，求 A、B 兩點的中點坐標。<br>
-          答：<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">4</span></span>
-        </div>
+        <div>
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(4) 80－（－30＋25）＝<span class="write-blank"><span class="ans-reveal">85</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                80 － (－5) ＝ 80 ＋ 5 ＝ 85<br>
+                <b>答：</b> 85
+              </div>
+            </div>
+          </div>
 
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          9. 若 A（4）、B（－18）為數線上兩點，求 A、B 兩點的中點坐標。<br>
-          答：<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">－7</span></span>
-        </div>
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(5)（－18）－（22－15）＝<span class="write-blank"><span class="ans-reveal">－25</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                (－18) － 7 ＝ －25<br>
+                <b>答：</b> －25
+              </div>
+            </div>
+          </div>
 
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          10. 若 A（－5）、B（－17）為數線上兩點，求 A、B 兩點的中點坐標。<br>
-          答：<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">－11</span></span>
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          11. 若 A（2.8）、B（12.8）為數線上兩點，求 A、B 兩點的中點坐標。<br>
-          答：<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">7.8</span></span>
-        </div>
-
-        <div class="interactive-item" onclick="toggleItemAnswer(this)">
-          12. 若 A（－3.8）、B（5.2）為數線上兩點，求 A、B 兩點的中點坐標。<br>
-          答：<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">0.7</span></span>
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(6)（－35）＋（45－20）＝<span class="write-blank"><span class="ans-reveal">－10</span></span></div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                (－35) ＋ 25 ＝ －10<br>
+                <b>答：</b> －10
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="page-footer">第 19 頁，共 19 頁</div>
+      <div class="page-footer">第 8 頁，共 11 頁</div>
+    </div>
+
+    <!-- PAGE 9: 八、數線上兩點間的距離 (前6題) -->
+    <div class="page" id="sec-8">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="header-bar">
+        <div class="main-title">七上數學 1-2 正負數的加減</div>
+        <div class="user-info">姓名：___________</div>
+      </div>
+
+      <div class="section-banner">八、數線上兩點間的距離（前 6 題，附計算空間）</div>
+
+      <div class="grid-2col" style="margin-top: 10px;">
+        <div class="col-divider">
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">1. A(5)、B(－3)，求 AB。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                |5 － (－3)| ＝ |5 ＋ 3| ＝ 8<br>
+                <b>答：</b> 8
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">2. A(－2)、B(－9)，求 AB。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                |(－2) － (－9)| ＝ |－2 ＋ 9| ＝ 7<br>
+                <b>答：</b> 7
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">3. A(12)、B(4)，求 AB。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                |12 － 4| ＝ 8<br>
+                <b>答：</b> 8
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">4. A(－15)、B(0)，求 AB。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                |0 － (－15)| ＝ 15<br>
+                <b>答：</b> 15
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">5. A(－7)、B(7)，求 AB。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                |7 － (－7)| ＝ |7 ＋ 7| ＝ 14<br>
+                <b>答：</b> 14
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">6. A(81)、B(76)，求 AB。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                |81 － 76| ＝ 5<br>
+                <b>答：</b> 5
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-footer">第 9 頁，共 11 頁</div>
+    </div>
+
+    <!-- PAGE 10: 九、與定點等距離的坐標 (前6題) -->
+    <div class="page" id="sec-9">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="header-bar">
+        <div class="main-title">七上數學 1-2 正負數的加減</div>
+        <div class="user-info">姓名：___________</div>
+      </div>
+
+      <div class="section-banner">九、與定點等距離的坐標（前 6 題，附計算空間）</div>
+
+      <div class="grid-2col" style="margin-top: 10px;">
+        <div class="col-divider">
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">1. A 點為 6，AB＝4，求 B 坐標。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                右方：6 ＋ 4 ＝ 10；左方：6 － 4 ＝ 2<br>
+                <b>答：</b> 2 或 10
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">2. C 點為 7，CD＝8，求 D 坐標。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                7 ＋ 8 ＝ 15 或 7 － 8 ＝ －1<br>
+                <b>答：</b> －1 或 15
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">3. E 點為－1，EF＝7，求 F 坐標。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                (-1) ＋ 7 ＝ 6 或 (-1) － 7 ＝ －8<br>
+                <b>答：</b> －8 或 6
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">4. H 點為－10，GH＝6，求 G 坐標。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                (-10) ＋ 6 ＝ －4 或 (-10) － 6 ＝ －16<br>
+                <b>答：</b> －16 或 －4
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">5. N 點為－13，MN＝13，求 M 坐標。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                (-13) ＋ 13 ＝ 0 或 (-13) － 13 ＝ －26<br>
+                <b>答：</b> －26 或 0
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">6. P 點為 20，PQ＝50，求 Q 坐標。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                20 ＋ 50 ＝ 70 或 20 － 50 ＝ －30<br>
+                <b>答：</b> －30 或 70
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-footer">第 10 頁，共 11 頁</div>
+    </div>
+
+    <!-- PAGE 11: 十、求中點坐標 (前6題) -->
+    <div class="page" id="sec-10">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="header-bar">
+        <div class="main-title">七上數學 1-2 正負數的加減</div>
+        <div class="user-info">姓名：___________</div>
+      </div>
+
+      <div class="section-banner">十、求中點坐標（前 6 題，附計算空間）</div>
+
+      <div class="grid-2col" style="margin-top: 10px;">
+        <div class="col-divider">
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">1. A(4)、B(12)，M 為中點，求 M 坐標。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                M ＝ (4 ＋ 12) ÷ 2 ＝ 16 ÷ 2 ＝ 8<br>
+                <b>答：</b> 8
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">2. A(－8)、B(14)，M 為中點，求 M 坐標。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                M ＝ [(-8) ＋ 14] ÷ 2 ＝ 6 ÷ 2 ＝ 3<br>
+                <b>答：</b> 3
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">3. A(－5)、B(－15)，M 為中點，求 M 坐標。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                M ＝ [(-5) ＋ (-15)] ÷ 2 ＝ －20 ÷ 2 ＝ －10<br>
+                <b>答：</b> －10
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">4. A(－17)、B(17)，M 為中點，求 M 坐標。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                M ＝ [(-17) ＋ 17] ÷ 2 ＝ 0 ÷ 2 ＝ 0<br>
+                <b>答：</b> 0
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">5. A(19)、B(－13)，M 為中點，求 M 坐標。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                M ＝ [19 ＋ (-13)] ÷ 2 ＝ 6 ÷ 2 ＝ 3<br>
+                <b>答：</b> 3
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">6. A(－30)、B(0)，M 為中點，求 M 坐標。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                M ＝ [(-30) ＋ 0] ÷ 2 ＝ －15<br>
+                <b>答：</b> －15
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-footer">第 11 頁，共 11 頁</div>
     </div>
 
   </div>
 
-  <!-- 互動腳本：全開/逐題解答、多色螢光筆畫布 -->
+  <!-- 互動腳本：全開/逐題解答、多色螢光筆畫布、目錄跳轉 -->
   <script>
     let isAllAnsShown = false;
     let isPenMode = false;
@@ -1473,13 +1407,14 @@
       isAllAnsShown = !isAllAnsShown;
       const btn = document.getElementById('toggleAllAnsBtn');
       const icon = document.getElementById('ansIcon');
+      const container = document.querySelector('.pages-container');
       
       if (isAllAnsShown) {
-        document.body.classList.add('show-ans');
+        container.classList.add('show-ans');
         btn.classList.add('active');
         icon.textContent = '🙈';
       } else {
-        document.body.classList.remove('show-ans');
+        container.classList.remove('show-ans');
         btn.classList.remove('active');
         icon.textContent = '👁️';
         document.querySelectorAll('.show-one').forEach(el => el.classList.remove('show-one'));
@@ -1493,21 +1428,21 @@
       const options = document.getElementById('penOptions');
       
       if (isPenMode) {
-        document.body.classList.add('pen-mode');
         penBtn.classList.add('active');
         options.style.display = 'inline-flex';
+        document.body.classList.add('pen-mode');
       } else {
-        document.body.classList.remove('pen-mode');
         penBtn.classList.remove('active');
         options.style.display = 'none';
+        document.body.classList.remove('pen-mode');
       }
     }
 
-    // 4. 設定筆色與筆徑
-    function setPenColor(color, dotEl) {
+    // 4. 設定筆刷顏色與粗細
+    function setPenColor(color, el) {
       currentColor = color;
       document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
-      dotEl.classList.add('active');
+      el.classList.add('active');
     }
 
     function setPenSize(size, btnEl) {
@@ -1523,21 +1458,17 @@
         const canvas = page.querySelector('.drawing-canvas');
         if (!canvas) return;
 
-        function resizeCanvas() {
+        const ctx = canvas.getContext('2d');
+        function resize() {
           const rect = page.getBoundingClientRect();
           const scale = window.devicePixelRatio || 1;
           canvas.width = rect.width * scale;
           canvas.height = rect.height * scale;
-          canvas.style.width = rect.width + 'px';
-          canvas.style.height = rect.height + 'px';
-          const ctx = canvas.getContext('2d');
           ctx.scale(scale, scale);
         }
+        resize();
+        window.addEventListener('resize', resize);
 
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-
-        const ctx = canvas.getContext('2d');
         let isDrawing = false;
         let lastX = 0;
         let lastY = 0;
@@ -1596,7 +1527,7 @@
       });
     }
 
-    // 6. 清除所有塗鴉
+    // 6. 清除所有畫跡
     function clearAllDrawings() {
       canvases.forEach(({ canvas, ctx }) => {
         const scale = window.devicePixelRatio || 1;

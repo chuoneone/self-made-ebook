@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>七上數學 1-1 正數與負數（雙模式互動講義）</title>
+  <title>七上數學 1-1 正數與負數 - 自製電子書</title>
   <style>
     @page {
       size: A4 portrait;
@@ -14,18 +14,18 @@
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
-    html, body {
+    body {
       margin: 0;
       padding: 0;
       background-color: #e2e8f0;
       font-family: "Times New Roman", "標楷體", "DFKai-SB", "BiauKai", serif;
       font-size: 14pt;
-      line-height: 1.55;
-      color: #111;
-      user-select: text;
+      line-height: 1.4;
+      color: #0f172a;
+      user-select: auto;
     }
 
-    /* 課堂懸浮工具列 (純 Emoji 極簡版) */
+    /* 課堂懸浮工具列 (純 Emoji 極簡膠囊) */
     .classroom-toolbar {
       position: fixed;
       top: 14px;
@@ -89,7 +89,7 @@
       border-radius: 12px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.18);
       padding: 6px 0;
-      min-width: 250px;
+      min-width: 270px;
       max-height: 420px;
       overflow-y: auto;
       z-index: 10000;
@@ -133,7 +133,7 @@
       color: #2563eb;
     }
 
-    /* 畫筆顏色與粗細選單 */
+    /* 畫筆面板 */
     .pen-options {
       display: none;
       align-items: center;
@@ -150,20 +150,15 @@
       gap: 5px;
     }
     .color-dot {
-      width: 17px;
-      height: 17px;
+      width: 16px;
+      height: 16px;
       border-radius: 50%;
       cursor: pointer;
-      border: 2px solid transparent;
       box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
-      transition: transform 0.15s, box-shadow 0.15s;
-    }
-    .color-dot:hover {
-      transform: scale(1.18);
     }
     .color-dot.active {
-      transform: scale(1.22);
-      box-shadow: 0 0 0 2px #0f172a, inset 0 0 0 1px #fff;
+      transform: scale(1.2);
+      box-shadow: 0 0 0 2px #0f172a;
     }
     .sub-divider {
       width: 1px;
@@ -177,24 +172,18 @@
       gap: 3px;
     }
     .size-btn {
-      border: none;
-      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      background: #fff;
       color: #475569;
       font-size: 11px;
       font-weight: bold;
       padding: 2px 7px;
       border-radius: 10px;
       cursor: pointer;
-      border: 1px solid #cbd5e1;
-      transition: all 0.15s;
-    }
-    .size-btn:hover {
-      background: #e2e8f0;
-      color: #0f172a;
     }
     .size-btn.active {
       background: #0f172a;
-      color: #ffffff;
+      color: #fff;
       border-color: #0f172a;
     }
 
@@ -214,7 +203,7 @@
       position: relative;
     }
 
-    /* 全頁畫布 */
+    /* 全頁透明畫布 */
     .drawing-canvas {
       position: absolute;
       top: 0;
@@ -236,10 +225,10 @@
       align-items: baseline;
       border-bottom: 2px solid #222;
       padding-bottom: 4px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     .main-title {
-      font-size: 18pt;
+      font-size: 17pt;
       font-weight: bold;
       letter-spacing: 1px;
     }
@@ -251,77 +240,26 @@
       position: absolute;
       bottom: 8mm;
       left: 0;
-      width: 100%;
+      right: 0;
       text-align: center;
       font-size: 11pt;
-      color: #475569;
+      color: #64748b;
     }
 
-    /* 目錄與單元區塊 */
+    /* 章節大標題 */
     .section-banner {
+      font-size: 14.5pt;
+      font-weight: bold;
       background: #f1f5f9;
       border-left: 6px solid #2563eb;
       padding: 4px 10px;
-      font-size: 15pt;
-      font-weight: bold;
-      margin: 12px 0 10px 0;
-      border-radius: 3px;
-      color: #0f172a;
-    }
-    .toc-box {
-      border: 2px solid #94a3b8;
-      border-radius: 8px;
-      padding: 14px 20px;
-      background: #f8fafc;
-      margin-top: 15px;
-    }
-    .toc-item {
-      display: flex;
-      justify-content: space-between;
-      padding: 7px 0;
-      border-bottom: 1px dashed #cbd5e1;
-      font-size: 14pt;
-      cursor: pointer;
-      text-decoration: none;
-      color: #1e293b;
-      transition: color 0.15s;
-    }
-    .toc-item:hover {
-      color: #2563eb;
-      font-weight: bold;
+      margin: 6px 0 10px 0;
+      border-radius: 4px;
     }
 
-    /* 數學分數樣式 */
-    .frac {
-      display: inline-flex;
-      flex-direction: column;
-      vertical-align: -0.55em;
-      text-align: center;
-      font-size: 0.88em;
-      line-height: 1;
-      padding: 0 1px;
-    }
-    .frac-top {
-      border-bottom: 1.4px solid currentColor;
-      padding-bottom: 1px;
-    }
-    .frac-bottom {
-      padding-top: 1px;
-    }
-    .mixed-num {
-      display: inline-flex;
-      align-items: center;
-      gap: 1.5px;
-    }
-    .math-symbol {
-      font-family: "Times New Roman", serif;
-      font-weight: bold;
-    }
-
-    /* 互動式題目與答案槽 */
+    /* 題目互動項目 */
     .interactive-item {
       padding: 4px 6px;
-      margin-bottom: 10px;
       border-radius: 6px;
       transition: background 0.15s;
     }
@@ -332,6 +270,11 @@
       background-color: #f8fafc;
       outline: 1.5px dashed #93c5fd;
     }
+    .item-title {
+      font-weight: bold;
+      margin-bottom: 4px;
+      font-size: 14pt;
+    }
 
     /* 答案顯現樣式 */
     .ans-reveal {
@@ -341,81 +284,37 @@
       font-weight: bold;
       transition: color 0.2s, border-color 0.2s;
     }
-    .ans-underline {
-      border-bottom: 1.5px solid #333;
-      padding: 0 8px;
-    }
     .show-ans .ans-reveal,
     .interactive-item.show-one .ans-reveal {
       color: #dc2626 !important;
     }
 
-    /* 勾選題 Checkbox */
-    .chk-box {
-      display: inline-block;
-      width: 17px;
-      height: 17px;
-      border: 1.8px solid #334155;
-      border-radius: 3px;
-      vertical-align: -2px;
-      margin: 0 4px 0 8px;
-      text-align: center;
-      line-height: 15px;
-      font-size: 13pt;
-      color: transparent;
-      font-weight: bold;
-      background: #fff;
-    }
-    .show-ans .chk-box.is-correct,
-    .interactive-item.show-one .chk-box.is-correct {
-      color: #dc2626 !important;
-    }
-
-    /* 數線 SVG 與標示點 */
-    .number-line-box {
-      margin: 8px 0 10px 0;
-      text-align: center;
-    }
-    .number-line-svg {
-      max-width: 100%;
-      height: auto;
-      overflow: visible;
-    }
-    .svg-ans {
-      opacity: 0;
-      transition: opacity 0.2s ease-in-out;
-    }
-    .show-ans .svg-ans,
-    .interactive-item.show-one .svg-ans {
-      opacity: 1 !important;
-    }
-
-    /* 比大小雙欄網格 */
+    /* 雙欄網格 */
     .grid-2col {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      column-gap: 24px;
+      column-gap: 20px;
       row-gap: 8px;
     }
     .col-divider {
       border-right: 1px solid #cbd5e1;
-      padding-right: 16px;
+      padding-right: 14px;
     }
 
     /* 答題寫作空白線 */
     .write-blank {
       display: inline-block;
-      min-width: 120px;
+      min-width: 90px;
       border-bottom: 1.5px solid #222;
       text-align: center;
     }
 
     /* 計算題 3~4 行留白書寫空間 */
     .calc-workspace {
-      min-height: 75px; /* 3~4 行手寫高度 */
-      margin: 8px 0 12px 0;
-      padding: 6px 12px;
-      border: 1px dashed #cbd5e1;
+      min-height: 80px; /* 3~4 行標準手寫空間 */
+      margin: 6px 0 12px 0;
+      padding: 6px 10px;
+      border: 1.5px dashed #94a3b8;
       border-radius: 6px;
       background-color: #f8fafc;
       position: relative;
@@ -429,12 +328,46 @@
     .calc-solution {
       color: transparent;
       font-size: 13pt;
-      line-height: 1.6;
+      line-height: 1.5;
     }
     .show-ans .calc-solution,
     .interactive-item.show-one .calc-solution {
       color: #dc2626 !important;
       font-weight: bold;
+    }
+
+    /* 目錄與提示框 */
+    .toc-box {
+      border: 2px solid #2563eb;
+      border-radius: 8px;
+      padding: 14px 18px;
+      background: #eff6ff;
+    }
+    .toc-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
+      border-bottom: 1px dashed #bfdbfe;
+      color: #1e3a8a;
+      text-decoration: none;
+      font-size: 13.5pt;
+    }
+    .toc-item:hover {
+      font-weight: bold;
+    }
+
+    /* 數線繪圖容器 */
+    .number-line-box {
+      margin: 8px 0;
+      text-align: center;
+    }
+    .svg-ans {
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .show-ans .svg-ans,
+    .interactive-item.show-one .svg-ans {
+      opacity: 1 !important;
     }
 
     /* 列印控制 (Print Styles) */
@@ -468,9 +401,6 @@
       .ans-reveal {
         color: transparent !important;
       }
-      .chk-box.is-correct {
-        color: transparent !important;
-      }
       .svg-ans {
         opacity: 0 !important;
         display: none !important;
@@ -479,9 +409,9 @@
         border-bottom: 1.5px solid #000 !important;
       }
       .calc-workspace {
-        border: 1px dashed #94a3b8 !important;
+        border: 1.5px dashed #94a3b8 !important;
         background: transparent !important;
-        min-height: 75px !important;
+        min-height: 80px !important;
       }
       .calc-hint {
         color: #64748b !important;
@@ -503,16 +433,16 @@
       </button>
       <div class="toc-menu" id="tocMenu">
         <div class="toc-menu-title">📖 單元章節目錄</div>
-        <div class="toc-menu-item" onclick="jumpTo('page-1')"><span>封面與目錄</span><span class="toc-page-badge">P.1</span></div>
+        <div class="toc-menu-item" onclick="jumpTo('page-1')"><span>封面與導讀</span><span class="toc-page-badge">P.1</span></div>
         <div class="toc-menu-item" onclick="jumpTo('page-strategy')"><span>⭐ 單元重點策略卡</span><span class="toc-page-badge">P.2</span></div>
-        <div class="toc-menu-item" onclick="jumpTo('sec-1')"><span>一、相對的量</span><span class="toc-page-badge">P.3</span></div>
-        <div class="toc-menu-item" onclick="jumpTo('sec-2')"><span>二、判別正負數/同號數</span><span class="toc-page-badge">P.5</span></div>
-        <div class="toc-menu-item" onclick="jumpTo('sec-3')"><span>三、數線並標示點位置</span><span class="toc-page-badge">P.7</span></div>
-        <div class="toc-menu-item" onclick="jumpTo('sec-4')"><span>四、比較數的大小</span><span class="toc-page-badge">P.9</span></div>
-        <div class="toc-menu-item" onclick="jumpTo('sec-5')"><span>五、認識相反數</span><span class="toc-page-badge">P.10</span></div>
-        <div class="toc-menu-item" onclick="jumpTo('sec-6')"><span>六、某數的絕對值</span><span class="toc-page-badge">P.12</span></div>
-        <div class="toc-menu-item" onclick="jumpTo('sec-7')"><span>七、絕對值整數點</span><span class="toc-page-badge">P.14</span></div>
-        <div class="toc-menu-item" onclick="jumpTo('sec-8')"><span>八、絕對值比較負數大小</span><span class="toc-page-badge">P.16</span></div>
+        <div class="toc-menu-item" onclick="jumpTo('sec-1')"><span>一、相對的量 (前6題)</span><span class="toc-page-badge">P.3</span></div>
+        <div class="toc-menu-item" onclick="jumpTo('sec-2')"><span>二、性質符號與正負數 (前6題)</span><span class="toc-page-badge">P.4</span></div>
+        <div class="toc-menu-item" onclick="jumpTo('sec-3')"><span>三、生活應用正負數 (前6題)</span><span class="toc-page-badge">P.5</span></div>
+        <div class="toc-menu-item" onclick="jumpTo('sec-4')"><span>四、相反數的求法 (前6題)</span><span class="toc-page-badge">P.6</span></div>
+        <div class="toc-menu-item" onclick="jumpTo('sec-5')"><span>五、絕對值的意義 (前6題)</span><span class="toc-page-badge">P.7</span></div>
+        <div class="toc-menu-item" onclick="jumpTo('sec-6')"><span>六、數線上兩點的距離 (前6題)</span><span class="toc-page-badge">P.8</span></div>
+        <div class="toc-menu-item" onclick="jumpTo('sec-7')"><span>七、絕對值整數點 (前6題)</span><span class="toc-page-badge">P.9</span></div>
+        <div class="toc-menu-item" onclick="jumpTo('sec-8')"><span>八、絕對值比較大小 (前6題)</span><span class="toc-page-badge">P.10</span></div>
       </div>
     </div>
 
@@ -567,1118 +497,733 @@
 
       <div style="margin-top: 15px;">
         <div class="toc-box">
-          <div style="font-size: 16pt; font-weight: bold; margin-bottom: 12px; color: #1e3a8a; border-bottom: 2px solid #cbd5e1; padding-bottom: 6px;">
-            📖 本自製電子書主題目錄
+          <div style="font-size: 16pt; font-weight: bold; margin-bottom: 10px; color: #1e3a8a; border-bottom: 2px solid #cbd5e1; padding-bottom: 6px;">
+            📖 本自製電子書主題目錄（每單元精選 6 題，附留白計算空間）
           </div>
           <a href="#page-strategy" class="toc-item" style="color: #2563eb; font-weight: bold;"><span>⭐ 單元重點策略卡（考前 6 句口訣地圖）</span><span>Page 2</span></a>
-          <a href="#sec-1" class="toc-item"><span>一、相對的量</span><span>Page 3</span></a>
-          <a href="#sec-2" class="toc-item"><span>二、判別正負數、同號數、異號數</span><span>Page 5</span></a>
-          <a href="#sec-3" class="toc-item"><span>三、畫出數線並標示數線上點的位置</span><span>Page 7</span></a>
-          <a href="#sec-4" class="toc-item"><span>四、比較數的大小</span><span>Page 9</span></a>
-          <a href="#sec-5" class="toc-item"><span>五、認識相反數</span><span>Page 10</span></a>
-          <a href="#sec-6" class="toc-item"><span>六、某數的絕對值</span><span>Page 12</span></a>
-          <a href="#sec-7" class="toc-item"><span>七、絕對值小於或等於某數的整數點</span><span>Page 14</span></a>
-          <a href="#sec-8" class="toc-item"><span>八、利用絕對值比較負數的大小</span><span>Page 16</span></a>
+          <a href="#sec-1" class="toc-item"><span>一、相對的量（6 題）</span><span>Page 3</span></a>
+          <a href="#sec-2" class="toc-item"><span>二、性質符號與正負數（6 題）</span><span>Page 4</span></a>
+          <a href="#sec-3" class="toc-item"><span>三、正數與負數在生活中的應用（6 題）</span><span>Page 5</span></a>
+          <a href="#sec-4" class="toc-item"><span>四、相反數的求法（6 題）</span><span>Page 6</span></a>
+          <a href="#sec-5" class="toc-item"><span>五、絕對值的意義（6 題）</span><span>Page 7</span></a>
+          <a href="#sec-6" class="toc-item"><span>六、數線上兩點的距離（6 題）</span><span>Page 8</span></a>
+          <a href="#sec-7" class="toc-item"><span>七、絕對值小於或等於某數的整數點（6 題）</span><span>Page 9</span></a>
+          <a href="#sec-8" class="toc-item"><span>八、利用絕對值比較負數的大小（6 題）</span><span>Page 10</span></a>
         </div>
 
         <div style="margin-top: 25px; padding: 16px; border: 1.5px solid #cbd5e1; background: #f8fafc; border-radius: 8px;">
-          <div style="font-weight: bold; color: #0f172a; margin-bottom: 8px;">💡 學習導讀指引：</div>
-          <ul style="margin: 0; padding-left: 24px; color: #334155; line-height: 1.7;">
-            <li><b>生活中的相對量</b>：正數（＋）與負數（－）是用來表示性質相反或方向相對的量。</li>
-            <li><b>數線三要素</b>：<b>原點</b>（代表0）、<b>正向</b>（箭頭方向，通常向右）、<b>單位長</b>（固定刻度長度）。</li>
-            <li><b>相反數</b>：數線上位於原點兩側且到原點<b>距離相等</b>的兩數，互為相反數（0的相反數是0）。</li>
-            <li><b>絕對值</b>：數線上某數所對應的點與<b>原點的距離</b>，記為 |a|，具有非負性質（|a| ≥ 0）。</li>
+          <div style="font-weight: bold; color: #0f172a; margin-bottom: 6px;">💡 1-1 核心重點速記：</div>
+          <ul style="margin: 0; padding-left: 22px; line-height: 1.7;">
+            <li><b>基準點與相對的量</b>：向東為正(+)，向西為負(-)；賺錢為正(+)，賠錢為負(-)。</li>
+            <li><b>0 不是正數也不是負數</b>：0 是正負數的分界點（基準點）。</li>
+            <li><b>相反數</b>：符號相反、數字相同。在數線上與原點距離相等的兩個點（例：5 與 -5）。</li>
+            <li><b>絕對值</b>：表示數線上某數與原點的「距離」，永遠大於或等於 0。|a| ≥ 0。</li>
+            <li><b>負數比較大小</b>：負數的絕對值越大，其值反而越小！（例：|-10| > |-3|，但 -10 < -3）。</li>
           </ul>
         </div>
       </div>
-      <div class="page-footer">第 1 頁，共 17 頁</div>
+      <div class="page-footer">第 1 頁，共 10 頁</div>
     </div>
 
-    <!-- PAGE 2: 單元重點策略卡 (視覺錨點 / 概念總覽地圖) -->
-    <div class="page" id="page-strategy">
+    <!-- PAGE 2: 單元重點策略卡 -->
+    <div class="page" id="page-strategy" style="display: flex; flex-direction: column; justify-content: space-between; align-items: center;">
       <canvas class="drawing-canvas"></canvas>
-      <div class="header-bar">
+      <div class="header-bar" style="width: 100%;">
         <div class="main-title">七上數學 1-1 正數與負數</div>
         <div class="user-info">單元重點策略卡</div>
       </div>
-      <div style="text-align: center; margin-top: 6px;">
+
+      <div style="flex: 1; display: flex; justify-content: center; align-items: center; width: 100%; padding: 4px 0;">
         <img src="七上數學1-1重點策略卡.jpg" style="max-width: 98%; max-height: 248mm; object-fit: contain; border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.1); border: 1.5px solid #cbd5e1;" alt="七上數學 1-1 正數與負數 單元重點策略卡">
       </div>
-      <div class="page-footer">第 2 頁，共 17 頁</div>
+
+      <div class="page-footer" style="width: 100%;">第 2 頁，共 10 頁</div>
     </div>
 
-    <!-- PAGE 3: 一、相對的量 (1~5) -->
-    <div class="page" id="page-2">
+    <!-- PAGE 3: 一、相對的量 (前6題) -->
+    <div class="page" id="sec-1">
       <canvas class="drawing-canvas"></canvas>
       <div class="header-bar">
         <div class="main-title">七上數學 1-1 正數與負數</div>
         <div class="user-info">姓名：___________</div>
       </div>
 
-      <div class="section-banner" id="sec-1">一、相對的量</div>
+      <div class="section-banner">一、相對的量（前 6 題，附計算／思考空間）</div>
 
-      <div class="interactive-item" onclick="toggleItemAnswer(this)">
-        <div><b>1.</b> 東方與西方是相對的，如果由基準點向東走 5 公里記為＋5 公里，則由基準點向西走 4 公里該如何表示？</div>
-        <div style="margin-top: 6px; padding-left: 18px;">
-          答：<span class="write-blank"><span class="ans-reveal">－4 公里</span></span>
-        </div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 18px;">
-        <div><b>2.</b> 賺錢與賠錢是相對的，如果賺 1500 元記為＋1500 元，則賠 800 元該如何表示？</div>
-        <div style="margin-top: 6px; padding-left: 18px;">
-          答：<span class="write-blank"><span class="ans-reveal">－800 元</span></span>
-        </div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 18px;">
-        <div><b>3.</b> 水位的升降是相對的，如果水位下降 2 公尺記為－2 公尺，則水位上升 7 公尺該如何表示？</div>
-        <div style="margin-top: 6px; padding-left: 18px;">
-          答：<span class="write-blank"><span class="ans-reveal">＋7 公尺</span></span>
-        </div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 18px;">
-        <div><b>4.</b> 以攝氏 0 度為基準，攝氏 30 度記為＋30 度，則攝氏零下 9 度該如何表示？</div>
-        <div style="margin-top: 6px; padding-left: 18px;">
-          答：<span class="write-blank"><span class="ans-reveal">－9 度</span></span>
-        </div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 18px;">
-        <div><b>5.</b> 搭電梯下降 5 樓記為－5 樓，則搭電梯上升 4 樓該如何表示？</div>
-        <div style="margin-top: 6px; padding-left: 18px;">
-          答：<span class="write-blank"><span class="ans-reveal">＋4 樓</span></span>
-        </div>
-      </div>
-
-      <div class="page-footer">第 2 頁，共 16 頁</div>
-    </div>
-
-    <!-- PAGE 3: 一、相對的量 (6~10) -->
-    <div class="page" id="page-3">
-      <canvas class="drawing-canvas"></canvas>
-      <div class="header-bar">
-        <div class="main-title">七上數學 1-1 正數與負數</div>
-        <div class="user-info">姓名：___________</div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)">
-        <div><b>6.</b> 某湖面上方 12 公尺記為＋12 公尺，則湖面下方 15 公尺該如何表示？</div>
-        <div style="margin-top: 6px; padding-left: 18px;">
-          答：<span class="write-blank"><span class="ans-reveal">－15 公尺</span></span>
-        </div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 18px;">
-        <div><b>7.</b> 某籃球隊以身高 175 公分為基準，身高 168 公分記為－7 公分，則身高 184 公分該如何表示？</div>
-        <div style="margin-top: 6px; padding-left: 18px;">
-          答：<span class="write-blank"><span class="ans-reveal">＋9 公分</span></span>
-        </div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 18px;">
-        <div><b>8.</b> 以全班的數學平均成績 68 分為基準，如果考 100 分記為＋32 分，則考 57 分該如何表示？</div>
-        <div style="margin-top: 6px; padding-left: 18px;">
-          答：<span class="write-blank"><span class="ans-reveal">－11 分</span></span>
-        </div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 18px;">
-        <div><b>9.</b> 如果體重的變化以「＋」表示增加，以「－」表示減少，從 63 公斤變成 59 公斤記為－4 公斤，則從 49 公斤變成 56 公斤該如何表示？</div>
-        <div style="margin-top: 6px; padding-left: 18px;">
-          答：<span class="write-blank"><span class="ans-reveal">＋7 公斤</span></span>
-        </div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 18px;">
-        <div><b>10.</b> 如果價格的變化以「＋」表示漲價，以「－」表示降價，從 70 元漲價到 90 元記為＋20 元，則從 85 元降價到 67 元該如何表示？</div>
-        <div style="margin-top: 6px; padding-left: 18px;">
-          答：<span class="write-blank"><span class="ans-reveal">－18 元</span></span>
-        </div>
-      </div>
-
-      <div class="page-footer">第 3 頁，共 16 頁</div>
-    </div>
-
-    <!-- PAGE 4: 二、判別正負數、同號數、異號數 (1~4) -->
-    <div class="page" id="page-4">
-      <canvas class="drawing-canvas"></canvas>
-      <div class="header-bar">
-        <div class="main-title">七上數學 1-1 正數與負數</div>
-        <div class="user-info">姓名：___________</div>
-      </div>
-
-      <div class="section-banner" id="sec-2">二、判別正負數、同號數、異號數</div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)">
-        <div><b>1. 判別下列各小題中的數是正數或負數，並且在正確的空格內打「✓」：</b></div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; padding-left: 14px;">
-          <div>(1) ＋4 <span class="chk-box is-correct">✓</span>正數 <span class="chk-box">✓</span>負數</div>
-          <div>(2) 8.1 <span class="chk-box is-correct">✓</span>正數 <span class="chk-box">✓</span>負數</div>
-          <div>(3) －13 <span class="chk-box">✓</span>正數 <span class="chk-box is-correct">✓</span>負數</div>
-          <div>(4) －5<span class="frac"><span class="frac-top">1</span><span class="frac-bottom">3</span></span> <span class="chk-box">✓</span>正數 <span class="chk-box is-correct">✓</span>負數</div>
-        </div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 20px;">
-        <div><b>2. 判別下列各小題中的兩數是同號數或異號數，並且在正確的空格內打「✓」：</b></div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; padding-left: 14px;">
-          <div>(1) 2 和 1.5 <span class="chk-box is-correct">✓</span>同號數 <span class="chk-box">✓</span>異號數</div>
-          <div>(2) －7<span class="frac"><span class="frac-top">5</span><span class="frac-bottom">6</span></span> 和＋9 <span class="chk-box">✓</span>同號數 <span class="chk-box is-correct">✓</span>異號數</div>
-          <div>(3) 1 和－1 <span class="chk-box">✓</span>同號數 <span class="chk-box is-correct">✓</span>異號數</div>
-          <div>(4) －6 和－17 <span class="chk-box is-correct">✓</span>同號數 <span class="chk-box">✓</span>異號數</div>
-        </div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 20px;">
-        <div><b>3. 判別下列哪些數是正數？</b></div>
-        <div style="padding: 6px 14px; background: #f8fafc; border-radius: 4px; margin: 6px 0;">
-          －2、5.2、－1<span class="frac"><span class="frac-top">2</span><span class="frac-bottom">3</span></span>、7、＋3、－9、<span class="frac"><span class="frac-top">20</span><span class="frac-bottom">3</span></span>、＋0.8
-        </div>
-        <div style="padding-left: 14px;">
-          答：<span class="write-blank" style="min-width: 320px;"><span class="ans-reveal">5.2、7、＋3、<span class="frac"><span class="frac-top">20</span><span class="frac-bottom">3</span></span>、＋0.8</span></span>
-        </div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 20px;">
-        <div><b>4. 判別下列哪些數是正整數？</b></div>
-        <div style="padding: 6px 14px; background: #f8fafc; border-radius: 4px; margin: 6px 0;">
-          －2、5.2、－1<span class="frac"><span class="frac-top">2</span><span class="frac-bottom">3</span></span>、7、＋3、－9、<span class="frac"><span class="frac-top">20</span><span class="frac-bottom">3</span></span>、＋0.8
-        </div>
-        <div style="padding-left: 14px;">
-          答：<span class="write-blank" style="min-width: 200px;"><span class="ans-reveal">7、＋3</span></span>
-        </div>
-      </div>
-
-      <div class="page-footer">第 4 頁，共 16 頁</div>
-    </div>
-
-    <!-- PAGE 5: 二、判別正負數、同號數、異號數 (5~7) -->
-    <div class="page" id="page-5">
-      <canvas class="drawing-canvas"></canvas>
-      <div class="header-bar">
-        <div class="main-title">七上數學 1-1 正數與負數</div>
-        <div class="user-info">姓名：___________</div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)">
-        <div><b>5. 判別下列哪些數是負數？</b></div>
-        <div style="padding: 6px 14px; background: #f8fafc; border-radius: 4px; margin: 6px 0;">
-          0、9、－<span class="frac"><span class="frac-top">11</span><span class="frac-bottom">2</span></span>、4.8、－5、＋7<span class="frac"><span class="frac-top">3</span><span class="frac-bottom">5</span></span>、－2.7、6、<span class="frac"><span class="frac-top">7</span><span class="frac-bottom">8</span></span>
-        </div>
-        <div style="padding-left: 14px;">
-          答：<span class="write-blank" style="min-width: 260px;"><span class="ans-reveal">－<span class="frac"><span class="frac-top">11</span><span class="frac-bottom">2</span></span>、－5、－2.7</span></span>
-        </div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 18px;">
-        <div><b>6. 判別下列哪個數是負整數？</b></div>
-        <div style="padding: 6px 14px; background: #f8fafc; border-radius: 4px; margin: 6px 0;">
-          0、9、－<span class="frac"><span class="frac-top">11</span><span class="frac-bottom">2</span></span>、4.8、－5、＋7<span class="frac"><span class="frac-top">3</span><span class="frac-bottom">5</span></span>、－2.7、6、<span class="frac"><span class="frac-top">7</span><span class="frac-bottom">8</span></span>
-        </div>
-        <div style="padding-left: 14px;">
-          答：<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">－5</span></span>
-        </div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 18px;">
-        <div><b>7. 根據下列 10 個數，回答下列問題：</b></div>
-        <div style="padding: 6px 14px; background: #f8fafc; border-radius: 4px; margin: 6px 0;">
-          －14、＋3<span class="frac"><span class="frac-top">3</span><span class="frac-bottom">4</span></span>、2.7、－22、<span class="frac"><span class="frac-top">7</span><span class="frac-bottom">2</span></span>、－0.6、－<span class="frac"><span class="frac-top">2</span><span class="frac-bottom">5</span></span>、0、＋18、<span class="frac"><span class="frac-top">8</span><span class="frac-bottom">9</span></span>
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 8px; padding-left: 14px;">
-          <div>(1) 哪些數是整數？<br>答：<span class="write-blank" style="min-width: 260px;"><span class="ans-reveal">－14、－22、0、＋18</span></span></div>
-          <div>(2) 哪些數與－5 是同號數？<br>答：<span class="write-blank" style="min-width: 260px;"><span class="ans-reveal">－14、－22、－0.6、－<span class="frac"><span class="frac-top">2</span><span class="frac-bottom">5</span></span></span></span></div>
-          <div>(3) 哪些數與－<span class="frac"><span class="frac-top">1</span><span class="frac-bottom">2</span></span> 是異號數？<br>答：<span class="write-blank" style="min-width: 260px;"><span class="ans-reveal">＋3<span class="frac"><span class="frac-top">3</span><span class="frac-bottom">4</span></span>、2.7、<span class="frac"><span class="frac-top">7</span><span class="frac-bottom">2</span></span>、＋18、<span class="frac"><span class="frac-top">8</span><span class="frac-bottom">9</span></span></span></span></div>
-          <div>(4) 哪個整數與 30 是同號數？<br>答：<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">＋18</span></span></div>
-        </div>
-      </div>
-
-      <div class="page-footer">第 5 頁，共 16 頁</div>
-    </div>
-
-    <!-- PAGE 6: 三、畫出數線並標示數線上點的位置 (1~4) -->
-    <div class="page" id="page-6">
-      <canvas class="drawing-canvas"></canvas>
-      <div class="header-bar">
-        <div class="main-title">七上數學 1-1 正數與負數</div>
-        <div class="user-info">姓名：___________</div>
-      </div>
-
-      <div class="section-banner" id="sec-3">三、畫出數線並標示數線上點的位置</div>
-
-      <!-- 題 1 -->
-      <div class="interactive-item" onclick="toggleItemAnswer(this)">
-        <div><b>1. 寫出數線上 A、B 兩點的坐標。</b></div>
-        <div class="number-line-box">
-          <svg class="number-line-svg" width="600" height="75" viewBox="0 0 600 75">
-            <line x1="30" y1="35" x2="570" y2="35" stroke="#000" stroke-width="2"/>
-            <polygon points="570,30 585,35 570,40" fill="#000"/>
-            <line x1="100" y1="28" x2="100" y2="42" stroke="#000" stroke-width="1.5"/>
-            <line x1="170" y1="28" x2="170" y2="42" stroke="#000" stroke-width="1.5"/>
-            <circle cx="170" cy="35" r="4" fill="#000"/>
-            <text x="170" y="20" font-family="Times New Roman" font-size="16" font-style="italic" text-anchor="middle">A</text>
-            <line x1="240" y1="25" x2="240" y2="45" stroke="#000" stroke-width="2"/>
-            <text x="240" y="60" font-family="Times New Roman" font-size="16" text-anchor="middle">0</text>
-            <line x1="310" y1="25" x2="310" y2="45" stroke="#000" stroke-width="2"/>
-            <text x="310" y="60" font-family="Times New Roman" font-size="16" text-anchor="middle">1</text>
-            <line x1="380" y1="28" x2="380" y2="42" stroke="#000" stroke-width="1.5"/>
-            <circle cx="380" cy="35" r="4" fill="#000"/>
-            <text x="380" y="20" font-family="Times New Roman" font-size="16" font-style="italic" text-anchor="middle">B</text>
-            <line x1="450" y1="28" x2="450" y2="42" stroke="#000" stroke-width="1.5"/>
-            <line x1="520" y1="28" x2="520" y2="42" stroke="#000" stroke-width="1.5"/>
-          </svg>
-        </div>
-        <div style="padding-left: 14px;">
-          答：<span class="write-blank" style="min-width: 220px;"><span class="ans-reveal">A（－1）、B（2）</span></span>
-        </div>
-      </div>
-
-      <!-- 題 2 -->
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 14px;">
-        <div><b>2. 寫出數線上 C、D 兩點的坐標。</b></div>
-        <div class="number-line-box">
-          <svg class="number-line-svg" width="600" height="75" viewBox="0 0 600 75">
-            <line x1="30" y1="35" x2="570" y2="35" stroke="#000" stroke-width="2"/>
-            <polygon points="570,30 585,35 570,40" fill="#000"/>
-            <line x1="70" y1="28" x2="70" y2="42" stroke="#000" stroke-width="1.5"/>
-            <circle cx="70" cy="35" r="4" fill="#000"/>
-            <text x="70" y="20" font-family="Times New Roman" font-size="16" font-style="italic" text-anchor="middle">D</text>
-            <line x1="120" y1="28" x2="120" y2="42" stroke="#000" stroke-width="1.5"/>
-            <line x1="170" y1="28" x2="170" y2="42" stroke="#000" stroke-width="1.5"/>
-            <line x1="220" y1="25" x2="220" y2="45" stroke="#000" stroke-width="2"/>
-            <text x="220" y="60" font-family="Times New Roman" font-size="16" text-anchor="middle">0</text>
-            <line x1="270" y1="25" x2="270" y2="45" stroke="#000" stroke-width="2"/>
-            <text x="270" y="60" font-family="Times New Roman" font-size="16" text-anchor="middle">1</text>
-            <line x1="320" y1="28" x2="320" y2="42" stroke="#000" stroke-width="1.5"/>
-            <line x1="370" y1="28" x2="370" y2="42" stroke="#000" stroke-width="1.5"/>
-            <line x1="420" y1="28" x2="420" y2="42" stroke="#000" stroke-width="1.5"/>
-            <line x1="470" y1="28" x2="470" y2="42" stroke="#000" stroke-width="1.5"/>
-            <circle cx="470" cy="35" r="4" fill="#000"/>
-            <text x="470" y="20" font-family="Times New Roman" font-size="16" font-style="italic" text-anchor="middle">C</text>
-            <line x1="520" y1="28" x2="520" y2="42" stroke="#000" stroke-width="1.5"/>
-          </svg>
-        </div>
-        <div style="padding-left: 14px;">
-          答：<span class="write-blank" style="min-width: 220px;"><span class="ans-reveal">C（5）、D（－3）</span></span>
-        </div>
-      </div>
-
-      <!-- 題 3 -->
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 14px;">
-        <div><b>3. 寫出數線上 E、F 兩點的坐標。</b></div>
-        <div class="number-line-box">
-          <svg class="number-line-svg" width="600" height="75" viewBox="0 0 600 75">
-            <line x1="30" y1="35" x2="570" y2="35" stroke="#000" stroke-width="2"/>
-            <polygon points="570,30 585,35 570,40" fill="#000"/>
-            <line x1="90" y1="25" x2="90" y2="45" stroke="#000" stroke-width="2"/>
-            <text x="90" y="60" font-family="Times New Roman" font-size="16" text-anchor="middle">－1</text>
-            <line x1="110" y1="30" x2="110" y2="40" stroke="#000" stroke-width="1"/>
-            <line x1="130" y1="30" x2="130" y2="40" stroke="#000" stroke-width="1"/>
-            <line x1="150" y1="28" x2="150" y2="42" stroke="#000" stroke-width="1.5"/>
-            <circle cx="150" cy="35" r="4" fill="#000"/>
-            <text x="150" y="20" font-family="Times New Roman" font-size="16" font-style="italic" text-anchor="middle">E</text>
-            <line x1="170" y1="30" x2="170" y2="40" stroke="#000" stroke-width="1"/>
-            <line x1="190" y1="25" x2="190" y2="45" stroke="#000" stroke-width="2"/>
-            <text x="190" y="60" font-family="Times New Roman" font-size="16" text-anchor="middle">0</text>
-            <line x1="290" y1="25" x2="290" y2="45" stroke="#000" stroke-width="2"/>
-            <text x="290" y="60" font-family="Times New Roman" font-size="16" text-anchor="middle">1</text>
-            <line x1="390" y1="25" x2="390" y2="45" stroke="#000" stroke-width="2"/>
-            <text x="390" y="60" font-family="Times New Roman" font-size="16" text-anchor="middle">2</text>
-            <line x1="440" y1="28" x2="440" y2="42" stroke="#000" stroke-width="1.5"/>
-            <circle cx="440" cy="35" r="4" fill="#000"/>
-            <text x="440" y="20" font-family="Times New Roman" font-size="16" font-style="italic" text-anchor="middle">F</text>
-            <line x1="490" y1="25" x2="490" y2="45" stroke="#000" stroke-width="2"/>
-            <text x="490" y="60" font-family="Times New Roman" font-size="16" text-anchor="middle">3</text>
-          </svg>
-        </div>
-        <div style="padding-left: 14px;">
-          答：<span class="write-blank" style="min-width: 250px;"><span class="ans-reveal">E（－0.4）、F（2.5 或 2<span class="frac"><span class="frac-top">1</span><span class="frac-bottom">2</span></span>）</span></span>
-        </div>
-      </div>
-
-      <!-- 題 4 -->
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 14px;">
-        <div><b>4. 寫出數線上 G、H 兩點的坐標。</b></div>
-        <div class="number-line-box">
-          <svg class="number-line-svg" width="600" height="75" viewBox="0 0 600 75">
-            <line x1="30" y1="35" x2="570" y2="35" stroke="#000" stroke-width="2"/>
-            <polygon points="570,30 585,35 570,40" fill="#000"/>
-            <line x1="85" y1="25" x2="85" y2="45" stroke="#000" stroke-width="2"/>
-            <text x="85" y="60" font-family="Times New Roman" font-size="16" text-anchor="middle">－5</text>
-            <line x1="96" y1="28" x2="96" y2="42" stroke="#000" stroke-width="1.5"/>
-            <circle cx="96" cy="35" r="4" fill="#000"/>
-            <text x="96" y="20" font-family="Times New Roman" font-size="16" font-style="italic" text-anchor="middle">H</text>
-            <line x1="140" y1="25" x2="140" y2="45" stroke="#000" stroke-width="2"/>
-            <text x="140" y="60" font-family="Times New Roman" font-size="16" text-anchor="middle">－4</text>
-            
-            <line x1="195" y1="28" x2="195" y2="42" stroke="#000" stroke-width="1.5"/>
-            <line x1="250" y1="28" x2="250" y2="42" stroke="#000" stroke-width="1.5"/>
-            <line x1="305" y1="28" x2="305" y2="42" stroke="#000" stroke-width="1.5"/>
-            
-            <line x1="360" y1="25" x2="360" y2="45" stroke="#000" stroke-width="2"/>
-            <text x="360" y="60" font-family="Times New Roman" font-size="16" text-anchor="middle">0</text>
-            <line x1="415" y1="25" x2="415" y2="45" stroke="#000" stroke-width="2"/>
-            <text x="415" y="60" font-family="Times New Roman" font-size="16" text-anchor="middle">1</text>
-            <line x1="437" y1="28" x2="437" y2="42" stroke="#000" stroke-width="1.5"/>
-            <circle cx="437" cy="35" r="4" fill="#000"/>
-            <text x="437" y="20" font-family="Times New Roman" font-size="16" font-style="italic" text-anchor="middle">G</text>
-            <line x1="470" y1="25" x2="470" y2="45" stroke="#000" stroke-width="2"/>
-            <text x="470" y="60" font-family="Times New Roman" font-size="16" text-anchor="middle">2</text>
-          </svg>
-        </div>
-        <div style="padding-left: 14px;">
-          答：<span class="write-blank" style="min-width: 250px;"><span class="ans-reveal">G（1<span class="frac"><span class="frac-top">2</span><span class="frac-bottom">5</span></span>）、H（－4<span class="frac"><span class="frac-top">4</span><span class="frac-bottom">5</span></span>）</span></span>
-        </div>
-      </div>
-
-      <div class="page-footer">第 6 頁，共 16 頁</div>
-    </div>
-
-    <!-- PAGE 7: 三、畫出數線並標示數線上點的位置 (5~10) -->
-    <div class="page" id="page-7">
-      <canvas class="drawing-canvas"></canvas>
-      <div class="header-bar">
-        <div class="main-title">七上數學 1-1 正數與負數</div>
-        <div class="user-info">姓名：___________</div>
-      </div>
-
-      <!-- 題 5 -->
-      <div class="interactive-item" onclick="toggleItemAnswer(this)">
-        <div><b>5. 寫出數線上 I、J 兩點的坐標。</b></div>
-        <div class="number-line-box">
-          <svg class="number-line-svg" width="600" height="75" viewBox="0 0 600 75">
-            <line x1="30" y1="35" x2="570" y2="35" stroke="#000" stroke-width="2"/>
-            <polygon points="570,30 585,35 570,40" fill="#000"/>
-            <line x1="60" y1="25" x2="60" y2="45" stroke="#000" stroke-width="2"/>
-            <text x="60" y="60" font-family="Times New Roman" font-size="16" text-anchor="middle">－7</text>
-            <line x1="117" y1="28" x2="117" y2="42" stroke="#000" stroke-width="1.5"/>
-            <line x1="174" y1="28" x2="174" y2="42" stroke="#000" stroke-width="1.5"/>
-            <circle cx="174" cy="35" r="4" fill="#000"/>
-            <text x="174" y="20" font-family="Times New Roman" font-size="16" font-style="italic" text-anchor="middle">I</text>
-            <line x1="231" y1="28" x2="231" y2="42" stroke="#000" stroke-width="1.5"/>
-            <line x1="288" y1="28" x2="288" y2="42" stroke="#000" stroke-width="1.5"/>
-            <line x1="345" y1="28" x2="345" y2="42" stroke="#000" stroke-width="1.5"/>
-            <line x1="402" y1="28" x2="402" y2="42" stroke="#000" stroke-width="1.5"/>
-            <line x1="460" y1="25" x2="460" y2="45" stroke="#000" stroke-width="2"/>
-            <text x="460" y="60" font-family="Times New Roman" font-size="16" text-anchor="middle">0</text>
-            <line x1="517" y1="28" x2="517" y2="42" stroke="#000" stroke-width="1.5"/>
-            <circle cx="517" cy="35" r="4" fill="#000"/>
-            <text x="517" y="20" font-family="Times New Roman" font-size="16" font-style="italic" text-anchor="middle">J</text>
-          </svg>
-        </div>
-        <div style="padding-left: 14px;">
-          答：<span class="write-blank" style="min-width: 220px;"><span class="ans-reveal">I（－5）、J（1）</span></span>
-        </div>
-      </div>
-
-      <!-- 題 6 -->
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 10px;">
-        <div><b>6. 在下面的數線上標示出 A（4）、B（－2）兩點的位置。</b></div>
-        <div class="number-line-box">
-          <svg class="number-line-svg" width="600" height="75" viewBox="0 0 600 75">
-            <line x1="30" y1="35" x2="570" y2="35" stroke="#000" stroke-width="2"/>
-            <polygon points="570,30 585,35 570,40" fill="#000"/>
-            <line x1="100" y1="28" x2="100" y2="42" stroke="#000" stroke-width="1.5"/>
-            <line x1="150" y1="28" x2="150" y2="42" stroke="#000" stroke-width="1.5"/>
-            <line x1="200" y1="28" x2="200" y2="42" stroke="#000" stroke-width="1.5"/>
-            <line x1="250" y1="25" x2="250" y2="45" stroke="#000" stroke-width="2"/>
-            <text x="250" y="60" font-family="Times New Roman" font-size="16" text-anchor="middle">0</text>
-            <line x1="300" y1="25" x2="300" y2="45" stroke="#000" stroke-width="2"/>
-            <text x="300" y="60" font-family="Times New Roman" font-size="16" text-anchor="middle">1</text>
-            <line x1="350" y1="28" x2="350" y2="42" stroke="#000" stroke-width="1.5"/>
-            <line x1="400" y1="28" x2="400" y2="42" stroke="#000" stroke-width="1.5"/>
-            <line x1="450" y1="28" x2="450" y2="42" stroke="#000" stroke-width="1.5"/>
-            <line x1="500" y1="28" x2="500" y2="42" stroke="#000" stroke-width="1.5"/>
-
-            <g class="svg-ans">
-              <circle cx="150" cy="35" r="5" fill="#dc2626"/>
-              <text x="150" y="18" fill="#dc2626" font-family="Times New Roman" font-size="15" font-weight="bold" text-anchor="middle">B(－2)</text>
-              <circle cx="450" cy="35" r="5" fill="#dc2626"/>
-              <text x="450" y="18" fill="#dc2626" font-family="Times New Roman" font-size="15" font-weight="bold" text-anchor="middle">A(4)</text>
-            </g>
-          </svg>
-        </div>
-      </div>
-
-      <!-- 題 7 -->
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 10px;">
-        <div><b>7. 在下面的數線上標示出 C（1<span class="frac"><span class="frac-top">2</span><span class="frac-bottom">3</span></span>）、D（－1.7）兩點的位置。</b></div>
-        <div class="number-line-box">
-          <svg class="number-line-svg" width="600" height="75" viewBox="0 0 600 75">
-            <line x1="30" y1="35" x2="570" y2="35" stroke="#000" stroke-width="2"/>
-            <polygon points="570,30 585,35 570,40" fill="#000"/>
-            <line x1="140" y1="25" x2="140" y2="45" stroke="#000" stroke-width="2"/>
-            <text x="140" y="60" font-family="Times New Roman" font-size="16" text-anchor="middle">－1</text>
-            <line x1="56" y1="30" x2="56" y2="40" stroke="#000" stroke-width="1"/>
-            <line x1="68" y1="30" x2="68" y2="40" stroke="#000" stroke-width="1"/>
-            <line x1="80" y1="30" x2="80" y2="40" stroke="#000" stroke-width="1"/>
-            <line x1="92" y1="30" x2="92" y2="40" stroke="#000" stroke-width="1"/>
-            <line x1="104" y1="30" x2="104" y2="40" stroke="#000" stroke-width="1"/>
-            <line x1="116" y1="30" x2="116" y2="40" stroke="#000" stroke-width="1"/>
-            <line x1="128" y1="30" x2="128" y2="40" stroke="#000" stroke-width="1"/>
-            
-            <line x1="260" y1="25" x2="260" y2="45" stroke="#000" stroke-width="2"/>
-            <text x="260" y="60" font-family="Times New Roman" font-size="16" text-anchor="middle">0</text>
-            <line x1="380" y1="25" x2="380" y2="45" stroke="#000" stroke-width="2"/>
-            <text x="380" y="60" font-family="Times New Roman" font-size="16" text-anchor="middle">1</text>
-            <line x1="500" y1="25" x2="500" y2="45" stroke="#000" stroke-width="2"/>
-            <text x="500" y="60" font-family="Times New Roman" font-size="16" text-anchor="middle">2</text>
-
-            <g class="svg-ans">
-              <circle cx="56" cy="35" r="5" fill="#dc2626"/>
-              <text x="56" y="18" fill="#dc2626" font-family="Times New Roman" font-size="15" font-weight="bold" text-anchor="middle">D(－1.7)</text>
-              <circle cx="460" cy="35" r="5" fill="#dc2626"/>
-              <text x="460" y="18" fill="#dc2626" font-family="Times New Roman" font-size="15" font-weight="bold" text-anchor="middle">C(1 2/3)</text>
-            </g>
-          </svg>
-        </div>
-      </div>
-
-      <!-- 題 8, 9, 10 -->
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 10px;">
-        <div><b>8. 畫一條數線，並標示出 E（－3）、F（5）兩點的位置。</b></div>
-        <div class="number-line-box">
-          <svg class="number-line-svg" width="600" height="70" viewBox="0 0 600 70">
-            <line x1="30" y1="35" x2="570" y2="35" stroke="#000" stroke-width="2"/>
-            <polygon points="570,30 585,35 570,40" fill="#000"/>
-            <g class="svg-ans">
-              <line x1="230" y1="25" x2="230" y2="45" stroke="#000" stroke-width="2"/>
-              <text x="230" y="60" font-family="Times New Roman" font-size="15" text-anchor="middle">0</text>
-              <circle cx="110" cy="35" r="5" fill="#dc2626"/>
-              <text x="110" y="18" fill="#dc2626" font-family="Times New Roman" font-size="15" font-weight="bold" text-anchor="middle">E(－3)</text>
-              <text x="110" y="60" fill="#dc2626" font-family="Times New Roman" font-size="15" text-anchor="middle">－3</text>
-              <circle cx="430" cy="35" r="5" fill="#dc2626"/>
-              <text x="430" y="18" fill="#dc2626" font-family="Times New Roman" font-size="15" font-weight="bold" text-anchor="middle">F(5)</text>
-              <text x="430" y="60" fill="#dc2626" font-family="Times New Roman" font-size="15" text-anchor="middle">5</text>
-            </g>
-          </svg>
-        </div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 10px;">
-        <div><b>9. 畫一條數線，並標示出 G（－0.5）、H（2.8）兩點的位置。</b></div>
-        <div class="number-line-box">
-          <svg class="number-line-svg" width="600" height="70" viewBox="0 0 600 70">
-            <line x1="30" y1="35" x2="570" y2="35" stroke="#000" stroke-width="2"/>
-            <polygon points="570,30 585,35 570,40" fill="#000"/>
-            <g class="svg-ans">
-              <line x1="180" y1="25" x2="180" y2="45" stroke="#000" stroke-width="2"/>
-              <text x="180" y="60" font-family="Times New Roman" font-size="15" text-anchor="middle">0</text>
-              <line x1="270" y1="25" x2="270" y2="45" stroke="#000" stroke-width="1.5"/>
-              <text x="270" y="60" font-family="Times New Roman" font-size="15" text-anchor="middle">1</text>
-              <line x1="360" y1="25" x2="360" y2="45" stroke="#000" stroke-width="1.5"/>
-              <text x="360" y="60" font-family="Times New Roman" font-size="15" text-anchor="middle">2</text>
-              <line x1="450" y1="25" x2="450" y2="45" stroke="#000" stroke-width="1.5"/>
-              <text x="450" y="60" font-family="Times New Roman" font-size="15" text-anchor="middle">3</text>
-              <circle cx="135" cy="35" r="5" fill="#dc2626"/>
-              <text x="135" y="18" fill="#dc2626" font-family="Times New Roman" font-size="15" font-weight="bold" text-anchor="middle">G(－0.5)</text>
-              <circle cx="432" cy="35" r="5" fill="#dc2626"/>
-              <text x="432" y="18" fill="#dc2626" font-family="Times New Roman" font-size="15" font-weight="bold" text-anchor="middle">H(2.8)</text>
-            </g>
-          </svg>
-        </div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 10px;">
-        <div><b>10. 畫一條數線，並標示出 I（2<span class="frac"><span class="frac-top">1</span><span class="frac-bottom">3</span></span>）、J（－3<span class="frac"><span class="frac-top">3</span><span class="frac-bottom">4</span></span>）、K（－1.5）三點的位置。</b></div>
-        <div class="number-line-box">
-          <svg class="number-line-svg" width="600" height="70" viewBox="0 0 600 70">
-            <line x1="30" y1="35" x2="570" y2="35" stroke="#000" stroke-width="2"/>
-            <polygon points="570,30 585,35 570,40" fill="#000"/>
-            <g class="svg-ans">
-              <line x1="320" y1="25" x2="320" y2="45" stroke="#000" stroke-width="2"/>
-              <text x="320" y="60" font-family="Times New Roman" font-size="15" text-anchor="middle">0</text>
-              <circle cx="95" cy="35" r="5" fill="#dc2626"/>
-              <text x="95" y="18" fill="#dc2626" font-family="Times New Roman" font-size="14" font-weight="bold" text-anchor="middle">J(－3 3/4)</text>
-              <circle cx="230" cy="35" r="5" fill="#dc2626"/>
-              <text x="230" y="18" fill="#dc2626" font-family="Times New Roman" font-size="14" font-weight="bold" text-anchor="middle">K(－1.5)</text>
-              <circle cx="460" cy="35" r="5" fill="#dc2626"/>
-              <text x="460" y="18" fill="#dc2626" font-family="Times New Roman" font-size="14" font-weight="bold" text-anchor="middle">I(2 1/3)</text>
-            </g>
-          </svg>
-        </div>
-      </div>
-
-      <div class="page-footer">第 7 頁，共 16 頁</div>
-    </div>
-
-    <!-- PAGE 8: 四、比較數的大小 (1~11) -->
-    <div class="page" id="page-8">
-      <canvas class="drawing-canvas"></canvas>
-      <div class="header-bar">
-        <div class="main-title">七上數學 1-1 正數與負數</div>
-        <div class="user-info">姓名：___________</div>
-      </div>
-
-      <div class="section-banner" id="sec-4">四、比較數的大小</div>
-
-      <div class="grid-2col">
+      <div class="grid-2col" style="margin-top: 10px;">
         <div class="col-divider">
-          <!-- 1 -->
           <div class="interactive-item" onclick="toggleItemAnswer(this)">
-            <div><b>1.</b> 比較 6、－6 兩數的大小。</div>
-            <div style="padding-left: 14px; margin-top: 4px;">
-              答：<span class="write-blank"><span class="ans-reveal">－6 ＜ 6</span></span>
+            <div class="item-title">1. 向東走 5km 記為＋5km，則向西走 4km 該如何表示？</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【思考與記錄空間】</div>
+              <div class="calc-solution">
+                以基準點為中心，東為正、西為負：<br>
+                <b>答：</b> －4 公里
+              </div>
             </div>
           </div>
-          <!-- 2 -->
+
           <div class="interactive-item" onclick="toggleItemAnswer(this)">
-            <div><b>2.</b> 比較 －7、－1 兩數的大小。</div>
-            <div style="padding-left: 14px; margin-top: 4px;">
-              答：<span class="write-blank"><span class="ans-reveal">－7 ＜ －1</span></span>
+            <div class="item-title">2. 賺 1500 元記為＋1500 元，則賠 800 元該如何表示？</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【思考與記錄空間】</div>
+              <div class="calc-solution">
+                賺為正、賠為負：<br>
+                <b>答：</b> －800 元
+              </div>
             </div>
           </div>
-          <!-- 3 -->
+
           <div class="interactive-item" onclick="toggleItemAnswer(this)">
-            <div><b>3.</b> 比較 －2.5、－8 兩數的大小。</div>
-            <div style="padding-left: 14px; margin-top: 4px;">
-              答：<span class="write-blank"><span class="ans-reveal">－8 ＜ －2.5</span></span>
-            </div>
-          </div>
-          <!-- 4 -->
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
-            <div><b>4.</b> 比較 0、－9.8 兩數的大小。</div>
-            <div style="padding-left: 14px; margin-top: 4px;">
-              答：<span class="write-blank"><span class="ans-reveal">－9.8 ＜ 0</span></span>
-            </div>
-          </div>
-          <!-- 5 -->
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
-            <div><b>5.</b> 比較 －2.7、－1.3 兩數的大小。</div>
-            <div style="padding-left: 14px; margin-top: 4px;">
-              答：<span class="write-blank"><span class="ans-reveal">－2.7 ＜ －1.3</span></span>
-            </div>
-          </div>
-          <!-- 6 -->
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
-            <div><b>6.</b> 比較 －4.5、<span class="frac"><span class="frac-top">9</span><span class="frac-bottom">2</span></span> 兩數的大小。</div>
-            <div style="padding-left: 14px; margin-top: 4px;">
-              答：<span class="write-blank"><span class="ans-reveal">－4.5 ＜ <span class="frac"><span class="frac-top">9</span><span class="frac-bottom">2</span></span></span></span>
+            <div class="item-title">3. 水位上升 7m 記為＋7m，則水位下降 2m 該如何表示？</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【思考與記錄空間】</div>
+              <div class="calc-solution">
+                升為正、降為負：<br>
+                <b>答：</b> －2 公尺
+              </div>
             </div>
           </div>
         </div>
 
         <div>
-          <!-- 7 -->
           <div class="interactive-item" onclick="toggleItemAnswer(this)">
-            <div><b>7.</b> 比較 0、－8.3、7 三數的大小。</div>
-            <div style="padding-left: 14px; margin-top: 4px;">
-              答：<span class="write-blank"><span class="ans-reveal">－8.3 ＜ 0 ＜ 7</span></span>
+            <div class="item-title">4. 攝氏 30 度記為＋30 度，則零下 9 度該如何表示？</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【思考與記錄空間】</div>
+              <div class="calc-solution">
+                0度以上為正、零下為負：<br>
+                <b>答：</b> －9 度
+              </div>
             </div>
           </div>
-          <!-- 8 -->
+
           <div class="interactive-item" onclick="toggleItemAnswer(this)">
-            <div><b>8.</b> 比較 －12、13、－11 三數的大小。</div>
-            <div style="padding-left: 14px; margin-top: 4px;">
-              答：<span class="write-blank"><span class="ans-reveal">－12 ＜ －11 ＜ 13</span></span>
+            <div class="item-title">5. 搭電梯上升 4 樓記為＋4 樓，則下降 5 樓該如何表示？</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【思考與記錄空間】</div>
+              <div class="calc-solution">
+                升為正、降為負：<br>
+                <b>答：</b> －5 樓
+              </div>
             </div>
           </div>
-          <!-- 9 -->
+
           <div class="interactive-item" onclick="toggleItemAnswer(this)">
-            <div><b>9.</b> 比較 2<span class="frac"><span class="frac-top">1</span><span class="frac-bottom">3</span></span>、－3<span class="frac"><span class="frac-top">3</span><span class="frac-bottom">4</span></span>、－1.5 三數的大小。</div>
-            <div style="padding-left: 14px; margin-top: 4px;">
-              答：<span class="write-blank"><span class="ans-reveal">－3<span class="frac"><span class="frac-top">3</span><span class="frac-bottom">4</span></span> ＜ －1.5 ＜ 2<span class="frac"><span class="frac-top">1</span><span class="frac-bottom">3</span></span></span></span>
-            </div>
-          </div>
-          <!-- 10 -->
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
-            <div><b>10.</b> 比較 7、－6、0、－3 四數的大小。</div>
-            <div style="padding-left: 14px; margin-top: 4px;">
-              答：<span class="write-blank"><span class="ans-reveal">－6 ＜ －3 ＜ 0 ＜ 7</span></span>
-            </div>
-          </div>
-          <!-- 11 -->
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
-            <div><b>11.</b> 比較 －4、－<span class="frac"><span class="frac-top">1</span><span class="frac-bottom">4</span></span>、1、－<span class="frac"><span class="frac-top">1</span><span class="frac-bottom">5</span></span> 四數的大小。</div>
-            <div style="padding-left: 14px; margin-top: 4px;">
-              答：<span class="write-blank"><span class="ans-reveal">－4 ＜ －<span class="frac"><span class="frac-top">1</span><span class="frac-bottom">4</span></span> ＜ －<span class="frac"><span class="frac-top">1</span><span class="frac-bottom">5</span></span> ＜ 1</span></span>
+            <div class="item-title">6. 湖面上方 12m 記為＋12m，則水面下方 15m 該如何表示？</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【思考與記錄空間】</div>
+              <div class="calc-solution">
+                湖面為基準點 0，下方為負：<br>
+                <b>答：</b> －15 公尺
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="page-footer">第 8 頁，共 16 頁</div>
+      <div class="page-footer">第 3 頁，共 10 頁</div>
     </div>
 
-    <!-- PAGE 9: 五、認識相反數 (1~3) -->
-    <div class="page" id="page-9">
+    <!-- PAGE 4: 二、性質符號與正負數 (前6題) -->
+    <div class="page" id="sec-2">
       <canvas class="drawing-canvas"></canvas>
       <div class="header-bar">
         <div class="main-title">七上數學 1-1 正數與負數</div>
         <div class="user-info">姓名：___________</div>
       </div>
 
-      <div class="section-banner" id="sec-5">五、認識相反數</div>
+      <div class="section-banner">二、性質符號與正負數（前 6 題，附計算空間）</div>
 
-      <div class="interactive-item" onclick="toggleItemAnswer(this)">
-        <div><b>1. 若 a、b 兩數互為相反數，回答下列問題：</b></div>
-        <div style="margin-top: 6px; padding-left: 14px;">
-          (1) a、b 在數線上對應的位置是在原點的：<br>
-          <span class="chk-box">✓</span>左側 <span class="chk-box">✓</span>右側 <span class="chk-box">✓</span>同一側 <span class="chk-box is-correct">✓</span>兩側。
+      <div class="grid-2col" style="margin-top: 10px;">
+        <div class="col-divider">
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">1. 下列哪些數是正數？<br>3、－5、0、＋7.2、－3/4</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                大於 0 的數（0 不是正數也不是負數）：<br>
+                <b>答：</b> 3、＋7.2
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">2. 下列哪些數是負數？<br>－12、＋8、－0.5、0、100</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                小於 0 的數：<br>
+                <b>答：</b> －12、－0.5
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">3. 判斷 0 的性質：0 是正數還是負數？</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                0 是正負數分界點：<br>
+                <b>答：</b> 既不是正數，也不是負數
+              </div>
+            </div>
+          </div>
         </div>
-        <div style="margin-top: 8px; padding-left: 14px;">
-          (2) a、b 在數線上對應的位置與原點的距離：<br>
-          <span class="chk-box is-correct">✓</span>相等 <span class="chk-box">✓</span>不一定相等 <span class="chk-box">✓</span>不相等。
-        </div>
-        <div style="margin-top: 8px; padding-left: 14px;">
-          (3) 如果 a＝5，則 b＝ <span class="write-blank" style="min-width: 80px;"><span class="ans-reveal">－5</span></span>。
+
+        <div>
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">4. 「＋」號在算式「5 ＋ 3」中代表什麼符號？</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                兩數相加的運算：<br>
+                <b>答：</b> 運算符號（加號）
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">5. 「－」號在「－8」中代表什麼符號？</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                表示數值性質小於 0：<br>
+                <b>答：</b> 性質符號（負號）
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">6. 寫出－3 的相反數為何？</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                符號相反、數字相同：－(－3) ＝ ＋3<br>
+                <b>答：</b> 3（或＋3）
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 20px;">
-        <div><b>2. 回答下列問題：</b></div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; padding-left: 14px;">
-          <div>(1) 10 的相反數為 <span class="write-blank" style="min-width: 80px;"><span class="ans-reveal">－10</span></span>。</div>
-          <div>(2) －2 的相反數為 <span class="write-blank" style="min-width: 80px;"><span class="ans-reveal">2</span></span>。</div>
-          <div>(3) 0 的相反數為 <span class="write-blank" style="min-width: 80px;"><span class="ans-reveal">0</span></span>。</div>
-          <div>(4) －77 的相反數為 <span class="write-blank" style="min-width: 80px;"><span class="ans-reveal">77</span></span>。</div>
-          <div>(5) ＋113 的相反數為 <span class="write-blank" style="min-width: 80px;"><span class="ans-reveal">－113</span></span>。</div>
-        </div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 20px;">
-        <div><b>3. 回答下列問題：</b></div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; padding-left: 14px;">
-          <div>(1) －0.1 的相反數為 <span class="write-blank" style="min-width: 80px;"><span class="ans-reveal">0.1</span></span>。</div>
-          <div>(2) 3.4 的相反數為 <span class="write-blank" style="min-width: 80px;"><span class="ans-reveal">－3.4</span></span>。</div>
-          <div>(3) ＋9.7 的相反數為 <span class="write-blank" style="min-width: 80px;"><span class="ans-reveal">－9.7</span></span>。</div>
-          <div>(4) 3.14 的相反數為 <span class="write-blank" style="min-width: 80px;"><span class="ans-reveal">－3.14</span></span>。</div>
-          <div>(5) －2.8 的相反數為 <span class="write-blank" style="min-width: 80px;"><span class="ans-reveal">2.8</span></span>。</div>
-        </div>
-      </div>
-
-      <div class="page-footer">第 9 頁，共 16 頁</div>
+      <div class="page-footer">第 4 頁，共 10 頁</div>
     </div>
 
-    <!-- PAGE 10: 五、認識相反數 (4~5) -->
-    <div class="page" id="page-10">
+    <!-- PAGE 5: 三、正數與負數在生活中的應用 (前6題) -->
+    <div class="page" id="sec-3">
       <canvas class="drawing-canvas"></canvas>
       <div class="header-bar">
         <div class="main-title">七上數學 1-1 正數與負數</div>
         <div class="user-info">姓名：___________</div>
       </div>
 
-      <div class="interactive-item" onclick="toggleItemAnswer(this)">
-        <div><b>4. 回答下列問題：</b></div>
-        <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 10px; padding-left: 14px;">
-          <div>(1) <span class="frac"><span class="frac-top">1</span><span class="frac-bottom">9</span></span> 的相反數為 <span class="write-blank" style="min-width: 100px;"><span class="ans-reveal">－<span class="frac"><span class="frac-top">1</span><span class="frac-bottom">9</span></span></span></span>。</div>
-          <div>(2) －<span class="frac"><span class="frac-top">3</span><span class="frac-bottom">4</span></span> 的相反數為 <span class="write-blank" style="min-width: 100px;"><span class="ans-reveal"><span class="frac"><span class="frac-top">3</span><span class="frac-bottom">4</span></span></span></span>。</div>
-          <div>(3) －<span class="frac"><span class="frac-top">13</span><span class="frac-bottom">5</span></span> 的相反數為 <span class="write-blank" style="min-width: 100px;"><span class="ans-reveal"><span class="frac"><span class="frac-top">13</span><span class="frac-bottom">5</span></span></span></span>。</div>
-          <div>(4) 1<span class="frac"><span class="frac-top">6</span><span class="frac-bottom">7</span></span> 的相反數為 <span class="write-blank" style="min-width: 100px;"><span class="ans-reveal">－1<span class="frac"><span class="frac-top">6</span><span class="frac-bottom">7</span></span></span></span>。</div>
-          <div>(5) －3<span class="frac"><span class="frac-top">2</span><span class="frac-bottom">5</span></span> 的相反數為 <span class="write-blank" style="min-width: 100px;"><span class="ans-reveal">3<span class="frac"><span class="frac-top">2</span><span class="frac-bottom">5</span></span></span></span>。</div>
+      <div class="section-banner">三、生活應用正負數（前 6 題，附計算空間）</div>
+
+      <div class="grid-2col" style="margin-top: 10px;">
+        <div class="col-divider">
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">1. 以 175cm 為基準，168cm 記為－7cm，則 184cm 記為？</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                184 － 175 ＝ ＋9<br>
+                <b>答：</b> ＋9 公分
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">2. 以平均 68 分為基準，100 分記為＋32 分，則 57 分記為？</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                57 － 68 ＝ －11<br>
+                <b>答：</b> －11 分
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">3. 體重從 63kg 變 59kg 記為－4kg，則 49kg 變 56kg 記為？</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                56 － 49 ＝ ＋7<br>
+                <b>答：</b> ＋7 公斤
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">4. 甲向東走 8 步記為＋8 步，乙向西走 12 步記為？</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                東為正、西為負：<br>
+                <b>答：</b> －12 步
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">5. 帳戶存款增加 2000 元記為＋2000 元，領出 1500 元記為？</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                存入為正、支出為負：<br>
+                <b>答：</b> －1500 元
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">6. 比標準體重多 3 公斤記為＋3，則少 5 公斤該記為？</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                多為正、少為負：<br>
+                <b>答：</b> －5 公斤
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 24px;">
-        <div><b>5. 回答下列問題（化簡性質符號後求相反數）：</b></div>
-        <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 10px; padding-left: 14px;">
-          <div>(1) －（－2）的相反數為 <span class="write-blank" style="min-width: 100px;"><span class="ans-reveal">－2</span></span>。</div>
-          <div>(2) －（－0.46）的相反數為 <span class="write-blank" style="min-width: 100px;"><span class="ans-reveal">－0.46</span></span>。</div>
-          <div>(3) －（－<span class="frac"><span class="frac-top">2</span><span class="frac-bottom">3</span></span>）的相反數為 <span class="write-blank" style="min-width: 100px;"><span class="ans-reveal">－<span class="frac"><span class="frac-top">2</span><span class="frac-bottom">3</span></span></span></span>。</div>
-          <div>(4) －（－<span class="frac"><span class="frac-top">14</span><span class="frac-bottom">11</span></span>）的相反數為 <span class="write-blank" style="min-width: 100px;"><span class="ans-reveal">－<span class="frac"><span class="frac-top">14</span><span class="frac-bottom">11</span></span></span></span>。</div>
-          <div>(5) －（－8<span class="frac"><span class="frac-top">9</span><span class="frac-bottom">10</span></span>）的相反數為 <span class="write-blank" style="min-width: 100px;"><span class="ans-reveal">－8<span class="frac"><span class="frac-top">9</span><span class="frac-bottom">10</span></span></span></span>。</div>
-        </div>
-      </div>
-
-      <div class="page-footer">第 10 頁，共 16 頁</div>
+      <div class="page-footer">第 5 頁，共 10 頁</div>
     </div>
 
-    <!-- PAGE 11: 六、某數的絕對值 (1~2) -->
-    <div class="page" id="page-11">
+    <!-- PAGE 6: 四、相反數的求法 (前6題) -->
+    <div class="page" id="sec-4">
       <canvas class="drawing-canvas"></canvas>
       <div class="header-bar">
         <div class="main-title">七上數學 1-1 正數與負數</div>
         <div class="user-info">姓名：___________</div>
       </div>
 
-      <div class="section-banner" id="sec-6">六、某數的絕對值</div>
+      <div class="section-banner">四、相反數的求法（前 6 題，附計算空間）</div>
 
-      <div class="interactive-item" onclick="toggleItemAnswer(this)">
-        <div><b>1. 回答下列問題（點與原點的距離）：</b></div>
-        <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 10px; padding-left: 14px;">
-          <div>(1) 8 在數線上所對應的點與原點的距離是 <span class="write-blank" style="min-width: 80px;"><span class="ans-reveal">8</span></span>。</div>
-          <div>(2) －3 在數線上所對應的點與原點的距離是 <span class="write-blank" style="min-width: 80px;"><span class="ans-reveal">3</span></span>。</div>
-          <div>(3) 7.1 在數線上所對應的點與原點的距離是 <span class="write-blank" style="min-width: 80px;"><span class="ans-reveal">7.1</span></span>。</div>
-          <div>(4) －<span class="frac"><span class="frac-top">1</span><span class="frac-bottom">4</span></span> 在數線上所對應的點與原點的距離是 <span class="write-blank" style="min-width: 80px;"><span class="ans-reveal"><span class="frac"><span class="frac-top">1</span><span class="frac-bottom">4</span></span></span></span>。</div>
+      <div class="grid-2col" style="margin-top: 10px;">
+        <div class="col-divider">
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(1) 求 18 的相反數。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                正數的相反數為負數：－18<br>
+                <b>答：</b> －18
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(2) 求－25 的相反數。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                負數的相反數為正數：＋25<br>
+                <b>答：</b> 25
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(3) 求 0 的相反數。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                0 的相反數仍為 0：<br>
+                <b>答：</b> 0
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(4) 求－3.7 的相反數。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                －(－3.7) ＝ 3.7<br>
+                <b>答：</b> 3.7
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(5) 求 4/5 的相反數。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                正分數的相反數為負分數：<br>
+                <b>答：</b> －4/5
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(6) 若 a 與－9 互為相反數，求 a。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                a ＝ －(－9) ＝ 9<br>
+                <b>答：</b> 9
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 24px;">
-        <div><b>2. 回答下列問題（求某數的絕對值）：</b></div>
-        <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 10px; padding-left: 14px;">
-          <div>(1) －6 的絕對值是 <span class="write-blank" style="min-width: 80px;"><span class="ans-reveal">6</span></span>。</div>
-          <div>(2) 18 的絕對值是 <span class="write-blank" style="min-width: 80px;"><span class="ans-reveal">18</span></span>。</div>
-          <div>(3) －23.4 的絕對值是 <span class="write-blank" style="min-width: 80px;"><span class="ans-reveal">23.4</span></span>。</div>
-          <div>(4) 4<span class="frac"><span class="frac-top">5</span><span class="frac-bottom">13</span></span> 的絕對值是 <span class="write-blank" style="min-width: 80px;"><span class="ans-reveal">4<span class="frac"><span class="frac-top">5</span><span class="frac-bottom">13</span></span></span></span>。</div>
-        </div>
-      </div>
-
-      <div class="page-footer">第 11 頁，共 16 頁</div>
+      <div class="page-footer">第 6 頁，共 10 頁</div>
     </div>
 
-    <!-- PAGE 12: 六、某數的絕對值 (3~6) -->
-    <div class="page" id="page-12">
+    <!-- PAGE 7: 五、絕對值的意義 (前6題) -->
+    <div class="page" id="sec-5">
       <canvas class="drawing-canvas"></canvas>
       <div class="header-bar">
         <div class="main-title">七上數學 1-1 正數與負數</div>
         <div class="user-info">姓名：___________</div>
       </div>
 
-      <div class="interactive-item" onclick="toggleItemAnswer(this)">
-        <div><b>3. 計算下列各式的值：</b></div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; padding-left: 14px;">
-          <div>(1) ｜7｜＝ <span class="write-blank" style="min-width: 70px;"><span class="ans-reveal">7</span></span></div>
-          <div>(2) ｜－7｜＝ <span class="write-blank" style="min-width: 70px;"><span class="ans-reveal">7</span></span></div>
-          <div>(3) ｜0｜＝ <span class="write-blank" style="min-width: 70px;"><span class="ans-reveal">0</span></span></div>
-          <div>(4) ｜－12｜＝ <span class="write-blank" style="min-width: 70px;"><span class="ans-reveal">12</span></span></div>
-          <div>(5) ｜－0.8｜＝ <span class="write-blank" style="min-width: 70px;"><span class="ans-reveal">0.8</span></span></div>
-          <div>(6) ｜＋2.3｜＝ <span class="write-blank" style="min-width: 70px;"><span class="ans-reveal">2.3</span></span></div>
-          <div>(7) －｜43.21｜＝ <span class="write-blank" style="min-width: 70px;"><span class="ans-reveal">－43.21</span></span></div>
-          <div>(8) ｜<span class="frac"><span class="frac-top">4</span><span class="frac-bottom">5</span></span>｜＝ <span class="write-blank" style="min-width: 70px;"><span class="ans-reveal"><span class="frac"><span class="frac-top">4</span><span class="frac-bottom">5</span></span></span></span></div>
-          <div>(9) ｜－<span class="frac"><span class="frac-top">3</span><span class="frac-bottom">8</span></span>｜＝ <span class="write-blank" style="min-width: 70px;"><span class="ans-reveal"><span class="frac"><span class="frac-top">3</span><span class="frac-bottom">8</span></span></span></span></div>
-          <div>(10) ｜＋2<span class="frac"><span class="frac-top">3</span><span class="frac-bottom">4</span></span>｜＝ <span class="write-blank" style="min-width: 70px;"><span class="ans-reveal">2<span class="frac"><span class="frac-top">3</span><span class="frac-bottom">4</span></span></span></span></div>
+      <div class="section-banner">五、絕對值的意義（前 6 題，附計算空間）</div>
+
+      <div class="grid-2col" style="margin-top: 10px;">
+        <div class="col-divider">
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(1) 求｜－15｜的值。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                －15 到原點距離為 15：<br>
+                <b>答：</b> 15
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(2) 求｜＋28｜的值。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                正數絕對值等於原數：<br>
+                <b>答：</b> 28
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(3) 求｜0｜的值。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                0 到原點的距離為 0：<br>
+                <b>答：</b> 0
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(4) 求｜－4.8｜的值。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                距離必為正值：<br>
+                <b>答：</b> 4.8
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(5) 若｜x｜＝7，求 x。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                與原點距離為 7 的點有兩個：<br>
+                <b>答：</b> 7 或 －7
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">(6) 若｜y｜＝0，求 y。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                距離為 0 的點只有原點：<br>
+                <b>答：</b> 0
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 18px;">
-        <div><b>4. 若｜甲數｜＝2，則甲數是多少？</b></div>
-        <div style="padding-left: 14px; margin-top: 4px;">
-          答：<span class="write-blank" style="min-width: 160px;"><span class="ans-reveal">2 或 －2</span></span>
-        </div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 18px;">
-        <div><b>5. 若｜乙數｜＝19，則乙數是多少？</b></div>
-        <div style="padding-left: 14px; margin-top: 4px;">
-          答：<span class="write-blank" style="min-width: 160px;"><span class="ans-reveal">19 或 －19</span></span>
-        </div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 18px;">
-        <div><b>6. 若｜a｜＝1.5，則 a 是多少？</b></div>
-        <div style="padding-left: 14px; margin-top: 4px;">
-          答：<span class="write-blank" style="min-width: 160px;"><span class="ans-reveal">1.5 或 －1.5</span></span>
-        </div>
-      </div>
-
-      <div class="page-footer">第 12 頁，共 16 頁</div>
+      <div class="page-footer">第 7 頁，共 10 頁</div>
     </div>
 
-    <!-- PAGE 13: 七、絕對值小於或等於某數的整數點 (1~3) -->
-    <div class="page" id="page-13">
+    <!-- PAGE 8: 六、數線上兩點的距離 (前6題) -->
+    <div class="page" id="sec-6">
       <canvas class="drawing-canvas"></canvas>
       <div class="header-bar">
         <div class="main-title">七上數學 1-1 正數與負數</div>
         <div class="user-info">姓名：___________</div>
       </div>
 
-      <div class="interactive-item" onclick="toggleItemAnswer(this)">
-        <div><b>7. 若｜b｜＝<span class="frac"><span class="frac-top">3</span><span class="frac-bottom">8</span></span>，則 b 是多少？</b></div>
-        <div style="padding-left: 14px; margin-top: 4px;">
-          答：<span class="write-blank" style="min-width: 160px;"><span class="ans-reveal"><span class="frac"><span class="frac-top">3</span><span class="frac-bottom">8</span></span> 或 －<span class="frac"><span class="frac-top">3</span><span class="frac-bottom">8</span></span></span></span>
+      <div class="section-banner">六、數線上兩點的距離（前 6 題，附計算空間）</div>
+
+      <div class="grid-2col" style="margin-top: 10px;">
+        <div class="col-divider">
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">1. A(7)、B(2)，求線段 AB。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                |7 － 2| ＝ 5<br>
+                <b>答：</b> 5
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">2. A(－3)、B(5)，求線段 AB。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                |5 － (－3)| ＝ 5 ＋ 3 ＝ 8<br>
+                <b>答：</b> 8
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">3. A(－8)、B(－1)，求線段 AB。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                |(－1) － (－8)| ＝ －1 ＋ 8 ＝ 7<br>
+                <b>答：</b> 7
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">4. A(0)、B(－14)，求線段 AB。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                |0 － (－14)| ＝ 14<br>
+                <b>答：</b> 14
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">5. A(16)、B(－4)，求線段 AB。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                |16 － (－4)| ＝ 16 ＋ 4 ＝ 20<br>
+                <b>答：</b> 20
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">6. A(－11)、B(－11)，求線段 AB。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                同點距離為 0：<br>
+                <b>答：</b> 0
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 14px;">
-        <div><b>8. 若｜c｜＝4<span class="frac"><span class="frac-top">1</span><span class="frac-bottom">2</span></span>，則 c 是多少？</b></div>
-        <div style="padding-left: 14px; margin-top: 4px;">
-          答：<span class="write-blank" style="min-width: 160px;"><span class="ans-reveal">4<span class="frac"><span class="frac-top">1</span><span class="frac-bottom">2</span></span> 或 －4<span class="frac"><span class="frac-top">1</span><span class="frac-bottom">2</span></span></span></span>
-        </div>
-      </div>
-
-      <div class="section-banner" id="sec-7">七、絕對值小於或等於某數的整數點</div>
-
-      <!-- 題 1 -->
-      <div class="interactive-item" onclick="toggleItemAnswer(this)">
-        <div><b>1. 在數線上標示出絕對值為 5 的所有整數點，並將這些點所對應的數寫出來。</b></div>
-        <div class="number-line-box">
-          <svg class="number-line-svg" width="600" height="70" viewBox="0 0 600 70">
-            <line x1="30" y1="35" x2="570" y2="35" stroke="#000" stroke-width="2"/>
-            <polygon points="570,30 585,35 570,40" fill="#000"/>
-            <line x1="300" y1="25" x2="300" y2="45" stroke="#000" stroke-width="2"/>
-            <text x="300" y="60" font-family="Times New Roman" font-size="16" text-anchor="middle">0</text>
-            <line x1="340" y1="25" x2="340" y2="45" stroke="#000" stroke-width="2"/>
-            <text x="340" y="60" font-family="Times New Roman" font-size="16" text-anchor="middle">1</text>
-            <line x1="100" y1="28" x2="100" y2="42" stroke="#000" stroke-width="1.5"/>
-            <line x1="140" y1="28" x2="140" y2="42" stroke="#000" stroke-width="1.5"/>
-            <line x1="180" y1="28" x2="180" y2="42" stroke="#000" stroke-width="1.5"/>
-            <line x1="220" y1="28" x2="220" y2="42" stroke="#000" stroke-width="1.5"/>
-            <line x1="260" y1="28" x2="260" y2="42" stroke="#000" stroke-width="1.5"/>
-            <line x1="380" y1="28" x2="380" y2="42" stroke="#000" stroke-width="1.5"/>
-            <line x1="420" y1="28" x2="420" y2="42" stroke="#000" stroke-width="1.5"/>
-            <line x1="460" y1="28" x2="460" y2="42" stroke="#000" stroke-width="1.5"/>
-            <line x1="500" y1="28" x2="500" y2="42" stroke="#000" stroke-width="1.5"/>
-
-            <g class="svg-ans">
-              <circle cx="100" cy="35" r="5" fill="#dc2626"/>
-              <text x="100" y="18" fill="#dc2626" font-family="Times New Roman" font-size="15" font-weight="bold" text-anchor="middle">－5</text>
-              <circle cx="500" cy="35" r="5" fill="#dc2626"/>
-              <text x="500" y="18" fill="#dc2626" font-family="Times New Roman" font-size="15" font-weight="bold" text-anchor="middle">5</text>
-            </g>
-          </svg>
-        </div>
-        <div style="padding-left: 14px;">
-          答：這些點所對應的數為 <span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">－5 和 5</span></span>
-        </div>
-      </div>
-
-      <!-- 題 2 -->
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 10px;">
-        <div><b>2. 如果∣a∣＝2，則 a 是多少？在數線上標示出這些數所對應的點。</b></div>
-        <div class="number-line-box">
-          <svg class="number-line-svg" width="600" height="70" viewBox="0 0 600 70">
-            <line x1="30" y1="35" x2="570" y2="35" stroke="#000" stroke-width="2"/>
-            <polygon points="570,30 585,35 570,40" fill="#000"/>
-            <line x1="300" y1="25" x2="300" y2="45" stroke="#000" stroke-width="2"/>
-            <text x="300" y="60" font-family="Times New Roman" font-size="16" text-anchor="middle">0</text>
-            <line x1="360" y1="25" x2="360" y2="45" stroke="#000" stroke-width="2"/>
-            <text x="360" y="60" font-family="Times New Roman" font-size="16" text-anchor="middle">1</text>
-            <line x1="420" y1="28" x2="420" y2="42" stroke="#000" stroke-width="1.5"/>
-            <line x1="240" y1="28" x2="240" y2="42" stroke="#000" stroke-width="1.5"/>
-            <line x1="180" y1="28" x2="180" y2="42" stroke="#000" stroke-width="1.5"/>
-
-            <g class="svg-ans">
-              <circle cx="180" cy="35" r="5" fill="#dc2626"/>
-              <text x="180" y="18" fill="#dc2626" font-family="Times New Roman" font-size="15" font-weight="bold" text-anchor="middle">－2</text>
-              <circle cx="420" cy="35" r="5" fill="#dc2626"/>
-              <text x="420" y="18" fill="#dc2626" font-family="Times New Roman" font-size="15" font-weight="bold" text-anchor="middle">2</text>
-            </g>
-          </svg>
-        </div>
-        <div style="padding-left: 14px;">
-          答：a＝<span class="write-blank" style="min-width: 140px;"><span class="ans-reveal">2 或 －2</span></span>
-        </div>
-      </div>
-
-      <!-- 題 3 -->
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 10px;">
-        <div><b>3. 在數線上標示出絕對值小於 2.2 的所有整數點，並將這些點所對應的數寫出來。</b></div>
-        <div class="number-line-box">
-          <svg class="number-line-svg" width="600" height="70" viewBox="0 0 600 70">
-            <line x1="30" y1="35" x2="570" y2="35" stroke="#000" stroke-width="2"/>
-            <polygon points="570,30 585,35 570,40" fill="#000"/>
-            <line x1="48" y1="28" x2="48" y2="42" stroke="#000" stroke-width="1.5"/><text x="48" y="60" font-family="Times New Roman" font-size="14" text-anchor="middle">－7</text>
-            <line x1="84" y1="28" x2="84" y2="42" stroke="#000" stroke-width="1.5"/><text x="84" y="60" font-family="Times New Roman" font-size="14" text-anchor="middle">－6</text>
-            <line x1="120" y1="28" x2="120" y2="42" stroke="#000" stroke-width="1.5"/><text x="120" y="60" font-family="Times New Roman" font-size="14" text-anchor="middle">－5</text>
-            <line x1="156" y1="28" x2="156" y2="42" stroke="#000" stroke-width="1.5"/><text x="156" y="60" font-family="Times New Roman" font-size="14" text-anchor="middle">－4</text>
-            <line x1="192" y1="28" x2="192" y2="42" stroke="#000" stroke-width="1.5"/><text x="192" y="60" font-family="Times New Roman" font-size="14" text-anchor="middle">－3</text>
-            <line x1="228" y1="28" x2="228" y2="42" stroke="#000" stroke-width="1.5"/><text x="228" y="60" font-family="Times New Roman" font-size="14" text-anchor="middle">－2</text>
-            <line x1="264" y1="28" x2="264" y2="42" stroke="#000" stroke-width="1.5"/><text x="264" y="60" font-family="Times New Roman" font-size="14" text-anchor="middle">－1</text>
-            <line x1="300" y1="25" x2="300" y2="45" stroke="#000" stroke-width="2"/><text x="300" y="60" font-family="Times New Roman" font-size="14" text-anchor="middle">0</text>
-            <line x1="336" y1="28" x2="336" y2="42" stroke="#000" stroke-width="1.5"/><text x="336" y="60" font-family="Times New Roman" font-size="14" text-anchor="middle">1</text>
-            <line x1="372" y1="28" x2="372" y2="42" stroke="#000" stroke-width="1.5"/><text x="372" y="60" font-family="Times New Roman" font-size="14" text-anchor="middle">2</text>
-            <line x1="408" y1="28" x2="408" y2="42" stroke="#000" stroke-width="1.5"/><text x="408" y="60" font-family="Times New Roman" font-size="14" text-anchor="middle">3</text>
-            <line x1="444" y1="28" x2="444" y2="42" stroke="#000" stroke-width="1.5"/><text x="444" y="60" font-family="Times New Roman" font-size="14" text-anchor="middle">4</text>
-            <line x1="480" y1="28" x2="480" y2="42" stroke="#000" stroke-width="1.5"/><text x="480" y="60" font-family="Times New Roman" font-size="14" text-anchor="middle">5</text>
-            <line x1="516" y1="28" x2="516" y2="42" stroke="#000" stroke-width="1.5"/><text x="516" y="60" font-family="Times New Roman" font-size="14" text-anchor="middle">6</text>
-            <line x1="552" y1="28" x2="552" y2="42" stroke="#000" stroke-width="1.5"/><text x="552" y="60" font-family="Times New Roman" font-size="14" text-anchor="middle">7</text>
-
-            <g class="svg-ans">
-              <circle cx="228" cy="35" r="5" fill="#dc2626"/>
-              <circle cx="264" cy="35" r="5" fill="#dc2626"/>
-              <circle cx="300" cy="35" r="5" fill="#dc2626"/>
-              <circle cx="336" cy="35" r="5" fill="#dc2626"/>
-              <circle cx="372" cy="35" r="5" fill="#dc2626"/>
-            </g>
-          </svg>
-        </div>
-        <div style="padding-left: 14px;">
-          答：這些點所對應的數為 <span class="write-blank" style="min-width: 220px;"><span class="ans-reveal">－2、－1、0、1、2</span></span>
-        </div>
-      </div>
-
-      <div class="page-footer">第 13 頁，共 16 頁</div>
+      <div class="page-footer">第 8 頁，共 10 頁</div>
     </div>
 
-    <!-- PAGE 14: 七、絕對值小於或等於某數的整數點 (4~8) -->
-    <div class="page" id="page-14">
+    <!-- PAGE 9: 七、絕對值小於或等於某數的整數點 (前6題) -->
+    <div class="page" id="sec-7">
       <canvas class="drawing-canvas"></canvas>
       <div class="header-bar">
         <div class="main-title">七上數學 1-1 正數與負數</div>
         <div class="user-info">姓名：___________</div>
       </div>
 
-      <!-- 題 4 -->
-      <div class="interactive-item" onclick="toggleItemAnswer(this)">
-        <div><b>4. 如果 b 是整數且∣b∣小於 <span class="frac"><span class="frac-top">13</span><span class="frac-bottom">4</span></span>，則 b 是多少？在數線上標示出這些數所對應的點。</b></div>
-        <div class="number-line-box">
-          <svg class="number-line-svg" width="600" height="70" viewBox="0 0 600 70">
-            <line x1="30" y1="35" x2="570" y2="35" stroke="#000" stroke-width="2"/>
-            <polygon points="570,30 585,35 570,40" fill="#000"/>
-            <line x1="48" y1="28" x2="48" y2="42" stroke="#000" stroke-width="1.5"/><text x="48" y="60" font-family="Times New Roman" font-size="14" text-anchor="middle">－7</text>
-            <line x1="84" y1="28" x2="84" y2="42" stroke="#000" stroke-width="1.5"/><text x="84" y="60" font-family="Times New Roman" font-size="14" text-anchor="middle">－6</text>
-            <line x1="120" y1="28" x2="120" y2="42" stroke="#000" stroke-width="1.5"/><text x="120" y="60" font-family="Times New Roman" font-size="14" text-anchor="middle">－5</text>
-            <line x1="156" y1="28" x2="156" y2="42" stroke="#000" stroke-width="1.5"/><text x="156" y="60" font-family="Times New Roman" font-size="14" text-anchor="middle">－4</text>
-            <line x1="192" y1="28" x2="192" y2="42" stroke="#000" stroke-width="1.5"/><text x="192" y="60" font-family="Times New Roman" font-size="14" text-anchor="middle">－3</text>
-            <line x1="228" y1="28" x2="228" y2="42" stroke="#000" stroke-width="1.5"/><text x="228" y="60" font-family="Times New Roman" font-size="14" text-anchor="middle">－2</text>
-            <line x1="264" y1="28" x2="264" y2="42" stroke="#000" stroke-width="1.5"/><text x="264" y="60" font-family="Times New Roman" font-size="14" text-anchor="middle">－1</text>
-            <line x1="300" y1="25" x2="300" y2="45" stroke="#000" stroke-width="2"/><text x="300" y="60" font-family="Times New Roman" font-size="14" text-anchor="middle">0</text>
-            <line x1="336" y1="28" x2="336" y2="42" stroke="#000" stroke-width="1.5"/><text x="336" y="60" font-family="Times New Roman" font-size="14" text-anchor="middle">1</text>
-            <line x1="372" y1="28" x2="372" y2="42" stroke="#000" stroke-width="1.5"/><text x="372" y="60" font-family="Times New Roman" font-size="14" text-anchor="middle">2</text>
-            <line x1="408" y1="28" x2="408" y2="42" stroke="#000" stroke-width="1.5"/><text x="408" y="60" font-family="Times New Roman" font-size="14" text-anchor="middle">3</text>
-            <line x1="444" y1="28" x2="444" y2="42" stroke="#000" stroke-width="1.5"/><text x="444" y="60" font-family="Times New Roman" font-size="14" text-anchor="middle">4</text>
-            <line x1="480" y1="28" x2="480" y2="42" stroke="#000" stroke-width="1.5"/><text x="480" y="60" font-family="Times New Roman" font-size="14" text-anchor="middle">5</text>
-            <line x1="516" y1="28" x2="516" y2="42" stroke="#000" stroke-width="1.5"/><text x="516" y="60" font-family="Times New Roman" font-size="14" text-anchor="middle">6</text>
-            <line x1="552" y1="28" x2="552" y2="42" stroke="#000" stroke-width="1.5"/><text x="552" y="60" font-family="Times New Roman" font-size="14" text-anchor="middle">7</text>
+      <div class="section-banner">七、絕對值小於或等於某數的整數點（前 6 題，附計算空間）</div>
 
-            <g class="svg-ans">
-              <circle cx="192" cy="35" r="5" fill="#dc2626"/>
-              <circle cx="228" cy="35" r="5" fill="#dc2626"/>
-              <circle cx="264" cy="35" r="5" fill="#dc2626"/>
-              <circle cx="300" cy="35" r="5" fill="#dc2626"/>
-              <circle cx="336" cy="35" r="5" fill="#dc2626"/>
-              <circle cx="372" cy="35" r="5" fill="#dc2626"/>
-              <circle cx="408" cy="35" r="5" fill="#dc2626"/>
-            </g>
-          </svg>
+      <div class="grid-2col" style="margin-top: 10px;">
+        <div class="col-divider">
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">1. 寫出絕對值等於 5 的所有整數。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                與原點距離為 5：<br>
+                <b>答：</b> 5 和 －5
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">2. 寫出絕對值小於 3 的所有整數。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                距離小於 3 的整數點：<br>
+                <b>答：</b> －2、－1、0、1、2（共 5 個）
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">3. 寫出絕對值小於或等於 2 的所有整數。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                包含端點 2 與 -2：<br>
+                <b>答：</b> －2、－1、0、1、2
+              </div>
+            </div>
+          </div>
         </div>
-        <div style="padding-left: 14px;">
-          答：b＝<span class="write-blank" style="min-width: 280px;"><span class="ans-reveal">3、2、1、0、－1、－2、－3</span></span>
+
+        <div>
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">4. 若整數 a 滿足｜a｜＜ 3.5，求 a。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                範圍在 -3.5 到 3.5 之間的整數：<br>
+                <b>答：</b> －3、－2、－1、0、1、2、3
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">5. 絕對值小於 1 的整數有哪些？</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                只有原點 0：<br>
+                <b>答：</b> 0
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">6. 若｜b｜≤ 4，且 b 為正整數，求 b。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                題目限制「正整數」（不含 0 與負數）：<br>
+                <b>答：</b> 1、2、3、4
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 18px;">
-        <div><b>5. 寫出絕對值等於 10 的所有整數點。</b></div>
-        <div style="padding-left: 14px; margin-top: 4px;">
-          答：<span class="write-blank" style="min-width: 180px;"><span class="ans-reveal">－10 和 10</span></span>
-        </div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 18px;">
-        <div><b>6. 寫出絕對值小於 3 的所有整數點。</b></div>
-        <div style="padding-left: 14px; margin-top: 4px;">
-          答：<span class="write-blank" style="min-width: 220px;"><span class="ans-reveal">－2、－1、0、1、2</span></span>
-        </div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 18px;">
-        <div><b>7. 寫出絕對值小於 3<span class="frac"><span class="frac-top">5</span><span class="frac-bottom">9</span></span> 的所有整數點。</b></div>
-        <div style="padding-left: 14px; margin-top: 4px;">
-          答：<span class="write-blank" style="min-width: 280px;"><span class="ans-reveal">－3、－2、－1、0、1、2、3</span></span>
-        </div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 18px;">
-        <div><b>8. 寫出絕對值小於 4.6 的所有整數點。</b></div>
-        <div style="padding-left: 14px; margin-top: 4px;">
-          答：<span class="write-blank" style="min-width: 320px;"><span class="ans-reveal">－4、－3、－2、－1、0、1、2、3、4</span></span>
-        </div>
-      </div>
-
-      <div class="page-footer">第 14 頁，共 16 頁</div>
+      <div class="page-footer">第 9 頁，共 10 頁</div>
     </div>
 
-    <!-- PAGE 15: 八、利用絕對值比較負數的大小 (1) -->
-    <div class="page" id="page-15">
+    <!-- PAGE 10: 八、利用絕對值比較負數的大小 (前6題) -->
+    <div class="page" id="sec-8">
       <canvas class="drawing-canvas"></canvas>
       <div class="header-bar">
         <div class="main-title">七上數學 1-1 正數與負數</div>
         <div class="user-info">姓名：___________</div>
       </div>
 
-      <div class="section-banner" id="sec-8">八、利用絕對值比較負數的大小</div>
+      <div class="section-banner">八、利用絕對值比較負數的大小（前 6 題，附計算空間）</div>
 
-      <div style="font-weight: bold; margin-bottom: 8px;">1. 在下列各題中，填入「＞」或「＜」的符號：</div>
+      <div class="grid-2col" style="margin-top: 10px;">
+        <div class="col-divider">
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">1. 比較－21 與－23 的大小。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                ｜-21｜= 21 < ｜-23｜= 23<br>
+                負數絕對值小者反而大：<br>
+                <b>答：</b> －21 ＞ －23
+              </div>
+            </div>
+          </div>
 
-      <!-- (1) -->
-      <div class="interactive-item" onclick="toggleItemAnswer(this)">
-        <div><b>(1) 比較－21、－23 兩數的大小：</b></div>
-        <div style="padding-left: 20px; line-height: 1.8;">
-          由｜－21｜ <span class="ans-underline"><span class="ans-reveal">＜</span></span> ｜－23｜，<br>
-          可得－21 <span class="ans-underline"><span class="ans-reveal">＞</span></span> －23。
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">2. 比較－8 與－5 的大小。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                ｜-8｜= 8 > ｜-5｜= 5<br>
+                <b>答：</b> －8 ＜ －5
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">3. 比較－100 與－99 的大小。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                -100 在數線更左方：<br>
+                <b>答：</b> －100 ＜ －99
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">4. 比較－0.3 與－0.5 的大小。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                |-0.3| = 0.3 < |-0.5| = 0.5<br>
+                <b>答：</b> －0.3 ＞ －0.5
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">5. 比較－3/4 與－1/2 的大小。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                通分：|-3/4| = 3/4 = 0.75 > |-2/4| = 0.5<br>
+                <b>答：</b> －3/4 ＜ －1/2
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+            <div class="item-title">6. 將－7、0、3、－2 由小到大排列。</div>
+            <div class="calc-workspace">
+              <div class="calc-hint">【計算空間】</div>
+              <div class="calc-solution">
+                數線上越左邊越小：<br>
+                <b>答：</b> －7 ＜ －2 ＜ 0 ＜ 3
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- (2) -->
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 14px;">
-        <div><b>(2) 比較－66、－44 兩數的大小：</b></div>
-        <div style="padding-left: 20px; line-height: 1.8;">
-          由｜－66｜ <span class="ans-underline"><span class="ans-reveal">＞</span></span> ｜－44｜，<br>
-          可得－66 <span class="ans-underline"><span class="ans-reveal">＜</span></span> －44。
-        </div>
-      </div>
-
-      <!-- (3) -->
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 14px;">
-        <div><b>(3) 比較－28、－82 兩數的大小：</b></div>
-        <div style="padding-left: 20px; line-height: 1.8;">
-          由｜－28｜ <span class="ans-underline"><span class="ans-reveal">＜</span></span> ｜－82｜，<br>
-          可得－28 <span class="ans-underline"><span class="ans-reveal">＞</span></span> －82。
-        </div>
-      </div>
-
-      <!-- (4) -->
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 14px;">
-        <div><b>(4) 比較－2.1、－<span class="frac"><span class="frac-top">1</span><span class="frac-bottom">2</span></span> 兩數的大小：</b></div>
-        <div style="padding-left: 20px; line-height: 1.8;">
-          由｜－2.1｜ <span class="ans-underline"><span class="ans-reveal">＞</span></span> ｜－<span class="frac"><span class="frac-top">1</span><span class="frac-bottom">2</span></span>｜，<br>
-          可得－2.1 <span class="ans-underline"><span class="ans-reveal">＜</span></span> －<span class="frac"><span class="frac-top">1</span><span class="frac-bottom">2</span></span>。
-        </div>
-      </div>
-
-      <div class="page-footer">第 15 頁，共 16 頁</div>
-    </div>
-
-    <!-- PAGE 16: 八、利用絕對值比較負數的大小 (1(5) ~ 6) -->
-    <div class="page" id="page-16">
-      <canvas class="drawing-canvas"></canvas>
-      <div class="header-bar">
-        <div class="main-title">七上數學 1-1 正數與負數</div>
-        <div class="user-info">姓名：___________</div>
-      </div>
-
-      <!-- (5) -->
-      <div class="interactive-item" onclick="toggleItemAnswer(this)">
-        <div><b>(5) 比較－3.7、－5<span class="frac"><span class="frac-top">3</span><span class="frac-bottom">7</span></span> 兩數的大小：</b></div>
-        <div style="padding-left: 20px; line-height: 1.8;">
-          由｜－3.7｜ <span class="ans-underline"><span class="ans-reveal">＜</span></span> ｜－5<span class="frac"><span class="frac-top">3</span><span class="frac-bottom">7</span></span>｜，<br>
-          可得－3.7 <span class="ans-underline"><span class="ans-reveal">＞</span></span> －5<span class="frac"><span class="frac-top">3</span><span class="frac-bottom">7</span></span>。
-        </div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 16px;">
-        <div><b>2. 比較－47、－48、－49 三數的大小。</b></div>
-        <div style="padding-left: 14px; margin-top: 4px;">
-          答：<span class="write-blank" style="min-width: 220px;"><span class="ans-reveal">－49 ＜ －48 ＜ －47</span></span>
-        </div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 16px;">
-        <div><b>3. 比較－16、－26、－61 三數的大小。</b></div>
-        <div style="padding-left: 14px; margin-top: 4px;">
-          答：<span class="write-blank" style="min-width: 220px;"><span class="ans-reveal">－61 ＜ －26 ＜ －16</span></span>
-        </div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 16px;">
-        <div><b>4. 比較－2.5、－2.7、－2.9 三數的大小。</b></div>
-        <div style="padding-left: 14px; margin-top: 4px;">
-          答：<span class="write-blank" style="min-width: 220px;"><span class="ans-reveal">－2.9 ＜ －2.7 ＜ －2.5</span></span>
-        </div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 16px;">
-        <div><b>5. 比較－2<span class="frac"><span class="frac-top">1</span><span class="frac-bottom">2</span></span>、－2.1、－21 三數的大小。</b></div>
-        <div style="padding-left: 14px; margin-top: 4px;">
-          答：<span class="write-blank" style="min-width: 240px;"><span class="ans-reveal">－21 ＜ －2<span class="frac"><span class="frac-top">1</span><span class="frac-bottom">2</span></span> ＜ －2.1</span></span>
-        </div>
-      </div>
-
-      <div class="interactive-item" onclick="toggleItemAnswer(this)" style="margin-top: 16px;">
-        <div><b>6. 比較－1.9、－<span class="frac"><span class="frac-top">19</span><span class="frac-bottom">7</span></span>、－3.6 三數的大小。</b></div>
-        <div style="padding-left: 14px; margin-top: 4px;">
-          答：<span class="write-blank" style="min-width: 240px;"><span class="ans-reveal">－3.6 ＜ －<span class="frac"><span class="frac-top">19</span><span class="frac-bottom">7</span></span> ＜ －1.9</span></span>
-        </div>
-      </div>
-
-      <div class="page-footer">第 16 頁，共 16 頁</div>
+      <div class="page-footer">第 10 頁，共 10 頁</div>
     </div>
 
   </div>
 
-  <!-- 互動腳本：全開/逐題解答、多色螢光筆畫布 -->
+  <!-- 互動腳本：全開/逐題解答、多色螢光筆畫布、目錄跳轉 -->
   <script>
     let isAllAnsShown = false;
     let isPenMode = false;
@@ -1724,16 +1269,16 @@
       isAllAnsShown = !isAllAnsShown;
       const btn = document.getElementById('toggleAllAnsBtn');
       const icon = document.getElementById('ansIcon');
+      const container = document.querySelector('.pages-container');
       
       if (isAllAnsShown) {
-        document.body.classList.add('show-ans');
+        container.classList.add('show-ans');
         btn.classList.add('active');
         icon.textContent = '🙈';
       } else {
-        document.body.classList.remove('show-ans');
+        container.classList.remove('show-ans');
         btn.classList.remove('active');
         icon.textContent = '👁️';
-        // 同時清除各題單獨展開
         document.querySelectorAll('.show-one').forEach(el => el.classList.remove('show-one'));
       }
     }
@@ -1745,21 +1290,21 @@
       const options = document.getElementById('penOptions');
       
       if (isPenMode) {
-        document.body.classList.add('pen-mode');
         penBtn.classList.add('active');
         options.style.display = 'inline-flex';
+        document.body.classList.add('pen-mode');
       } else {
-        document.body.classList.remove('pen-mode');
         penBtn.classList.remove('active');
         options.style.display = 'none';
+        document.body.classList.remove('pen-mode');
       }
     }
 
-    // 4. 設定筆色與筆徑
-    function setPenColor(color, dotEl) {
+    // 4. 設定筆刷顏色與粗細
+    function setPenColor(color, el) {
       currentColor = color;
       document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
-      dotEl.classList.add('active');
+      el.classList.add('active');
     }
 
     function setPenSize(size, btnEl) {
@@ -1775,21 +1320,17 @@
         const canvas = page.querySelector('.drawing-canvas');
         if (!canvas) return;
 
-        function resizeCanvas() {
+        const ctx = canvas.getContext('2d');
+        function resize() {
           const rect = page.getBoundingClientRect();
           const scale = window.devicePixelRatio || 1;
           canvas.width = rect.width * scale;
           canvas.height = rect.height * scale;
-          canvas.style.width = rect.width + 'px';
-          canvas.style.height = rect.height + 'px';
-          const ctx = canvas.getContext('2d');
           ctx.scale(scale, scale);
         }
+        resize();
+        window.addEventListener('resize', resize);
 
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-
-        const ctx = canvas.getContext('2d');
         let isDrawing = false;
         let lastX = 0;
         let lastY = 0;
@@ -1848,7 +1389,7 @@
       });
     }
 
-    // 6. 清除所有塗鴉
+    // 6. 清除所有畫跡
     function clearAllDrawings() {
       canvases.forEach(({ canvas, ctx }) => {
         const scale = window.devicePixelRatio || 1;
