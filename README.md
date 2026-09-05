@@ -1,4 +1,4 @@
-﻿# Interactive Lesson Worksheet (雙模式教學互動學習單)
+# Interactive Lesson Worksheet (雙模式教學互動學習單)
 
 > 專為各科教師打造的備課革命：**「講義即簡報」**。  
 > 一份 HTML 檔案，同時搞定**學生 A4 紙本純淨測驗卷**與**課堂大屏／投影互動教學**。
@@ -61,22 +61,14 @@ interactive-lesson-worksheet/
 
 ## 🚀 使用方式
 
-### 方法一：直接複製本專案網址，請 AI 一鍵安裝（最推薦）
-1. 複製本專案網址：
-   ```text
-   https://github.com/chuoneone/interactive-lesson-worksheet
-   ```
-2. 直接對您的 AI 助手（如 Antigravity）說：
+1. **一鍵安裝 Skill**：
+   複製本專案網址，直接對您的 AI 助手（如 Antigravity）說：
    > **「請幫我安裝這個 skill：https://github.com/chuoneone/interactive-lesson-worksheet」**
 
-AI 就會自動下載並設定完成！之後只要將任何備課資料（國文、英文、數學、自然、社會等題庫或筆記）傳給 AI：
-> *「這是我這週的備課資料，請幫我製作成雙模式互動講義。」*  
-AI 便會自動套用規範，生成兼具 A4 純淨列印與大屏互動的 HTML 講義！
-
-### 方法二：離線單機使用（手動編輯）
-1. 複製 `resources/template.html`。
-2. 用任何文字編輯器開啟，填入題目內容。
-3. 任何電腦、任何瀏覽器雙擊即可開啟授課，無需安裝任何外掛，完全離線可用。
+2. **開始備課**：
+   將任何備課資料（國文、英文、數學、自然、社會等題庫、講義或筆記）傳給 AI：
+   > *「這是我這週的備課資料，請幫我製作成雙模式互動講義。」*  
+   AI 便會自動套用規範，生成兼具 A4 純淨列印與大屏互動的 HTML 講義！
 
 ---
 
