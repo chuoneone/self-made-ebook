@@ -65,6 +65,25 @@ description: >-
   - 嚴禁使用表格空格硬湊。
   - 採用左側主詞／概念卡片、右側目標歸納盒、中間透過 SVG `<line>` 動態計算座標繪製虛線連線。
 
+### 5. 計算題與問答題必須預留 3～4 行書寫／計算空間（Calculation Workspace）
+- **核心目的**：凡數學、自然理化、非選題或需要列式計算之題目，**嚴禁題與題之間緊密堆擠**。每道計算題下方**必須預留 3～4 行（高度約 80px～110px）的留白計算空間**，讓學生在紙本列印時有充裕的手寫計算與算式草稿區域。
+- **雙模式運作機制**：
+  1. **學生端純淨列印**：計算框維持淺色細虛線邊框，解答完全隱藏，保留完整的 3～4 行手寫高度供學生書寫。
+  2. **教師端大屏教學**：點擊題目或計算框時，立即於框內浮現以紅字排版的【逐步計算過程與最終解答】；教師亦可在框內直接啟用螢光筆/板書筆帶領學生板書運算。
+- **標準 HTML 結構**：
+  ```html
+  <div class="interactive-item" onclick="toggleItemAnswer(this)">
+    <div class="item-line"><b>題目：</b>計算 \((-15) + (-8) =\) ？</div>
+    <div class="calc-workspace">
+      <div class="calc-hint">【計算空間】</div>
+      <div class="calc-solution">
+        原式 \(= -(15 + 8) = -23\)<br>
+        <b>答：</b> \(-23\)
+      </div>
+    </div>
+  </div>
+  ```
+
 ---
 
 ## 課堂懸浮工具列（Pure Emoji 極簡膠囊工具列＋章節目錄導覽）
@@ -223,6 +242,45 @@ body.pen-mode .drawing-canvas {
   .ans-slot, .ans-word {
     color: transparent !important;
   }
+  .calc-workspace {
+    border: 1px dashed #94a3b8 !important;
+    background: transparent !important;
+    min-height: 85px !important;
+  }
+  .calc-hint {
+    color: #64748b !important;
+  }
+  .calc-solution {
+    display: none !important;
+  }
+}
+
+/* 計算題 3~4 行留白書寫空間 */
+.calc-workspace {
+  min-height: 85px; /* 預留 3~4 行手寫空間 */
+  margin: 8px 0 14px 0;
+  padding: 8px 12px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 6px;
+  background-color: #f8fafc;
+  position: relative;
+}
+.calc-hint {
+  font-size: 11pt;
+  color: #94a3b8;
+  user-select: none;
+  margin-bottom: 4px;
+}
+.calc-solution {
+  color: transparent;
+  font-size: 13pt;
+  line-height: 1.6;
+}
+.show-ans .calc-solution,
+.calc-workspace.show-one .calc-solution,
+.interactive-item.show-one .calc-solution {
+  color: #dc2626 !important;
+  font-weight: bold;
 }
 ```
 

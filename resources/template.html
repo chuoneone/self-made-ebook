@@ -149,6 +149,34 @@
     table.custom-table th, table.custom-table td { border: 1px solid #475569; padding: 5px 10px; text-align: center; }
     table.custom-table th { background-color: #e2e8f0; font-weight: bold; }
 
+    /* 計算題/問答題 3~4 行留白書寫空間 */
+    .calc-workspace {
+      min-height: 85px; /* 預留 3~4 行計算空間 */
+      margin: 8px 0 14px 0;
+      padding: 8px 12px;
+      border: 1px dashed #cbd5e1;
+      border-radius: 6px;
+      background-color: #f8fafc;
+      position: relative;
+    }
+    .calc-hint {
+      font-size: 11pt;
+      color: #94a3b8;
+      user-select: none;
+      margin-bottom: 4px;
+    }
+    .calc-solution {
+      color: transparent;
+      font-size: 13pt;
+      line-height: 1.6;
+    }
+    .show-ans .calc-solution,
+    .calc-workspace.show-one .calc-solution,
+    .interactive-item.show-one .calc-solution {
+      color: #dc2626 !important;
+      font-weight: bold;
+    }
+
     /* 列印強制隱藏解答與後台工具，還原白紙卷 */
     @media print {
       body { background: transparent !important; padding: 0 !important; }
@@ -156,6 +184,9 @@
       .page { margin: 0 !important; box-shadow: none !important; width: 100% !important; min-height: auto !important; padding: 0 !important; }
       .correct-choice { color: inherit !important; font-weight: normal !important; border: none !important; background: transparent !important; padding: 0 !important; }
       .ans-slot, .ans-word { color: transparent !important; }
+      .calc-workspace { border: 1px dashed #94a3b8 !important; background: transparent !important; min-height: 85px !important; }
+      .calc-hint { color: #64748b !important; }
+      .calc-solution { display: none !important; }
     }
   </style>
 </head>
