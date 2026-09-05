@@ -1,0 +1,539 @@
+﻿<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>{{WORKSHEET_TITLE}}</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 12mm 15mm;
+    }
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #e2e8f0;
+      font-family: "Times New Roman", "標楷體", "DFKai-SB", "BiauKai", serif;
+      font-size: 14pt;
+      line-height: 1.5;
+      color: #111;
+      user-select: text;
+    }
+
+    /* 現代極簡懸浮工具列 */
+    .classroom-toolbar {
+      position: fixed;
+      top: 16px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 4px 6px;
+      border-radius: 40px;
+      border: 1px solid rgba(203, 213, 225, 0.85);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Noto Sans TC", sans-serif;
+    }
+    .tool-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #334155;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: inherit;
+    }
+    .tool-btn:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+    .tool-btn.active {
+      background: #0f172a;
+      color: #ffffff;
+    }
+    .btn-toggle-ans.active {
+      background: #2563eb;
+      color: #ffffff;
+    }
+    .toolbar-divider {
+      width: 1px;
+      height: 16px;
+      background: #cbd5e1;
+      margin: 0 3px;
+    }
+
+    /* 畫筆選單 */
+    .pen-options {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      background: #f8fafc;
+      padding: 3px 8px;
+      border-radius: 20px;
+      border: 1px solid #e2e8f0;
+      margin-left: 2px;
+    }
+    .color-picker {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .color-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .color-dot:hover {
+      transform: scale(1.18);
+    }
+    .color-dot.active {
+      transform: scale(1.22);
+      box-shadow: 0 0 0 2px #0f172a, inset 0 0 0 1px #fff;
+    }
+    .sub-divider {
+      width: 1px;
+      height: 14px;
+      background: #cbd5e1;
+      margin: 0 2px;
+    }
+    .size-picker {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .size-btn {
+      border: none;
+      background: #ffffff;
+      color: #475569;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 2px 7px;
+      border-radius: 10px;
+      cursor: pointer;
+      border: 1px solid #cbd5e1;
+      transition: all 0.15s;
+    }
+    .size-btn:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+    .size-btn.active {
+      background: #0f172a;
+      color: #ffffff;
+      border-color: #0f172a;
+    }
+
+    /* A4 頁面容器 */
+    .pages-container {
+      padding: 20px 0 40px 0;
+    }
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      padding: 14mm 16mm;
+      margin: 0 auto 25px auto;
+      background: #ffffff;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+      page-break-after: always;
+      break-after: page;
+      position: relative;
+    }
+
+    /* 每頁專用畫布 */
+    .drawing-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 20;
+      pointer-events: none;
+    }
+    body.pen-mode .drawing-canvas {
+      pointer-events: auto;
+      cursor: crosshair;
+    }
+
+    /* 頁首資訊列 */
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #334155;
+      padding-bottom: 6px;
+      margin-bottom: 12px;
+      font-size: 13pt;
+      font-weight: bold;
+      color: #1e293b;
+    }
+    .main-title {
+      font-size: 20pt;
+      font-weight: 900;
+      text-align: center;
+      margin: 10px 0 16px 0;
+      color: #0f172a;
+      letter-spacing: 1px;
+    }
+    .section-title {
+      font-size: 16pt;
+      font-weight: bold;
+      background: #e2e8f0;
+      padding: 6px 12px;
+      border-radius: 6px;
+      margin: 12px 0 10px 0;
+      border-left: 6px solid #2563eb;
+      color: #1e293b;
+    }
+    .task-title {
+      font-size: 14pt;
+      font-weight: bold;
+      margin: 10px 0 6px 0;
+      color: #0f172a;
+    }
+    .tip-box {
+      border: 1.5px solid #93c5fd;
+      background-color: #eff6ff;
+      border-radius: 6px;
+      padding: 8px 12px;
+      margin: 8px 0 12px 0;
+      font-size: 14pt;
+    }
+    .tip-title {
+      font-weight: bold;
+      color: #1e40af;
+      margin-bottom: 4px;
+    }
+
+    /* 題目與互動樣式 */
+    .item-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 8px 0;
+    }
+    .item-line {
+      padding: 4px 6px;
+      border-radius: 4px;
+      line-height: 1.6;
+    }
+    body:not(.pen-mode) .interactive-item {
+      cursor: pointer;
+    }
+    body:not(.pen-mode) .interactive-item:hover {
+      background-color: #f8fafc;
+      outline: 1px dashed #93c5fd;
+    }
+
+    /* 解答紅筆圈選與填入 */
+    .correct-choice {
+      display: inline-block;
+      padding: 0 4px;
+      transition: all 0.2s;
+    }
+    .show-ans .correct-choice,
+    .item-line.show-one .correct-choice,
+    .qa-block.show-one .correct-choice {
+      color: #dc2626 !important;
+      font-weight: bold !important;
+      border: 2px solid #dc2626 !important;
+      border-radius: 14px !important;
+      background-color: #fef2f2 !important;
+      padding: 0 6px !important;
+    }
+    .ans-slot {
+      display: inline-block;
+      min-width: 24px;
+      text-align: center;
+      color: transparent;
+      font-weight: bold;
+      transition: color 0.2s;
+    }
+    .show-ans .ans-slot,
+    .item-line.show-one .ans-slot,
+    .qa-block.show-one .ans-slot {
+      color: #dc2626 !important;
+    }
+    .ans-word {
+      color: transparent;
+      font-weight: bold;
+      border-bottom: 1.5px solid #333;
+      padding: 0 6px;
+      transition: color 0.2s;
+    }
+    .show-ans .ans-word,
+    .item-line.show-one .ans-word {
+      color: #dc2626 !important;
+    }
+
+    /* 選擇題完美對齊結構 */
+    .qa-block {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+      padding: 6px 8px;
+      border-radius: 6px;
+    }
+    .qa-bracket {
+      flex-shrink: 0;
+      width: 54px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 14pt;
+      padding-top: 1px;
+    }
+    .qa-content {
+      flex: 1;
+    }
+    .qa-stem {
+      margin-bottom: 4px;
+      line-height: 1.5;
+    }
+    .qa-options {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      margin-top: 4px;
+    }
+
+    /* 表格設計 */
+    table.custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 12px 0;
+      font-size: 14pt;
+    }
+    table.custom-table th,
+    table.custom-table td {
+      border: 1px solid #475569;
+      padding: 5px 10px;
+      text-align: center;
+    }
+    table.custom-table th {
+      background-color: #e2e8f0;
+      font-weight: bold;
+    }
+
+    /* 獎勵印章框 */
+    .reward-box {
+      border: 2px dashed #3b82f6;
+      background: #eff6ff;
+      border-radius: 8px;
+      padding: 12px 18px;
+      margin-top: 14px;
+      text-align: center;
+      font-size: 14pt;
+      font-weight: bold;
+      color: #1e3a8a;
+    }
+
+    /* 列印控制 */
+    @media print {
+      body {
+        padding: 0 !important;
+        background: transparent !important;
+      }
+      .no-print,
+      .classroom-toolbar,
+      .drawing-canvas {
+        display: none !important;
+      }
+      .page {
+        margin: 0 !important;
+        box-shadow: none !important;
+        width: 100% !important;
+        min-height: auto !important;
+        padding: 0 !important;
+      }
+      .correct-choice {
+        color: inherit !important;
+        font-weight: normal !important;
+        border: none !important;
+        background: transparent !important;
+        padding: 0 !important;
+      }
+      .ans-slot, .ans-word {
+        color: transparent !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 現代極簡懸浮工具列 -->
+  <div class="classroom-toolbar no-print">
+    <button class="tool-btn btn-toggle-ans" id="toggleAllAnsBtn" onclick="toggleAllAnswers()">
+      <span id="ansIcon">👁️</span> 答案
+    </button>
+    <button class="tool-btn" id="penBtn" onclick="togglePenMode()">
+      ✏️ 畫筆
+    </button>
+    <div class="pen-options" id="penOptions">
+      <div class="color-picker">
+        <span class="color-dot active" style="background:#facc15;" onclick="setPenColor('rgba(250, 204, 21, 0.45)', this)"></span>
+        <span class="color-dot" style="background:#ef4444;" onclick="setPenColor('rgba(239, 68, 68, 0.8)', this)"></span>
+        <span class="color-dot" style="background:#3b82f6;" onclick="setPenColor('rgba(37, 99, 235, 0.8)', this)"></span>
+        <span class="color-dot" style="background:#10b981;" onclick="setPenColor('rgba(16, 185, 129, 0.8)', this)"></span>
+      </div>
+      <div class="sub-divider"></div>
+      <div class="size-picker">
+        <button class="size-btn" onclick="setPenSize(4, this)">細</button>
+        <button class="size-btn" onclick="setPenSize(10, this)">中</button>
+        <button class="size-btn active" onclick="setPenSize(20, this)">粗</button>
+      </div>
+    </div>
+    <button class="tool-btn" onclick="clearAllDrawings()">
+      清除
+    </button>
+    <div class="toolbar-divider"></div>
+    <button class="tool-btn" onclick="window.print()">
+      列印
+    </button>
+  </div>
+
+  <div class="pages-container">
+    <!-- 各頁內容放此，每頁均需包含 <canvas class="drawing-canvas"></canvas> -->
+    <div class="page" id="page1">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="page-header">
+        <span>班級：_______ 座號：_______ 姓名：_____________</span>
+        <span>第 1 頁</span>
+      </div>
+      <!-- 內容 -->
+    </div>
+  </div>
+
+  <script>
+    function toggleItemAnswer(el) {
+      if (document.body.classList.contains('pen-mode')) return;
+      el.classList.toggle('show-one');
+    }
+
+    var isAllAnsShown = false;
+    function toggleAllAnswers() {
+      isAllAnsShown = !isAllAnsShown;
+      var container = document.querySelector('.pages-container');
+      var btn = document.getElementById('toggleAllAnsBtn');
+      var btnIcon = document.getElementById('ansIcon');
+      if (isAllAnsShown) {
+        container.classList.add('show-ans');
+        btn.classList.add('active');
+        btnIcon.textContent = '🙈';
+      } else {
+        container.classList.remove('show-ans');
+        btn.classList.remove('active');
+        btnIcon.textContent = '👁️';
+        document.querySelectorAll('.item-line.show-one, .qa-block.show-one').forEach(function(item) {
+          item.classList.remove('show-one');
+        });
+      }
+    }
+
+    var isPenMode = false;
+    var currentPenColor = 'rgba(250, 204, 21, 0.45)';
+    var currentPenSize = 20;
+
+    function setPenColor(color, el) {
+      currentPenColor = color;
+      document.querySelectorAll('.color-dot').forEach(function(d) { d.classList.remove('active'); });
+      el.classList.add('active');
+    }
+
+    function setPenSize(size, el) {
+      currentPenSize = size;
+      document.querySelectorAll('.size-btn').forEach(function(b) { b.classList.remove('active'); });
+      el.classList.add('active');
+    }
+
+    function togglePenMode() {
+      isPenMode = !isPenMode;
+      document.body.classList.toggle('pen-mode', isPenMode);
+      var penBtn = document.getElementById('penBtn');
+      var penOptions = document.getElementById('penOptions');
+      if (isPenMode) {
+        penBtn.classList.add('active');
+        if (penOptions) penOptions.style.display = 'flex';
+      } else {
+        penBtn.classList.remove('active');
+        if (penOptions) penOptions.style.display = 'none';
+      }
+    }
+
+    function initCanvases() {
+      document.querySelectorAll('.page').forEach(function(page) {
+        var canvas = page.querySelector('.drawing-canvas');
+        if (!canvas) return;
+        var ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+          canvas.width = page.clientWidth;
+          canvas.height = page.clientHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        var isDrawing = false;
+        var lastX = 0;
+        var lastY = 0;
+
+        canvas.addEventListener('mousedown', function(e) {
+          if (!isPenMode) return;
+          isDrawing = true;
+          var rect = canvas.getBoundingClientRect();
+          lastX = e.clientX - rect.left;
+          lastY = e.clientY - rect.top;
+        });
+
+        canvas.addEventListener('mousemove', function(e) {
+          if (!isDrawing || !isPenMode) return;
+          var rect = canvas.getBoundingClientRect();
+          var currX = e.clientX - rect.left;
+          var currY = e.clientY - rect.top;
+
+          ctx.beginPath();
+          ctx.moveTo(lastX, lastY);
+          ctx.lineTo(currX, currY);
+          ctx.strokeStyle = currentPenColor;
+          ctx.lineWidth = currentPenSize;
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+          ctx.stroke();
+
+          lastX = currX;
+          lastY = currY;
+        });
+
+        window.addEventListener('mouseup', function() {
+          isDrawing = false;
+        });
+      });
+    }
+    window.addEventListener('load', initCanvases);
+
+    function clearAllDrawings() {
+      document.querySelectorAll('.drawing-canvas').forEach(function(canvas) {
+        var ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      });
+    }
+  </script>
+</body>
+</html>

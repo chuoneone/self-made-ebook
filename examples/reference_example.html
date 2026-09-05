@@ -1,0 +1,1138 @@
+﻿<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>英語學習特訓講義：Unit 1 be動詞與家人介紹（課堂投影互動版）</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 12mm 15mm;
+    }
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #e2e8f0;
+      font-family: "Times New Roman", "標楷體", "DFKai-SB", "BiauKai", serif;
+      font-size: 14pt;
+      line-height: 1.5;
+      color: #111;
+      user-select: text;
+    }
+
+    /* 現代極簡懸浮工具列 (Sleek Floating Pill Toolbar) */
+    .classroom-toolbar {
+      position: fixed;
+      top: 16px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 4px 6px;
+      border-radius: 40px;
+      border: 1px solid rgba(203, 213, 225, 0.85);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Noto Sans TC", sans-serif;
+    }
+    .tool-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #334155;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: inherit;
+    }
+    .tool-btn:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+    .tool-btn.active {
+      background: #0f172a;
+      color: #ffffff;
+    }
+    .btn-toggle-ans.active {
+      background: #2563eb;
+      color: #ffffff;
+    }
+    .toolbar-divider {
+      width: 1px;
+      height: 16px;
+      background: #cbd5e1;
+      margin: 0 3px;
+    }
+
+    /* 畫筆顏色與粗細選單 (Sleek Pen Options) */
+    .pen-options {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      background: #f8fafc;
+      padding: 3px 8px;
+      border-radius: 20px;
+      border: 1px solid #e2e8f0;
+      margin-left: 2px;
+    }
+    .color-picker {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .color-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .color-dot:hover {
+      transform: scale(1.18);
+    }
+    .color-dot.active {
+      transform: scale(1.22);
+      box-shadow: 0 0 0 2px #0f172a, inset 0 0 0 1px #fff;
+    }
+    .sub-divider {
+      width: 1px;
+      height: 14px;
+      background: #cbd5e1;
+      margin: 0 2px;
+    }
+    .size-picker {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .size-btn {
+      border: none;
+      background: #ffffff;
+      color: #475569;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 2px 7px;
+      border-radius: 10px;
+      cursor: pointer;
+      border: 1px solid #cbd5e1;
+      transition: all 0.15s;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    .size-btn:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+    .size-btn.active {
+      background: #0f172a;
+      color: #ffffff;
+      border-color: #0f172a;
+    }
+
+    /* 頁面容器 */
+    .pages-container {
+      padding: 20px 0 40px 0;
+    }
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      padding: 14mm 16mm;
+      margin: 0 auto 25px auto;
+      background: #ffffff;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+      page-break-after: always;
+      break-after: page;
+      position: relative;
+    }
+
+    /* 螢光筆繪圖層 (Canvas) */
+    .drawing-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 50;
+      pointer-events: none;
+    }
+    body.pen-mode .drawing-canvas {
+      pointer-events: auto;
+      cursor: crosshair;
+    }
+
+    /* 標題與資訊列 */
+    .doc-title {
+      text-align: center;
+      font-size: 14pt;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+    .student-bar {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 2px solid #222;
+      padding-bottom: 6px;
+      margin-bottom: 12px;
+      font-size: 14pt;
+    }
+    
+    /* 關卡大標題 */
+    .section-title {
+      font-size: 14pt;
+      font-weight: bold;
+      background: #f1f5f9;
+      border-left: 6px solid #2563eb;
+      padding: 4px 10px;
+      margin: 10px 0 8px 0;
+      border-radius: 4px;
+    }
+    
+    /* 提示小卡盒 */
+    .tip-box {
+      border: 1.5px solid #cbd5e1;
+      background: #f8fafc;
+      border-radius: 6px;
+      padding: 8px 14px;
+      margin-bottom: 10px;
+      font-size: 14pt;
+    }
+    .tip-title {
+      font-weight: bold;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+    
+    /* 任務標題 */
+    .task-title {
+      font-weight: bold;
+      margin: 10px 0 6px 0;
+      color: #1e3a8a;
+    }
+
+    /* 題目清單 */
+    .item-list {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-bottom: 10px;
+      padding-left: 4px;
+    }
+    .item-line {
+      font-size: 14pt;
+      padding: 2px 4px;
+      border-radius: 4px;
+      transition: background 0.15s;
+    }
+    /* 互動游標提示 */
+    body:not(.pen-mode) .interactive-item {
+      cursor: pointer;
+    }
+    body:not(.pen-mode) .interactive-item:hover {
+      background-color: #f8fafc;
+      outline: 1px dashed #93c5fd;
+    }
+
+    /* 答案顯現樣式 (紅筆手繪圈圈風格) */
+    .correct-choice {
+      display: inline-block;
+      padding: 0 4px;
+      transition: all 0.2s;
+    }
+    .show-ans .correct-choice,
+    .item-line.show-one .correct-choice,
+    .qa-block.show-one .correct-choice {
+      color: #dc2626 !important;
+      font-weight: bold !important;
+      border: 2px solid #dc2626 !important;
+      border-radius: 14px !important;
+      background-color: #fef2f2 !important;
+      padding: 0 6px !important;
+    }
+
+    /* 答案代號填入括弧 */
+    .ans-slot {
+      display: inline-block;
+      min-width: 24px;
+      text-align: center;
+      color: transparent;
+      font-weight: bold;
+      transition: color 0.2s;
+    }
+    .show-ans .ans-slot,
+    .item-line.show-one .ans-slot,
+    .qa-block.show-one .ans-slot {
+      color: #dc2626 !important;
+    }
+
+    /* 填空答案字詞 */
+    .ans-word {
+      color: transparent;
+      font-weight: bold;
+      border-bottom: 1.5px solid #333;
+      padding: 0 6px;
+      transition: color 0.2s;
+    }
+    .show-ans .ans-word,
+    .item-line.show-one .ans-word {
+      color: #dc2626 !important;
+    }
+
+    /* 第 5 頁選擇題專用完美對齊結構 */
+    .qa-block {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 14px;
+      padding: 6px 8px;
+      border-radius: 6px;
+      font-size: 14pt;
+      transition: background 0.15s;
+    }
+    body:not(.pen-mode) .qa-block.interactive-item {
+      cursor: pointer;
+    }
+    body:not(.pen-mode) .qa-block.interactive-item:hover {
+      background-color: #f8fafc;
+      outline: 1px dashed #93c5fd;
+    }
+    .qa-bracket {
+      flex-shrink: 0;
+      width: 50px;
+      text-align: center;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+    .qa-content {
+      flex-grow: 1;
+    }
+    .qa-stem {
+      margin-bottom: 4px;
+    }
+    .qa-substem {
+      margin-bottom: 4px;
+      color: #1e3a8a;
+    }
+    .qa-options {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      margin-top: 4px;
+    }
+    .qa-opt {
+      padding-left: 2px;
+    }
+
+    /* 表格設計 */
+    table.custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 12px 0;
+      font-size: 14pt;
+    }
+    table.custom-table th,
+    table.custom-table td {
+      border: 1px solid #475569;
+      padding: 5px 10px;
+      text-align: center;
+    }
+    table.custom-table th {
+      background-color: #e2e8f0;
+      font-weight: bold;
+    }
+
+    /* 第 1 頁圖檔 */
+    .cover-img-box {
+      text-align: center;
+      margin-top: 4px;
+    }
+    .cover-img-box img {
+      width: 95%;
+      max-height: 238mm;
+      object-fit: contain;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+    }
+
+    /* 連連看專屬互動板 */
+    .matching-container {
+      position: relative;
+      margin: 8px 0 12px 0;
+    }
+    .matching-board {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1.5px solid #cbd5e1;
+      background: #f8fafc;
+      border-radius: 8px;
+      padding: 12px 16px;
+      gap: 20px;
+      position: relative;
+    }
+    .matching-col {
+      display: flex;
+      flex-direction: column;
+    }
+    .left-subjects {
+      gap: 7px;
+      width: 54%;
+      z-index: 10;
+    }
+    .subject-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #ffffff;
+      border: 1.5px solid #94a3b8;
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 14pt;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .subject-card:hover {
+      border-color: #2563eb;
+      background: #eff6ff;
+    }
+    .subject-card.linked {
+      border-color: #dc2626;
+      background: #fef2f2;
+      box-shadow: 0 2px 5px rgba(220,38,38,0.2);
+    }
+    .subject-card .dot {
+      color: #2563eb;
+      font-size: 16pt;
+      line-height: 1;
+      padding-left: 8px;
+    }
+    .subject-card.linked .dot {
+      color: #dc2626;
+    }
+    .example-tag {
+      font-size: 11pt;
+      color: #dc2626;
+      font-weight: bold;
+      margin-left: 4px;
+    }
+    .right-targets {
+      gap: 12px;
+      width: 40%;
+      z-index: 10;
+    }
+    .target-house {
+      display: flex;
+      align-items: center;
+      border: 2px solid #64748b;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 14pt;
+      background: #ffffff;
+      transition: all 0.2s;
+    }
+    .target-house .dot {
+      color: #2563eb;
+      font-size: 16pt;
+      line-height: 1;
+      padding-right: 10px;
+    }
+    .house-am {
+      border-color: #f87171;
+      background-color: #fef2f2;
+      color: #991b1b;
+    }
+    .house-is {
+      border-color: #4ade80;
+      background-color: #f0fdf4;
+      color: #166534;
+    }
+    .house-are {
+      border-color: #60a5fa;
+      background-color: #eff6ff;
+      color: #1e40af;
+    }
+    
+    /* SVG 連線層 */
+    .matching-svg-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 5;
+    }
+    .match-line {
+      stroke: #dc2626;
+      stroke-width: 3.5;
+      stroke-linecap: round;
+      stroke-dasharray: 6 3;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .show-ans .match-line,
+    .match-line.active {
+      opacity: 1;
+    }
+
+    /* 獎勵印章框 */
+    .reward-box {
+      border: 2px dashed #3b82f6;
+      background: #eff6ff;
+      border-radius: 8px;
+      padding: 12px 18px;
+      margin-top: 14px;
+      text-align: center;
+      font-size: 14pt;
+      font-weight: bold;
+      color: #1e3a8a;
+    }
+
+    /* 列印控制：嚴格隱藏工具列與還原純學生卷 */
+    @media print {
+      body {
+        padding: 0 !important;
+        background: transparent !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .classroom-toolbar {
+        display: none !important;
+      }
+      .drawing-canvas {
+        display: none !important;
+      }
+      .matching-svg-layer {
+        display: none !important;
+      }
+      .page {
+        margin: 0 !important;
+        box-shadow: none !important;
+        width: 100% !important;
+        min-height: auto !important;
+        padding: 0 !important;
+      }
+      /* 列印時強制不顯示任何解答，確保印出來是純學生卷 */
+      .correct-choice {
+        color: inherit !important;
+        font-weight: normal !important;
+        border: none !important;
+        background: transparent !important;
+        padding: 0 4px !important;
+      }
+      .ans-slot {
+        color: transparent !important;
+      }
+      .ans-word {
+        color: transparent !important;
+      }
+      .subject-card.linked {
+        border-color: #94a3b8 !important;
+        background: #fff !important;
+        box-shadow: none !important;
+      }
+      .subject-card .dot {
+        color: #2563eb !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 現代極簡懸浮工具列 (Sleek Floating Pill Toolbar) -->
+  <div class="classroom-toolbar no-print">
+    <button class="tool-btn btn-toggle-ans" id="toggleAllAnsBtn" onclick="toggleAllAnswers()">
+      <span id="ansIcon">👁️</span> 答案
+    </button>
+    <button class="tool-btn" id="penBtn" onclick="togglePenMode()">
+      ✏️ 畫筆
+    </button>
+    <div class="pen-options" id="penOptions">
+      <div class="color-picker">
+        <span class="color-dot active" style="background:#facc15;" onclick="setPenColor('rgba(250, 204, 21, 0.45)', this)" title="螢光黃"></span>
+        <span class="color-dot" style="background:#ef4444;" onclick="setPenColor('rgba(239, 68, 68, 0.8)', this)" title="紅筆"></span>
+        <span class="color-dot" style="background:#3b82f6;" onclick="setPenColor('rgba(37, 99, 235, 0.8)', this)" title="藍筆"></span>
+        <span class="color-dot" style="background:#10b981;" onclick="setPenColor('rgba(16, 185, 129, 0.8)', this)" title="綠筆"></span>
+      </div>
+      <div class="sub-divider"></div>
+      <div class="size-picker">
+        <button class="size-btn" onclick="setPenSize(4, this)">細</button>
+        <button class="size-btn" onclick="setPenSize(10, this)">中</button>
+        <button class="size-btn active" onclick="setPenSize(20, this)">粗</button>
+      </div>
+    </div>
+    <button class="tool-btn" onclick="clearAllDrawings()">
+      清除
+    </button>
+    <div class="toolbar-divider"></div>
+    <button class="tool-btn" onclick="window.print()">
+      列印
+    </button>
+  </div>
+
+  <div class="pages-container">
+
+    <!-- ==================== PAGE 1 ==================== -->
+    <div class="page" id="page1">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">英語學習特訓講義：Unit 1 be動詞與家人介紹</div>
+      <div class="student-bar">
+        <span>班級：_________</span>
+        <span>座號：_____</span>
+        <span>姓名：_____________</span>
+        <span>學習地圖</span>
+      </div>
+      <div class="cover-img-box">
+        <img src="三單判別.png" alt="am is are 視覺口訣魔法地圖">
+      </div>
+    </div>
+
+    <!-- ==================== PAGE 2 ==================== -->
+    <div class="page" id="page2">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">英語學習特訓講義：Unit 1 be動詞與家人介紹</div>
+      <div class="student-bar">
+        <span>班級：_________</span>
+        <span>座號：_____</span>
+        <span>姓名：_____________</span>
+        <span>第 1 關</span>
+      </div>
+
+      <div class="section-title">★ 第一關：看圖尋寶 ＆ 單字百寶箱</div>
+
+      <div class="task-title">【看圖尋寶小任務】對照第 1 頁的「視覺魔法地圖」，圈出正確答案：</div>
+      <div class="item-list">
+        <div class="item-line interactive-item" onclick="toggleItemAnswer(this)">
+          任務 1：看到「 I （我）」的時候，be 動詞要選 ── ( &nbsp;<span class="correct-choice">am</span>&nbsp; / &nbsp;is&nbsp; / &nbsp;are&nbsp; )
+        </div>
+        <div class="item-line interactive-item" onclick="toggleItemAnswer(this)">
+          任務 2：看到「 he / she / it / 一個人」要選 ── ( &nbsp;am&nbsp; / &nbsp;<span class="correct-choice">is</span>&nbsp; / &nbsp;are&nbsp; )
+        </div>
+        <div class="item-line interactive-item" onclick="toggleItemAnswer(this)">
+          任務 3：看到「 you / we / they / 兩個以上」要選 ── ( &nbsp;am&nbsp; / &nbsp;is&nbsp; / &nbsp;<span class="correct-choice">are</span>&nbsp; )
+        </div>
+      </div>
+
+      <div class="task-title">【單字百寶箱】念一念，題目裡的朋友都在這裡喔！</div>
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>英文主角</th>
+            <th>中文意思</th>
+            <th>身分 / 外觀</th>
+            <th>中文意思</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>I</strong></td>
+            <td>我</td>
+            <td><strong>student</strong></td>
+            <td>學生</td>
+          </tr>
+          <tr>
+            <td><strong>you</strong></td>
+            <td>你 / 你們</td>
+            <td><strong>teacher</strong></td>
+            <td>老師</td>
+          </tr>
+          <tr>
+            <td><strong>he</strong></td>
+            <td>他（男生）</td>
+            <td><strong>singer</strong></td>
+            <td>歌手</td>
+          </tr>
+          <tr>
+            <td><strong>she</strong></td>
+            <td>她（女生）</td>
+            <td><strong>writer</strong></td>
+            <td>作家</td>
+          </tr>
+          <tr>
+            <td><strong>we</strong></td>
+            <td>我們</td>
+            <td><strong>tall</strong></td>
+            <td>高的</td>
+          </tr>
+          <tr>
+            <td><strong>they</strong></td>
+            <td>他們</td>
+            <td><strong>young</strong></td>
+            <td>年輕的</td>
+          </tr>
+          <tr>
+            <td><strong>The dog</strong></td>
+            <td>這隻狗</td>
+            <td><strong>handsome</strong></td>
+            <td>英俊帥氣的</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="tip-box">
+        <div class="tip-title">💡【家庭成員小字典】</div>
+        <div>👉 <strong>father</strong> (爸爸)&nbsp;&nbsp;&nbsp;&nbsp;<strong>mother</strong> (媽媽)&nbsp;&nbsp;&nbsp;&nbsp;<strong>brother</strong> (兄弟)&nbsp;&nbsp;&nbsp;&nbsp;<strong>sister</strong> (姊妹)</div>
+        <div>👉 <strong>son</strong> (兒子)&nbsp;&nbsp;&nbsp;&nbsp;<strong>daughter</strong> (女兒)&nbsp;&nbsp;&nbsp;&nbsp;<strong>uncle</strong> (叔舅)&nbsp;&nbsp;&nbsp;&nbsp;<strong>aunt</strong> (姑姨)</div>
+      </div>
+    </div>
+
+    <!-- ==================== PAGE 3 ==================== -->
+    <div class="page" id="page3">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">英語學習特訓講義：Unit 1 be動詞與家人介紹</div>
+      <div class="student-bar">
+        <span>班級：_________</span>
+        <span>座號：_____</span>
+        <span>姓名：_____________</span>
+        <span>第 2 關</span>
+      </div>
+
+      <div class="section-title">★ 第二關：be 動詞大作戰（誰是好朋友？）</div>
+
+      <div class="tip-box">
+        <div class="tip-title">💡【破關口訣卡】</div>
+        <div>👉 我 ( <strong>I</strong> ) 用 ───────────── <strong>am</strong></div>
+        <div>👉 單數 ( <strong>he, she, 一個人名</strong> ) 用 ── <strong>is</strong></div>
+        <div>👉 複數 ( <strong>you, we, they, 兩個人</strong> ) 用 ─ <strong>are</strong></div>
+      </div>
+
+      <div class="task-title">
+        【任務 A：動手連連看】請用鉛筆畫線，把左邊的主角連到右邊正確的家：
+      </div>
+
+      <div class="matching-container" id="matchContainer">
+        <!-- SVG 連線層 -->
+        <svg class="matching-svg-layer" id="matchSvg">
+          <line id="line1" class="match-line active" />
+          <line id="line2" class="match-line" />
+          <line id="line3" class="match-line" />
+          <line id="line4" class="match-line" />
+          <line id="line5" class="match-line" />
+          <line id="line6" class="match-line" />
+        </svg>
+
+        <div class="matching-board">
+          <div class="matching-col left-subjects">
+            <div class="subject-card linked" id="sub1" onclick="toggleMatchLine(1)">
+              <span>1. <strong>I</strong> （我）<span class="example-tag">（例：連到 am）</span></span>
+              <span class="dot">●</span>
+            </div>
+            <div class="subject-card" id="sub2" onclick="toggleMatchLine(2)">
+              <span>2. <strong>He</strong> （他）</span>
+              <span class="dot">●</span>
+            </div>
+            <div class="subject-card" id="sub3" onclick="toggleMatchLine(3)">
+              <span>3. <strong>You</strong> （你）</span>
+              <span class="dot">●</span>
+            </div>
+            <div class="subject-card" id="sub4" onclick="toggleMatchLine(4)">
+              <span>4. <strong>She</strong> （她）</span>
+              <span class="dot">●</span>
+            </div>
+            <div class="subject-card" id="sub5" onclick="toggleMatchLine(5)">
+              <span>5. <strong>We</strong> （我們）</span>
+              <span class="dot">●</span>
+            </div>
+            <div class="subject-card" id="sub6" onclick="toggleMatchLine(6)">
+              <span>6. <strong>Tom and Mary</strong> （兩個人）</span>
+              <span class="dot">●</span>
+            </div>
+          </div>
+
+          <div class="matching-col right-targets">
+            <div class="target-house house-am" id="houseAm">
+              <span class="dot">●</span>
+              <div>
+                <div><strong>am</strong> 的家</div>
+                <div style="font-size: 11pt; font-weight: normal;">（我 專用）</div>
+              </div>
+            </div>
+            <div class="target-house house-is" id="houseIs">
+              <span class="dot">●</span>
+              <div>
+                <div><strong>is</strong> 的家</div>
+                <div style="font-size: 11pt; font-weight: normal;">（單數：他、她、一個人）</div>
+              </div>
+            </div>
+            <div class="target-house house-are" id="houseAre">
+              <span class="dot">●</span>
+              <div>
+                <div><strong>are</strong> 的家</div>
+                <div style="font-size: 11pt; font-weight: normal;">（複數：你、我們、兩個人）</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="task-title">【任務 B：動手圈圈看】請把正確的 be 動詞用鉛筆圈起來：</div>
+      <div class="item-list">
+        <div class="item-line interactive-item" onclick="toggleItemAnswer(this)">
+          1. I &nbsp;( &nbsp;<span class="correct-choice">am</span>&nbsp; / &nbsp;is&nbsp; / &nbsp;are&nbsp; )&nbsp; a student. （我是學生。）
+        </div>
+        <div class="item-line interactive-item" onclick="toggleItemAnswer(this)">
+          2. She &nbsp;( &nbsp;am&nbsp; / &nbsp;<span class="correct-choice">is</span>&nbsp; / &nbsp;are&nbsp; )&nbsp; my teacher. （她是我的老師。）
+        </div>
+        <div class="item-line interactive-item" onclick="toggleItemAnswer(this)">
+          3. You &nbsp;( &nbsp;am&nbsp; / &nbsp;is&nbsp; / &nbsp;<span class="correct-choice">are</span>&nbsp; )&nbsp; kind. （你很善良。）
+        </div>
+        <div class="item-line interactive-item" onclick="toggleItemAnswer(this)">
+          4. He &nbsp;( &nbsp;am&nbsp; / &nbsp;<span class="correct-choice">is</span>&nbsp; / &nbsp;are&nbsp; )&nbsp; happy. （他很開心。）
+        </div>
+        <div class="item-line interactive-item" onclick="toggleItemAnswer(this)">
+          5. We &nbsp;( &nbsp;am&nbsp; / &nbsp;is&nbsp; / &nbsp;<span class="correct-choice">are</span>&nbsp; )&nbsp; in class. （我們在上課。）
+        </div>
+        <div class="item-line interactive-item" onclick="toggleItemAnswer(this)">
+          6. They &nbsp;( &nbsp;am&nbsp; / &nbsp;is&nbsp; / &nbsp;<span class="correct-choice">are</span>&nbsp; )&nbsp; my classmates. （他們是我的同學。）
+        </div>
+        <div class="item-line interactive-item" onclick="toggleItemAnswer(this)">
+          7. Tom &nbsp;( &nbsp;am&nbsp; / &nbsp;<span class="correct-choice">is</span>&nbsp; / &nbsp;are&nbsp; )&nbsp; tall. （湯姆很高。）
+        </div>
+        <div class="item-line interactive-item" onclick="toggleItemAnswer(this)">
+          8. The dog &nbsp;( &nbsp;am&nbsp; / &nbsp;<span class="correct-choice">is</span>&nbsp; / &nbsp;are&nbsp; )&nbsp; cute. （這隻狗很可愛。）
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== PAGE 4 ==================== -->
+    <div class="page" id="page4">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">英語學習特訓講義：Unit 1 be動詞與家人介紹</div>
+      <div class="student-bar">
+        <span>班級：_________</span>
+        <span>座號：_____</span>
+        <span>姓名：_____________</span>
+        <span>第 3 關</span>
+      </div>
+
+      <div class="section-title">★ 第三關：否定變身 ＆ 問句大搬家</div>
+
+      <div class="tip-box">
+        <div class="tip-title">💡【魔法縮寫屋】加上 not 變「不是」！</div>
+        <div>👉 <strong>is not</strong> &nbsp;&nbsp;變身 ── <strong>isn't</strong></div>
+        <div>👉 <strong>are not</strong> &nbsp;變身 ── <strong>aren't</strong></div>
+        <div>👉 <strong>I am not</strong> 變身 ── <strong>I'm not</strong> （特別注意：沒有 amn't 喔！）</div>
+      </div>
+
+      <div class="task-title">【動手選一選】請選出正確的否定縮寫，將代號填入括弧中：</div>
+      <div style="margin-bottom: 6px;">
+        選項：<span style="font-weight: bold; color: #1e3a8a;">(A) isn't</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold; color: #1e3a8a;">(B) aren't</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold; color: #1e3a8a;">(C) I'm not</span>
+      </div>
+      <div class="item-list">
+        <div class="item-line interactive-item" onclick="toggleItemAnswer(this)">
+          ( &nbsp;<span class="ans-slot">A</span>&nbsp; ) 1. He <span class="ans-word">isn't</span> a singer. （他不是歌手。）
+        </div>
+        <div class="item-line interactive-item" onclick="toggleItemAnswer(this)">
+          ( &nbsp;<span class="ans-slot">B</span>&nbsp; ) 2. We <span class="ans-word">aren't</span> sad. （我們不難過。）
+        </div>
+        <div class="item-line interactive-item" onclick="toggleItemAnswer(this)">
+          ( &nbsp;<span class="ans-slot">C</span>&nbsp; ) 3. <span class="ans-word">I'm not</span> tall. （我不高。）
+        </div>
+      </div>
+
+      <div class="tip-box" style="margin-top: 10px;">
+        <div class="tip-title">💡【問句大搬家】把 be 動詞搬到最前面，句尾打上問號 ？</div>
+        <div>例：He is tall. ──搬家──> <strong>Is</strong> he tall? （他很高嗎？）</div>
+      </div>
+
+      <div class="task-title">【動手圈圈看】看後面的主角是誰，圈出句首正確的 be 動詞：</div>
+      <div class="item-list">
+        <div class="item-line interactive-item" onclick="toggleItemAnswer(this)">
+          1. ( &nbsp;<span class="correct-choice">Is</span>&nbsp; / &nbsp;Are&nbsp; )&nbsp; he a doctor? （他是醫生嗎？）
+        </div>
+        <div class="item-line interactive-item" onclick="toggleItemAnswer(this)">
+          2. ( &nbsp;Is&nbsp; / &nbsp;<span class="correct-choice">Are</span>&nbsp; )&nbsp; you hungry? （你肚子餓嗎？）
+        </div>
+        <div class="item-line interactive-item" onclick="toggleItemAnswer(this)">
+          3. ( &nbsp;Is&nbsp; / &nbsp;<span class="correct-choice">Are</span>&nbsp; )&nbsp; they students? （他們是學生嗎？）
+        </div>
+        <div class="item-line interactive-item" onclick="toggleItemAnswer(this)">
+          4. ( &nbsp;<span class="correct-choice">Is</span>&nbsp; / &nbsp;Am&nbsp; )&nbsp; she your friend? （她是你的朋友嗎？）
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== PAGE 5 ==================== -->
+    <div class="page" id="page5">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">英語學習特訓講義：Unit 1 be動詞與家人介紹</div>
+      <div class="student-bar">
+        <span>班級：_________</span>
+        <span>座號：_____</span>
+        <span>姓名：_____________</span>
+        <span>第 4 關</span>
+      </div>
+
+      <div class="section-title">★ 第四關：他是誰？家人介紹與所有格 (Unit 1B)</div>
+
+      <div class="tip-box">
+        <div class="tip-title">💡【所有格小卡】</div>
+        <div>👉 <strong>my</strong> (我的)&nbsp;&nbsp;&nbsp;&nbsp;<strong>your</strong> (你的)&nbsp;&nbsp;&nbsp;&nbsp;<strong>his</strong> (他的)&nbsp;&nbsp;&nbsp;&nbsp;<strong>her</strong> (她的)</div>
+        <div>👉 人名 + <strong>'s</strong> 表示「誰的」（例如：<strong>Zoe's</strong> = 柔伊的，<strong>Scott's</strong> = 史考特的）</div>
+      </div>
+
+      <div class="tip-box">
+        <div class="tip-title">💡【問身分專用句：Who is ... ? （誰是……？）】</div>
+        <div style="margin-bottom: 8px;">
+          <div>👉 <strong>問：Who is he?</strong> （他是誰？）</div>
+          <div style="padding-left: 28px; color: #1e3a8a;"><strong>答：He is my father.</strong> （他是我的爸爸。）</div>
+        </div>
+        <div>
+          <div>👉 <strong>問：Who is she?</strong> （她是誰？）</div>
+          <div style="padding-left: 28px; color: #1e3a8a;"><strong>答：She is my sister.</strong> （她是我的姊妹。）</div>
+        </div>
+      </div>
+
+      <div class="task-title">【大偵探動動腦】請選出最適當的答案，填入括弧中：</div>
+      <div style="margin-top: 6px;">
+        <div class="qa-block interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="qa-bracket">( &nbsp;<span class="ans-slot">A</span>&nbsp; )</div>
+          <div class="qa-content">
+            <div class="qa-stem">1. 問句：<strong>Who is he?</strong> （他是誰？）</div>
+            <div class="qa-options">
+              <div class="qa-opt"><span class="correct-choice">(A) He is my brother. （他是我兄弟。）</span></div>
+              <div class="qa-opt"><span>(B) She is my mother. （她是我的媽媽。）</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="qa-block interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="qa-bracket">( &nbsp;<span class="ans-slot">B</span>&nbsp; )</div>
+          <div class="qa-content">
+            <div class="qa-stem">2. 問句：<strong>Who is she?</strong> （她是誰？）</div>
+            <div class="qa-options">
+              <div class="qa-opt"><span>(A) He is tall. （他很高。）</span></div>
+              <div class="qa-opt"><span class="correct-choice">(B) She is Zoe's grandma. （她是柔伊的奶奶。）</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="qa-block interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="qa-bracket">( &nbsp;<span class="ans-slot">A</span>&nbsp; )</div>
+          <div class="qa-content">
+            <div class="qa-stem">3. <strong>Jamie is Scott's daughter.</strong> （潔咪是史考特的女兒。）</div>
+            <div class="qa-substem">想一想：那麼 <strong>Scott</strong> 是 <strong>Jamie</strong> 的什麼人？</div>
+            <div class="qa-options">
+              <div class="qa-opt"><span class="correct-choice">(A) father （爸爸）</span></div>
+              <div class="qa-opt"><span>(B) sister （姊妹）</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reward-box">
+        🎉 太棒了！我完成了全部的關卡！<br>
+        自我挑戰星等：⭐⭐⭐⭐⭐<br>
+        老師評語與蓋章處：________________________
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 教學互動控制邏輯 -->
+  <script>
+    // 1. 單題秀答案 / 隱藏切換
+    function toggleItemAnswer(el) {
+      if (document.body.classList.contains('pen-mode')) return;
+      el.classList.toggle('show-one');
+    }
+
+    // 2. 一鍵全開 / 全關答案
+    var isAllAnsShown = false;
+    function toggleAllAnswers() {
+      isAllAnsShown = !isAllAnsShown;
+      var container = document.querySelector('.pages-container');
+      var btn = document.getElementById('toggleAllAnsBtn');
+      var btnIcon = document.getElementById('ansIcon');
+      
+      if (isAllAnsShown) {
+        container.classList.add('show-ans');
+        btn.classList.add('active');
+        btnIcon.textContent = '🙈';
+        for (var i = 1; i <= 6; i++) {
+          var l = document.getElementById('line' + i);
+          var s = document.getElementById('sub' + i);
+          if (l) l.classList.add('active');
+          if (s) s.classList.add('linked');
+        }
+      } else {
+        container.classList.remove('show-ans');
+        btn.classList.remove('active');
+        btnIcon.textContent = '👁️';
+        for (var i = 1; i <= 6; i++) {
+          var l = document.getElementById('line' + i);
+          var s = document.getElementById('sub' + i);
+          if (i === 1) {
+            if (l) l.classList.add('active');
+            if (s) s.classList.add('linked');
+          } else {
+            if (l) l.classList.remove('active');
+            if (s) s.classList.remove('linked');
+          }
+        }
+        document.querySelectorAll('.item-line.show-one, .qa-block.show-one').forEach(function(item) {
+          item.classList.remove('show-one');
+        });
+      }
+    }
+
+    // 3. 連連看連線計算與點擊單條連線
+    var matchMapping = {
+      1: 'houseAm',
+      2: 'houseIs',
+      3: 'houseAre',
+      4: 'houseIs',
+      5: 'houseAre',
+      6: 'houseAre'
+    };
+
+    function updateMatchLines() {
+      var container = document.getElementById('matchContainer');
+      if (!container) return;
+      var cRect = container.getBoundingClientRect();
+
+      for (var i = 1; i <= 6; i++) {
+        var subEl = document.getElementById('sub' + i);
+        var houseEl = document.getElementById(matchMapping[i]);
+        var lineEl = document.getElementById('line' + i);
+
+        if (subEl && houseEl && lineEl) {
+          var sRect = subEl.getBoundingClientRect();
+          var hRect = houseEl.getBoundingClientRect();
+
+          var x1 = sRect.right - cRect.left;
+          var y1 = sRect.top + sRect.height / 2 - cRect.top;
+
+          var x2 = hRect.left - cRect.left;
+          var y2 = hRect.top + hRect.height / 2 - cRect.top;
+
+          lineEl.setAttribute('x1', x1);
+          lineEl.setAttribute('y1', y1);
+          lineEl.setAttribute('x2', x2);
+          lineEl.setAttribute('y2', y2);
+        }
+      }
+    }
+
+    function toggleMatchLine(num) {
+      if (document.body.classList.contains('pen-mode')) return;
+      var lineEl = document.getElementById('line' + num);
+      var subEl = document.getElementById('sub' + num);
+      if (lineEl && subEl) {
+        lineEl.classList.toggle('active');
+        subEl.classList.toggle('linked');
+      }
+    }
+
+    window.addEventListener('load', updateMatchLines);
+    window.addEventListener('resize', updateMatchLines);
+
+    // 4. 螢光筆劃記畫布 (Canvas Highlighter)
+    var isPenMode = false;
+    var currentPenColor = 'rgba(250, 204, 21, 0.45)';
+    var currentPenSize = 20;
+
+    function setPenColor(color, el) {
+      currentPenColor = color;
+      document.querySelectorAll('.color-dot').forEach(function(d) {
+        d.classList.remove('active');
+      });
+      el.classList.add('active');
+    }
+
+    function setPenSize(size, el) {
+      currentPenSize = size;
+      document.querySelectorAll('.size-btn').forEach(function(b) {
+        b.classList.remove('active');
+      });
+      el.classList.add('active');
+    }
+
+    function togglePenMode() {
+      isPenMode = !isPenMode;
+      document.body.classList.toggle('pen-mode', isPenMode);
+      var penBtn = document.getElementById('penBtn');
+      var penOptions = document.getElementById('penOptions');
+      if (isPenMode) {
+        penBtn.classList.add('active');
+        if (penOptions) penOptions.style.display = 'flex';
+      } else {
+        penBtn.classList.remove('active');
+        if (penOptions) penOptions.style.display = 'none';
+      }
+    }
+
+    function initCanvases() {
+      document.querySelectorAll('.page').forEach(function(page) {
+        var canvas = page.querySelector('.drawing-canvas');
+        if (!canvas) return;
+        var ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+          canvas.width = page.clientWidth;
+          canvas.height = page.clientHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        var isDrawing = false;
+        var lastX = 0;
+        var lastY = 0;
+
+        canvas.addEventListener('mousedown', function(e) {
+          if (!isPenMode) return;
+          isDrawing = true;
+          var rect = canvas.getBoundingClientRect();
+          lastX = e.clientX - rect.left;
+          lastY = e.clientY - rect.top;
+        });
+
+        canvas.addEventListener('mousemove', function(e) {
+          if (!isDrawing || !isPenMode) return;
+          var rect = canvas.getBoundingClientRect();
+          var currX = e.clientX - rect.left;
+          var currY = e.clientY - rect.top;
+
+          ctx.beginPath();
+          ctx.moveTo(lastX, lastY);
+          ctx.lineTo(currX, currY);
+          ctx.strokeStyle = currentPenColor;
+          ctx.lineWidth = currentPenSize;
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+          ctx.stroke();
+
+          lastX = currX;
+          lastY = currY;
+        });
+
+        window.addEventListener('mouseup', function() {
+          isDrawing = false;
+        });
+      });
+    }
+    window.addEventListener('load', initCanvases);
+
+    function clearAllDrawings() {
+      document.querySelectorAll('.drawing-canvas').forEach(function(canvas) {
+        var ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      });
+    }
+  </script>
+
+</body>
+</html>
