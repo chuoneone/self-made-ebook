@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
@@ -578,8 +578,11 @@
       清除
     </button>
     <div class="toolbar-divider"></div>
-    <button class="tool-btn" onclick="window.print()">
-      列印
+    <button class="tool-btn" onclick="downloadHtml()">
+      📥 下載
+    </button>
+    <button class="tool-btn" onclick="smartPrint()">
+      🖨️ 列印
     </button>
   </div>
 
@@ -1131,6 +1134,50 @@
         var ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
       });
+    }
+
+    // 智慧列印：偵測是否在 Gemini Canvas / iframe 沙盒中
+    function smartPrint() {
+      var inIframe = false;
+      try {
+        inIframe = (window.self !== window.top);
+      } catch (e) {
+        inIframe = true;
+      }
+
+      if (inIframe) {
+        // 在 Gemini Canvas 內：以新分頁開啟獨立乾淨頁面進行列印
+        var htmlContent = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+        var blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+        var blobUrl = URL.createObjectURL(blob);
+        var printWindow = window.open(blobUrl, '_blank');
+        if (printWindow) {
+          printWindow.onload = function() {
+            printWindow.print();
+          };
+        } else {
+          // 若彈窗被瀏覽器阻擋，自動觸發一鍵下載 HTML
+          alert('Gemini 預覽環境限制了直接列印，已自動為您下載 HTML 檔，請開啟下載的檔案即可直接列印！');
+          downloadHtml();
+        }
+      } else {
+        // 本機或獨立瀏覽器中：直接呼叫原生列印
+        window.print();
+      }
+    }
+
+    // 一鍵下載 HTML 檔案（在任何環境皆 100% 成功）
+    function downloadHtml() {
+      var title = document.title || '互動講義';
+      var htmlContent = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+      var blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = title + '.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(a.href);
     }
   </script>
 
