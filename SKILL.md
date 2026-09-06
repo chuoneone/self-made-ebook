@@ -1,10 +1,10 @@
 ---
 name: self-made-ebook
 description: >-
-  自製電子書（雙模式教學互動電子書產生器）。專門將教師提供的任何學科備課資料或教學教材（國文、英文、數學、自然、社會、特教等），轉換為單一獨立的「自製電子書」HTML 檔案。該自製電子書同時具備兩大核心功能：1.「學生端純淨 A4 列印」（直接列印即還原為無解答、無操作干擾文字的標準白紙作業/評量卷）；2.「教師端大屏／投影教學」（逐題點擊秀答案、一鍵揭曉全書答案、多色粗細螢光筆/板書筆圈記劃線）。當使用者提到「自製電子書」、「製作電子書」、「電子教材」、「雙模式互動html」、「互動學習單」或提供備課教材時，皆啟動此 skill。
+  e指書 / 自製電子書（雙模式教學互動電子書產生器）。專門將教師提供的任何學科備課資料或教學教材（國文、英文、數學、自然、社會、特教等），轉換為單一獨立的「e指書」HTML 檔案。該自製電子書同時具備兩大核心功能：1.「學生端純淨 A4 列印」（直接列印即還原為無解答、無操作干擾文字的標準白紙作業/評量卷）；2.「教師端大屏／投影教學」（逐題點擊秀答案、一鍵揭曉全書答案、多色粗細螢光筆/板書筆圈記劃線）。當使用者提到「e指書」、「自製電子書」、「製作電子書」、「電子教材」、「雙模式互動html」、「互動學習單」或提供備課教材時，皆啟動此 skill。
 ---
 
-# 自製電子書 (Self-Made E-Book) — 雙模式教學互動電子書產生器
+# e指書 (Self-Made E-Book) — 雙模式教學互動電子書產生器
 
 此技能專門將教師提供的備課資料（包含單字卷、文法題、句型練寫卷、數學試題、自然科圖表、社會科講義等各科教材），轉換為**單一獨立的「自製電子書」HTML 檔案**。
 該自製電子書同時具備以下兩大核心能力：
@@ -46,7 +46,7 @@ description: >-
 - **字級大小**：內文標準字級一律為 **14pt**（降低認知負荷、適合中學生及學障生閱讀、遠距投影清晰）。
 - **A4 頁面容器**：
   - 頁面寬度 `210mm`，最小高度 `297mm`，頁邊距內縮 `14mm 16mm`。
-  - 預設背景淡灰（如 `#e2e8f0`），頁面本體白色並帶有柔和陰影，每頁有獨立頁碼與關卡進度。
+  - 預設背景一律以很淺的柔和淡藍色為主（如 `#f0f7fc` 或 `#f4f8fc`），頁面本體白色並帶有柔和陰影，章節橫幅與點綴色亦以清新天藍/蔚藍（如 `#0284c7`、`#0f4c81`）為主，每頁有獨立頁碼與關卡進度。
   - 列印樣式 `@page { size: A4; margin: 12mm 15mm; }`，`.page { page-break-after: always; }`。
 
 ### 3. 禁止出現的干擾文字（Zero Annoying Text）
@@ -64,31 +64,50 @@ description: >-
 - **連連看題目**：
   - 嚴禁使用表格空格硬湊。
   - 採用左側主詞／概念卡片、右側目標歸納盒、中間透過 SVG `<line>` 動態計算座標繪製虛線連線。
+- **國語文生字詞彙練寫**：
+  - 生字詞彙表格僅需「生字」、「書寫練習（田字格）」、「核心語詞與字義」。
+  - **嚴格禁止出現「部首」與「部件積木拆解」欄位**，保持版面純淨大方並保留充裕練寫空間。
+  - **生字欄位一律直接套用 Google 官方注音字型**（`Bpmf Zihi Kai Std`，引入 `https://fonts.googleapis.com/css2?family=Bpmf+Zihi+Kai+Std&display=swap`），直接以 `<span class="font-bpmf">漢字</span>` 呈現漢字與內建右側注音，**切勿另外手動生成或換行輸出注音符號**。
 
 ### 5. 計算題與問答題必須預留 3～4 行純淨書寫／計算空間（Calculation Workspace）
 - **核心目的**：凡數學、自然理化、非選題或需要列式計算之題目，**嚴禁題與題之間緊密堆擠**。每道計算題下方**必須預留 3～4 行（高度約 80px～110px）的留白計算空間**，讓學生在紙本列印時有充裕的手寫計算與算式草稿區域。
 - **純淨無字原則**：留白框內**切勿印出任何提示文字**（例如不用寫「計算空間」或「思考與記錄空間」等字眼），保持 100% 純淨俐落的淺色虛線書寫格。
-- **解答揭曉原則（極重要：原則上不提供計算過程，只給答案）**：
-  - **原則上不提供計算過程，只提供最終答案**（例如：`答：-23` 或 `答：59`）。
-  - **除非使用者明確要求提供計算過程／步驟**，才在解答區塊內撰寫詳細推導步驟。
-- **一行不可出現兩個等號（極重要排版視覺規範）**：
-  - 在數學計算、化簡或列式步驟中，**同一行絕對不能出現兩個等號（＝）**。
-  - 遇到連鎖等式或多步驟運算，**必須換行（使用 `<br>`）**，讓每個等號獨立起行（例如：`原式<br>＝ A<br>＝ B`），保持垂直對齊，視覺上清晰整齊、大幅降低認知負荷。
+- **數學教學習慣與運算規範（極重要）**：
+  1. **正負數加減核心原則**：
+     - **直接都先去括號**：整理每個數字前的符號（例如 \(+(-a) \to -a\)，\(-(-a) \to +a\)），使每個數前只保留一個明確符號。
+     - **同號相加，異號相減**：同號直接相加（符號不變）；異號互相抵消（大數減小數，看誰剩得多，符號跟多的）。
+  2. **純算式原則（嚴禁書寫任何國字）**：
+     - 數學解題或計算步驟中，**絕對不寫任何國字**（不寫「原式＝」、「答：」、「同號相加：」等中文文字）。
+     - 直接呈現乾淨純粹的數學算式與數值結果。
+  3. **一行不可出現兩個等號（極重要排版視覺規範）**：
+     - 在數學計算、化簡或列式步驟中，**同一行絕對不能出現兩個等號（＝）**。
+     - 遇到連鎖等式或多步驟運算，**必須換行**，讓每個等號獨立起行，保持垂直對齊，視覺清晰俐落、大幅降低認知負荷。
+  4. **一個等號算一步驟（漸進式逐步揭曉，嚴防學生直接抄答案）**：
+     - 計算算式中的每一個等號（每一行）皆為獨立步驟，採用 `<div class="calc-step">＝ ...</div>` 包裹。
+     - 教師端在大屏投影教學時，點擊題目或算式區會**依序逐步揭曉下一步算式**（點第 1 下出第 1 步去括號、點第 2 下出計算步驟、點第 3 下出最終答案），引導學生邊看邊思考、跟隨節奏動筆計算。
+     - 題幹頂部的最終答案空格（`.ans-reveal`），**只在算式最後一步揭曉時才同步亮起紅字**，徹底杜絕學生未動腦就直接抄答案。
+     - 全部步驟揭曉完畢後，再次點擊即可隱藏重置；全書頂部工具列亦可透過「一鍵全開」瞬間顯示全書所有步驟。
 - **雙模式運作機制**：
   1. **學生端純淨列印**：計算框維持淺色細虛線邊框，內無解答亦無干擾提示字，保留完整乾淨的 3～4 行手寫高度供學生書寫。
-  2. **教師端大屏教學**：點擊題目或計算框時，立即於框內浮現以紅字排版的【最終答案】；教師亦可在框內直接啟用螢光筆/板書筆帶領學生板書運算。
-- **標準 HTML 結構（預設只給答案）**：
+  2. **教師端大屏教學**：點擊題目或計算框時，立即逐步依序浮現紅字算式步驟；教師亦可在框內直接啟用螢光筆/板書筆帶領學生板書運算。
+- **標準 HTML 結構（漸進式純算式範例）**：
   ```html
-  <div class="interactive-item" onclick="toggleItemAnswer(this)">
-    <div class="item-line"><b>題目：</b>計算 \((-15) + (-8) =\) ？</div>
+  <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
+    <div class="item-title">(1)（－4）＋（－6）＝<span class="write-blank"><span class="ans-reveal">－10</span></span></div>
     <div class="calc-workspace">
       <div class="calc-solution">
-        <b>答：</b> \(-23\)
+        <div class="calc-step">＝ －4 － 6</div>
+        <div class="calc-step">＝ －10</div>
       </div>
     </div>
   </div>
   ```
-  *(備註：若使用者要求提供詳細步驟，務必換行、嚴禁一行兩等號：`<div class="calc-solution">原式<br>＝ -(15 + 8)<br>＝ -23<br><b>答：</b> -23</div>`)*
+
+### 6. 紅色解答與手寫答案精簡原則（特教／國中課堂友善規範，嚴防學生抄寫過久）
+- **核心痛點**：在課堂大屏/投影教學中，教師一鍵揭曉紅字答案時，學生必須對照螢幕手寫抄入紙本學習單或講義中。若紅色答案為落落長的完整句子（如 20～30 字），學生會耗費數倍時間埋頭抄寫，導致課堂節奏嚴重拖慢、學生手部肌肉疲倦並喪失注意力。
+- **極簡字數規範**：
+  1. **表格填空／大意對照表**：每個儲存格內的紅色答案**嚴格精簡在 8～12 字以內**（以核心關鍵詞短語呈現，例如：`幼年失明，黑暗中摸索`、`掌心向下，能付出的手最美`）。
+  2. **簡答題／閱讀理解**：直切核心結論，避免長篇大論的修飾贅詞，讓學生 15～30 秒內即可輕鬆快速抄寫完畢。
 
 ---
 
@@ -132,9 +151,9 @@ description: >-
     </div>
     <div class="sub-divider" style="width:1px; height:14px; background:#cbd5e1; margin:0 2px;"></div>
     <div class="size-picker">
-      <button class="size-btn" onclick="setPenSize(4, this)">細</button>
+      <button class="size-btn active" onclick="setPenSize(4, this)">細</button>
       <button class="size-btn" onclick="setPenSize(10, this)">中</button>
-      <button class="size-btn active" onclick="setPenSize(20, this)">粗</button>
+      <button class="size-btn" onclick="setPenSize(20, this)">粗</button>
     </div>
   </div>
   
@@ -219,24 +238,53 @@ body.pen-mode .drawing-canvas {
   cursor: crosshair;
 }
 
-/* 列印強制隱藏解答與後台工具，還原白紙學生卷 */
+/* 列印強制隱藏解答與後台工具，還原白紙學生卷（嚴格 1 頁對應 1 張 A4，徹底杜絕溢頁） */
 @media print {
-  body {
+  @page {
+    size: A4 portrait;
+    margin: 10mm 12mm;
+  }
+  html, body {
+    width: 100% !important;
+    height: auto !important;
     background: transparent !important;
     padding: 0 !important;
+    margin: 0 !important;
   }
   .no-print,
   .classroom-toolbar,
   .drawing-canvas,
-  .matching-svg-layer {
+  .matching-svg-layer,
+  .toc-menu {
     display: none !important;
+  }
+  .page-container {
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    gap: 0 !important;
   }
   .page {
     margin: 0 !important;
     box-shadow: none !important;
     width: 100% !important;
-    min-height: auto !important;
+    height: 275mm !important;
+    max-height: 275mm !important;
+    min-height: 0 !important;
     padding: 0 !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    overflow: hidden !important;
+  }
+  .footer-bar {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    margin-top: auto !important;
   }
   .correct-choice {
     color: inherit !important;
