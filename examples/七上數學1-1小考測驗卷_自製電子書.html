@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="../../images/ebook-logo.webp">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>七上數學 1-1 正數與負數 小考測驗卷 - 自製電子書</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 10mm 12mm;
+    }
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f0f7fc;
+      font-family: "Times New Roman", "標楷體", "DFKai-SB", "BiauKai", serif;
+      font-size: 14pt;
+      line-height: 1.45;
+      color: #0f172a;
+      user-select: auto;
+    }
+
+    /* 課堂懸浮工具列 (純 Emoji 極簡膠囊) */
+    .classroom-toolbar {
+      position: fixed;
+      top: 14px;
+      right: 20px;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 4px 8px;
+      border-radius: 40px;
+      border: 1px solid rgba(203, 213, 225, 0.9);
+      box-shadow: 0 4px 22px rgba(0, 0, 0, 0.12);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .tool-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      font-size: 18px;
+      color: #334155;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      padding: 0;
+      user-select: none;
+    }
+    .tool-btn:hover {
+      background: #f1f5f9;
+      transform: scale(1.1);
+    }
+    .tool-btn.active {
+      background: #0f172a;
+      color: #ffffff;
+    }
+    .btn-toggle-ans.active {
+      background: #eff6ff;
+      border-color: #0284c7;
+    }
+    .toolbar-divider {
+      width: 1px;
+      height: 18px;
+      background: #cbd5e1;
+      margin: 0 3px;
+    }
+
+    /* 目錄跳轉選單 (TOC Floating Menu) */
+    .toc-menu {
+      display: none;
+      position: absolute;
+      top: 46px;
+      left: 0;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+      padding: 6px 0;
+      min-width: 250px;
+      z-index: 10000;
+    }
+    .toc-menu.show {
+      display: block;
+      animation: tocFadeIn 0.15s ease-out;
+    }
+    @keyframes tocFadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .toc-menu-title {
+      padding: 6px 16px 8px 16px;
+      font-size: 13px;
+      font-weight: bold;
+      color: #64748b;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .toc-menu-item {
+      padding: 8px 16px;
+      font-size: 14px;
+      color: #334155;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.12s, color 0.12s;
+    }
+    .toc-menu-item:hover {
+      background: #eff6ff;
+      color: #0284c7;
+      font-weight: bold;
+    }
+    .toc-page-badge {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    /* 畫筆面板 */
+    .pen-options {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      background: #f8fafc;
+      padding: 3px 8px;
+      border-radius: 20px;
+      border: 1px solid #e2e8f0;
+      margin-left: 2px;
+    }
+    .color-picker {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .color-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
+    }
+    .color-dot.active {
+      transform: scale(1.2);
+      box-shadow: 0 0 0 2px #0f172a;
+    }
+    .sub-divider {
+      width: 1px;
+      height: 14px;
+      background: #cbd5e1;
+      margin: 0 2px;
+    }
+    .size-picker {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .size-btn {
+      border: 1px solid #cbd5e1;
+      background: #fff;
+      color: #475569;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 2px 7px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .size-btn.active {
+      background: #0f172a;
+      color: #fff;
+      border-color: #0f172a;
+    }
+
+    /* A4 頁面容器 */
+    .pages-container {
+      padding: 16px 0 40px 0;
+    }
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      padding: 12mm 15mm;
+      margin: 0 auto 20px auto;
+      background: #ffffff;
+      box-shadow: 0 5px 18px rgba(0,0,0,0.12);
+      page-break-after: always;
+      break-after: page;
+      position: relative;
+    }
+
+    /* 全頁透明畫布 */
+    .drawing-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 60;
+      pointer-events: none;
+    }
+    body.pen-mode .drawing-canvas {
+      pointer-events: auto;
+      cursor: crosshair;
+    }
+
+    /* 頁首與頁尾 */
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 2px solid #0f172a;
+      padding-bottom: 5px;
+      margin-bottom: 8px;
+    }
+    .main-title {
+      font-size: 16.5pt;
+      font-weight: bold;
+      color: #0f172a;
+      letter-spacing: 0.5px;
+    }
+    .user-info {
+      font-size: 12pt;
+      color: #334155;
+      letter-spacing: 1px;
+    }
+    .page-footer {
+      position: absolute;
+      bottom: 8mm;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 10.5pt;
+      color: #64748b;
+    }
+
+    /* 測驗章節大標題 */
+    .section-banner {
+      font-size: 14pt;
+      font-weight: bold;
+      background: #f1f5f9;
+      border-left: 6px solid #0284c7;
+      padding: 5px 12px;
+      margin: 6px 0 10px 0;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .banner-badge {
+      font-size: 11pt;
+      font-weight: bold;
+      color: #0369a1;
+      background: #e0f2fe;
+      padding: 2px 10px;
+      border-radius: 12px;
+    }
+
+    /* 題目互動項目 */
+    .interactive-item {
+      padding: 7px 10px;
+      margin-bottom: 10px;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      background: #ffffff;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    body:not(.pen-mode) .interactive-item {
+      cursor: pointer;
+    }
+    body:not(.pen-mode) .interactive-item:hover {
+      background-color: #f8fafc;
+      border-color: #93c5fd;
+    }
+    .item-q-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .item-title {
+      font-size: 13.5pt;
+      font-weight: bold;
+      color: #0f172a;
+      flex: 1;
+    }
+    .ans-box {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 60px;
+      padding: 1px 8px;
+      border-bottom: 1.5px solid #0f172a;
+      font-weight: bold;
+      font-size: 14pt;
+    }
+
+    /* 選擇題選項四欄/雙欄佈局 */
+    .choices-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 16px;
+      row-gap: 4px;
+      margin: 4px 0 4px 18px;
+      font-size: 13pt;
+      color: #334155;
+    }
+    .choice-opt {
+      padding: 2px 6px;
+      border-radius: 4px;
+      transition: background 0.15s;
+    }
+
+    /* 答案揭曉樣式 (紅色字體、純算式/純選項、無國字贅詞) */
+    .ans-reveal {
+      color: transparent;
+      font-weight: bold;
+      transition: color 0.18s;
+      font-family: "Times New Roman", serif;
+    }
+    .show-ans .ans-reveal,
+    .interactive-item.show-one .ans-reveal {
+      color: #dc2626 !important;
+    }
+
+    /* 填充題專屬極簡計算/思考空間 */
+    .calc-workspace {
+      min-height: 52px;
+      margin: 5px 0 2px 0;
+      padding: 4px 10px;
+      border: 1.5px dashed #cbd5e1;
+      border-radius: 6px;
+      background-color: #f8fafc;
+      display: flex;
+      align-items: center;
+    }
+    .calc-solution {
+      color: transparent;
+      font-size: 13pt;
+      font-weight: bold;
+      transition: color 0.18s;
+    }
+    .show-ans .calc-solution,
+    .interactive-item.show-one .calc-solution {
+      color: #dc2626 !important;
+    }
+
+    /* 雙欄緊湊網格 */
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 16px;
+      row-gap: 6px;
+    }
+
+    /* 列印控制 (Print Styles: 嚴格 1 頁對應 1 張 A4，杜絕溢頁) */
+    @media print {
+      html, body {
+        width: 100% !important;
+        height: auto !important;
+        background: transparent !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .no-print,
+      .classroom-toolbar,
+      .toc-menu,
+      .drawing-canvas {
+        display: none !important;
+      }
+      .pages-container {
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        gap: 0 !important;
+      }
+      .page {
+        box-sizing: border-box !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        width: 100% !important;
+        height: 275mm !important;
+        max-height: 275mm !important;
+        min-height: 0 !important;
+        padding: 0 !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        overflow: hidden !important;
+      }
+      .page:last-child,
+      .page:last-of-type {
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+      }
+      .page-footer {
+        position: static !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        margin-top: auto !important;
+        padding-top: 6px !important;
+        padding-bottom: 2mm !important;
+      }
+      .interactive-item {
+        border-color: #cbd5e1 !important;
+        background: transparent !important;
+        margin-bottom: 8px !important;
+        padding: 6px 8px !important;
+      }
+      .ans-reveal {
+        color: transparent !important;
+      }
+      .ans-box {
+        border-bottom: 1.5px solid #000 !important;
+      }
+      .calc-workspace {
+        border: 1.5px dashed #94a3b8 !important;
+        background: transparent !important;
+        min-height: 52px !important;
+      }
+      .calc-solution {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 課堂懸浮工具列 (純 Emoji 極簡版＋目錄跳轉) -->
+  <div class="classroom-toolbar no-print">
+    <!-- 目錄跳轉按鈕 -->
+    <div style="position: relative;">
+      <button class="tool-btn" id="tocBtn" onclick="toggleTocMenu(event)" title="小考大題導覽">
+        📑
+      </button>
+      <div class="toc-menu" id="tocMenu">
+        <div class="toc-menu-title">📖 測驗卷大題導覽</div>
+        <div class="toc-menu-item" onclick="jumpTo('page-choice')"><span>一、單一選擇題 (5 題)</span><span class="toc-page-badge">P.1</span></div>
+        <div class="toc-menu-item" onclick="jumpTo('page-blank')"><span>二、基礎填充題 (5 題)</span><span class="toc-page-badge">P.2</span></div>
+      </div>
+    </div>
+
+    <!-- 答案切換按鈕 -->
+    <button class="tool-btn btn-toggle-ans" id="toggleAllAnsBtn" onclick="toggleAllAnswers()" title="一鍵全開/全隱答案">
+      <span id="ansIcon">👁️</span>
+    </button>
+    
+    <!-- 畫筆切換按鈕 -->
+    <button class="tool-btn" id="penBtn" onclick="togglePenMode()" title="螢光筆/板書筆">
+      ✏️
+    </button>
+    
+    <!-- 畫筆選單 -->
+    <div class="pen-options" id="penOptions">
+      <div class="color-picker">
+        <span class="color-dot active" style="background:#facc15;" onclick="setPenColor('rgba(250, 204, 21, 0.45)', this)" title="螢光黃"></span>
+        <span class="color-dot" style="background:#ef4444;" onclick="setPenColor('rgba(239, 68, 68, 0.85)', this)" title="紅筆"></span>
+        <span class="color-dot" style="background:#3b82f6;" onclick="setPenColor('rgba(37, 99, 235, 0.85)', this)" title="藍筆"></span>
+        <span class="color-dot" style="background:#10b981;" onclick="setPenColor('rgba(16, 185, 129, 0.85)', this)" title="綠筆"></span>
+      </div>
+      <div class="sub-divider"></div>
+      <div class="size-picker">
+        <button class="size-btn active" onclick="setPenSize(3, this)">細</button>
+        <button class="size-btn" onclick="setPenSize(8, this)">中</button>
+        <button class="size-btn" onclick="setPenSize(16, this)">粗</button>
+      </div>
+    </div>
+    
+    <!-- 清除塗鴉按鈕 -->
+    <button class="tool-btn" onclick="clearAllDrawings()" title="清除畫跡">
+      🧹
+    </button>
+    
+    <div class="toolbar-divider"></div>
+    
+    <!-- 列印按鈕 -->
+    <button class="tool-btn" onclick="window.print()" title="列印純淨 A4 學生試卷">
+      🖨️
+    </button>
+  </div>
+
+  <div class="pages-container">
+
+    <!-- PAGE 1: 一、單一選擇題 (5 題) -->
+    <div class="page" id="page-choice">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="header-bar">
+        <div class="main-title">七上數學 1-1 正數與負數 小考測驗卷</div>
+        <div class="user-info">班級：_______ 座號：_______ 姓名：___________ 得分：_______</div>
+      </div>
+
+      <div class="section-banner">
+        <span>一、單一選擇題（每題 10 分，共 50 分）</span>
+        <span class="banner-badge">點擊題目顯現答案</span>
+      </div>
+
+      <!-- 題 1 -->
+      <div class="interactive-item" onclick="toggleItemAnswer(this)">
+        <div class="item-q-head">
+          <div class="item-title">1. 若向東走 8km 記為＋8km，則向西走 5km 該如何表示？</div>
+          <div class="ans-box">( <span class="ans-reveal">B</span> )</div>
+        </div>
+        <div class="choices-grid">
+          <div class="choice-opt">(A) ＋5km</div>
+          <div class="choice-opt">(B) －5km</div>
+          <div class="choice-opt">(C) ＋3km</div>
+          <div class="choice-opt">(D) －3km</div>
+        </div>
+      </div>
+
+      <!-- 題 2 -->
+      <div class="interactive-item" onclick="toggleItemAnswer(this)">
+        <div class="item-q-head">
+          <div class="item-title">2. 下列關於「0」的性質敘述，何者正確？</div>
+          <div class="ans-box">( <span class="ans-reveal">C</span> )</div>
+        </div>
+        <div class="choices-grid">
+          <div class="choice-opt">(A) 0 是最小的正數</div>
+          <div class="choice-opt">(B) 0 是最大的負數</div>
+          <div class="choice-opt">(C) 0 既不是正數也不是負數</div>
+          <div class="choice-opt">(D) 0 不是整數</div>
+        </div>
+      </div>
+
+      <!-- 題 3 -->
+      <div class="interactive-item" onclick="toggleItemAnswer(this)">
+        <div class="item-q-head">
+          <div class="item-title">3. 下列各組數中，哪一組互為「相反數」？</div>
+          <div class="ans-box">( <span class="ans-reveal">B</span> )</div>
+        </div>
+        <div class="choices-grid">
+          <div class="choice-opt">(A) 3 與 1/3</div>
+          <div class="choice-opt">(B) －7 與 7</div>
+          <div class="choice-opt">(C) －5 與 －5</div>
+          <div class="choice-opt">(D) 0 與 1</div>
+        </div>
+      </div>
+
+      <!-- 題 4 -->
+      <div class="interactive-item" onclick="toggleItemAnswer(this)">
+        <div class="item-q-head">
+          <div class="item-title">4. 計算絕對值算式｜－12｜＋｜＋5｜－｜0｜之值為何？</div>
+          <div class="ans-box">( <span class="ans-reveal">C</span> )</div>
+        </div>
+        <div class="choices-grid">
+          <div class="choice-opt">(A) 7</div>
+          <div class="choice-opt">(B) －7</div>
+          <div class="choice-opt">(C) 17</div>
+          <div class="choice-opt">(D) －17</div>
+        </div>
+      </div>
+
+      <!-- 題 5 -->
+      <div class="interactive-item" onclick="toggleItemAnswer(this)">
+        <div class="item-q-head">
+          <div class="item-title">5. 下列各選項中的大小關係比較，何者正確？</div>
+          <div class="ans-box">( <span class="ans-reveal">D</span> )</div>
+        </div>
+        <div class="choices-grid">
+          <div class="choice-opt">(A) －8 ＞ －5</div>
+          <div class="choice-opt">(B) －15 ＜ －20</div>
+          <div class="choice-opt">(C) 0 ＜ －3</div>
+          <div class="choice-opt">(D) －1/2 ＞ －3/4</div>
+        </div>
+      </div>
+
+      <div class="page-footer">七上數學 1-1 小考測驗卷（第 1 頁，共 2 頁）</div>
+    </div>
+
+    <!-- PAGE 2: 二、基礎填充題 (5 題) -->
+    <div class="page" id="page-blank">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="header-bar">
+        <div class="main-title">七上數學 1-1 正數與負數 小考測驗卷</div>
+        <div class="user-info">姓名：___________ 得分：_______</div>
+      </div>
+
+      <div class="section-banner">
+        <span>二、基礎填充題（每題 10 分，共 50 分，附計算／思考空間）</span>
+        <span class="banner-badge">點擊題目顯現答案</span>
+      </div>
+
+      <!-- 填 1 -->
+      <div class="interactive-item" onclick="toggleItemAnswer(this)">
+        <div class="item-q-head">
+          <div class="item-title">1. 以 70 分為基準，小華考 85 分記為＋15 分；若小明考 58 分，則應記為：</div>
+          <div class="ans-box"><span class="ans-reveal">－12</span></div>
+        </div>
+        <div class="calc-workspace">
+          <div class="calc-solution">58 － 70 ＝ －12</div>
+        </div>
+      </div>
+
+      <!-- 填 2 -->
+      <div class="interactive-item" onclick="toggleItemAnswer(this)">
+        <div class="item-q-head">
+          <div class="item-title">2. 若 a 的相反數是 －19，則 a ＝</div>
+          <div class="ans-box"><span class="ans-reveal">19</span></div>
+        </div>
+        <div class="calc-workspace">
+          <div class="calc-solution">－(－19) ＝ 19</div>
+        </div>
+      </div>
+
+      <!-- 填 3 -->
+      <div class="interactive-item" onclick="toggleItemAnswer(this)">
+        <div class="item-q-head">
+          <div class="item-title">3. 數線上兩點 A(－9)、B(4)，則線段 AB 的長度為：</div>
+          <div class="ans-box"><span class="ans-reveal">13</span></div>
+        </div>
+        <div class="calc-workspace">
+          <div class="calc-solution">|4 － (－9)| ＝ 4 ＋ 9 ＝ 13</div>
+        </div>
+      </div>
+
+      <!-- 填 4 -->
+      <div class="interactive-item" onclick="toggleItemAnswer(this)">
+        <div class="item-q-head">
+          <div class="item-title">4. 若某數 x 滿足絕對值｜x｜＝ 8.5，則 x ＝</div>
+          <div class="ans-box"><span class="ans-reveal">8.5, －8.5</span></div>
+        </div>
+        <div class="calc-workspace">
+          <div class="calc-solution">±8.5 ( 8.5, －8.5 )</div>
+        </div>
+      </div>
+
+      <!-- 填 5 -->
+      <div class="interactive-item" onclick="toggleItemAnswer(this)">
+        <div class="item-q-head">
+          <div class="item-title">5. 滿足絕對值小於或等於 3（即｜a｜≤ 3）的所有整數 a 共有幾個？</div>
+          <div class="ans-box"><span class="ans-reveal">7</span></div>
+        </div>
+        <div class="calc-workspace">
+          <div class="calc-solution">－3, －2, －1, 0, 1, 2, 3 ( 共 7 個 )</div>
+        </div>
+      </div>
+
+      <div class="page-footer">七上數學 1-1 小考測驗卷（第 2 頁，共 2 頁）</div>
+    </div>
+
+  </div>
+
+  <!-- 互動腳本：全開/逐題解答、多色螢光筆畫布、目錄跳轉 -->
+  <script>
+    let isAllAnsShown = false;
+    let isPenMode = false;
+    let currentColor = 'rgba(250, 204, 21, 0.45)'; // 螢光黃
+    let currentSize = 3;
+    const canvases = [];
+
+    // 0. 目錄面板切換與平滑跳轉
+    function toggleTocMenu(e) {
+      if (e) e.stopPropagation();
+      const menu = document.getElementById('tocMenu');
+      if (menu) menu.classList.toggle('show');
+    }
+
+    function jumpTo(targetId) {
+      const el = document.getElementById(targetId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      const menu = document.getElementById('tocMenu');
+      if (menu) menu.classList.remove('show');
+    }
+
+    // 點擊頁面其他地方關閉目錄選單
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('tocMenu');
+      const btn = document.getElementById('tocBtn');
+      if (menu && menu.classList.contains('show')) {
+        if (!menu.contains(e.target) && e.target !== btn) {
+          menu.classList.remove('show');
+        }
+      }
+    });
+
+    // 1. 逐題點擊顯現解答
+    function toggleItemAnswer(el) {
+      if (isPenMode) return; // 畫筆模式時不觸發答案點擊
+      el.classList.toggle('show-one');
+    }
+
+    // 2. 一鍵全開 / 全隱答案
+    function toggleAllAnswers() {
+      isAllAnsShown = !isAllAnsShown;
+      const btn = document.getElementById('toggleAllAnsBtn');
+      const icon = document.getElementById('ansIcon');
+      const container = document.querySelector('.pages-container');
+      
+      if (isAllAnsShown) {
+        container.classList.add('show-ans');
+        btn.classList.add('active');
+        icon.textContent = '🙈';
+      } else {
+        container.classList.remove('show-ans');
+        btn.classList.remove('active');
+        icon.textContent = '👁️';
+        document.querySelectorAll('.show-one').forEach(el => el.classList.remove('show-one'));
+      }
+    }
+
+    // 3. 畫筆開關切換
+    function togglePenMode() {
+      isPenMode = !isPenMode;
+      const penBtn = document.getElementById('penBtn');
+      const options = document.getElementById('penOptions');
+      
+      if (isPenMode) {
+        penBtn.classList.add('active');
+        options.style.display = 'inline-flex';
+        document.body.classList.add('pen-mode');
+      } else {
+        penBtn.classList.remove('active');
+        options.style.display = 'none';
+        document.body.classList.remove('pen-mode');
+      }
+    }
+
+    // 4. 設定筆刷顏色與粗細
+    function setPenColor(color, el) {
+      currentColor = color;
+      document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    function setPenSize(size, btnEl) {
+      currentSize = size;
+      document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+      btnEl.classList.add('active');
+    }
+
+    // 5. 初始化每頁透明畫布
+    function initCanvases() {
+      const pageElements = document.querySelectorAll('.page');
+      pageElements.forEach(page => {
+        const canvas = page.querySelector('.drawing-canvas');
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+        function resize() {
+          const rect = page.getBoundingClientRect();
+          const scale = window.devicePixelRatio || 1;
+          canvas.width = rect.width * scale;
+          canvas.height = rect.height * scale;
+          ctx.scale(scale, scale);
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+
+        function getPos(e) {
+          const rect = canvas.getBoundingClientRect();
+          if (e.touches && e.touches.length > 0) {
+            return {
+              x: e.touches[0].clientX - rect.left,
+              y: e.touches[0].clientY - rect.top
+            };
+          }
+          return {
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top
+          };
+        }
+
+        function startDraw(e) {
+          if (!isPenMode) return;
+          isDrawing = true;
+          const pos = getPos(e);
+          lastX = pos.x;
+          lastY = pos.y;
+        }
+
+        function draw(e) {
+          if (!isDrawing || !isPenMode) return;
+          const pos = getPos(e);
+          ctx.beginPath();
+          ctx.moveTo(lastX, lastY);
+          ctx.lineTo(pos.x, pos.y);
+          ctx.strokeStyle = currentColor;
+          ctx.lineWidth = currentSize;
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+          ctx.stroke();
+          lastX = pos.x;
+          lastY = pos.y;
+          e.preventDefault();
+        }
+
+        function stopDraw() {
+          isDrawing = false;
+        }
+
+        canvas.addEventListener('mousedown', startDraw);
+        canvas.addEventListener('mousemove', draw);
+        window.addEventListener('mouseup', stopDraw);
+
+        canvas.addEventListener('touchstart', startDraw, { passive: false });
+        canvas.addEventListener('touchmove', draw, { passive: false });
+        window.addEventListener('touchend', stopDraw);
+
+        canvases.push({ canvas, ctx });
+      });
+    }
+
+    // 6. 清除所有畫跡
+    function clearAllDrawings() {
+      canvases.forEach(({ canvas, ctx }) => {
+        const scale = window.devicePixelRatio || 1;
+        ctx.save();
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.restore();
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initCanvases();
+    });
+  </script>
+</body>
+</html>

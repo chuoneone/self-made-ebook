@@ -159,12 +159,6 @@
       background-color: #f8fafc;
       position: relative;
     }
-    .calc-hint {
-      font-size: 11pt;
-      color: #94a3b8;
-      user-select: none;
-      margin-bottom: 4px;
-    }
     .calc-solution {
       color: transparent;
       font-size: 13pt;
@@ -179,14 +173,81 @@
 
     /* 列印強制隱藏解答與後台工具，還原白紙卷 */
     @media print {
-      body { background: transparent !important; padding: 0 !important; }
-      .no-print, .classroom-toolbar, .drawing-canvas { display: none !important; }
-      .page { margin: 0 !important; box-shadow: none !important; width: 100% !important; min-height: auto !important; padding: 0 !important; }
-      .correct-choice { color: inherit !important; font-weight: normal !important; border: none !important; background: transparent !important; padding: 0 !important; }
-      .ans-slot, .ans-word { color: transparent !important; }
-      .calc-workspace { border: 1px dashed #94a3b8 !important; background: transparent !important; min-height: 85px !important; }
-      .calc-hint { color: #64748b !important; }
-      .calc-solution { display: none !important; }
+      @page {
+        size: A4 portrait;
+        margin: 10mm 12mm;
+      }
+      html, body {
+        width: 100% !important;
+        height: auto !important;
+        background: transparent !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .no-print,
+      .classroom-toolbar,
+      .toc-menu,
+      .drawing-canvas {
+        display: none !important;
+      }
+      .pages-container {
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        gap: 0 !important;
+      }
+      .page {
+        box-sizing: border-box !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        width: 100% !important;
+        height: 275mm !important;
+        max-height: 275mm !important;
+        min-height: 0 !important;
+        padding: 0 !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        overflow: hidden !important;
+      }
+      .page:last-child,
+      .page:last-of-type {
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+      }
+      .page-footer,
+      .footer-bar {
+        position: static !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        margin-top: auto !important;
+        padding-top: 6px !important;
+        padding-bottom: 2mm !important;
+      }
+      .correct-choice {
+        color: inherit !important;
+        font-weight: normal !important;
+        border: none !important;
+        background: transparent !important;
+        padding: 0 !important;
+      }
+      .ans-slot, .ans-word, .ans-reveal {
+        color: transparent !important;
+      }
+      .calc-workspace {
+        border: 1px dashed #94a3b8 !important;
+        background: transparent !important;
+        min-height: 85px !important;
+      }
+      .calc-solution {
+        display: none !important;
+      }
     }
   </style>
 </head>
@@ -226,9 +287,9 @@
       </div>
       <div class="sub-divider" style="width:1px; height:14px; background:#cbd5e1; margin:0 2px;"></div>
       <div class="size-picker">
-        <button class="size-btn" onclick="setPenSize(4, this)">細</button>
+        <button class="size-btn active" onclick="setPenSize(4, this)">細</button>
         <button class="size-btn" onclick="setPenSize(10, this)">中</button>
-        <button class="size-btn active" onclick="setPenSize(20, this)">粗</button>
+        <button class="size-btn" onclick="setPenSize(20, this)">粗</button>
       </div>
     </div>
     

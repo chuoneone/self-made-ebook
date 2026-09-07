@@ -108,6 +108,24 @@ description: >-
 - **極簡字數規範**：
   1. **表格填空／大意對照表**：每個儲存格內的紅色答案**嚴格精簡在 8～12 字以內**（以核心關鍵詞短語呈現，例如：`幼年失明，黑暗中摸索`、`掌心向下，能付出的手最美`）。
   2. **簡答題／閱讀理解**：直切核心結論，避免長篇大論的修飾贅詞，讓學生 15～30 秒內即可輕鬆快速抄寫完畢。
+  3. **數學答案徹底去國字化（純數字、符號、選項代號，嚴防抄寫疲倦）**：
+     - 凡數學題目之答案（`.ans-reveal` 或 `.ans-slot`），**嚴格禁止書寫任何國字**（絕不寫「答：」、「公尺」、「度」、「賺」、「賠」等單位或中文贅字）。
+     - 數值題目直接填入純數字與正負號（如 `－12`、`19`、`8.5, －8.5`、`＋500`）。
+     - 觀念判定或是非題，一律提供 `(A)`、`(B)`、`(C)` 選項，答案僅揭曉英文字母代號（如 `(A)`）。
+     - **理由**：特教與資源班學生手部小肌肉耐力有限、抄寫極易疲乏分心。去除國字贅詞後，學生能在 3 秒內精準完成抄寫，緊跟課堂節奏。
+
+### 7. 小考測驗卷模式（Quiz Mode：5 題單選＋5 題填充標準雙頁）
+- 當教師要求製作「小考」、「隨堂測驗卷」、「小測驗」時，自動啟用標準 2 頁 A4 測驗卷架構：
+  - **第 1 頁（單選題 5 題）**：
+    - 頂部設置學生資訊欄（班級、座號、姓名、得分評分區）。
+    - 題幹右上角設置答案填入框 `.ans-box`，內嵌 `.ans-reveal`。
+    - 選項採用雙欄或垂直堆疊網格 `.choices-grid`，嚴格對齊。
+    - 答案僅為純選項代號 `(A)`、`(B)`、`(C)`、`(D)`。
+  - **第 2 頁（填充題 5 題）**：
+    - 每題附帶 3～4 行純淨留白計算框 `.calc-workspace`，內嵌逐步算式或最終數值 `.calc-solution`。
+    - 紙本列印時呈現乾淨細虛線供學生計算草稿；課堂大屏點擊時依序/即時揭曉答案。
+    - 答案純數字、純正負號，零國字。
+  - **完美雙頁無溢頁**：第 2 頁結尾避開多餘換頁符號，列印時剛好雙面 1 張（2 頁），不多出第 3 頁空白頁。
 
 ---
 
@@ -265,6 +283,7 @@ body.pen-mode .drawing-canvas {
     gap: 0 !important;
   }
   .page {
+    box-sizing: border-box !important;
     margin: 0 !important;
     box-shadow: none !important;
     width: 100% !important;
@@ -278,13 +297,22 @@ body.pen-mode .drawing-canvas {
     break-inside: avoid !important;
     display: flex !important;
     flex-direction: column !important;
-    justify-content: space-between !important;
+    justify-content: flex-start !important; /* 嚴禁使用 space-between，避免 flex 分散多餘高度導致題距過大切斷題尾 */
     overflow: hidden !important;
   }
-  .footer-bar {
+  .page:last-child,
+  .page:last-of-type {
+    page-break-after: avoid !important;
+    break-after: avoid !important; /* 避免列印產生多餘尾頁空白紙 */
+  }
+  .footer-bar,
+  .page-footer {
+    position: static !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
-    margin-top: auto !important;
+    margin-top: auto !important; /* 自動推至 A4 底部 */
+    padding-top: 6px !important;
+    padding-bottom: 2mm !important;
   }
   .correct-choice {
     color: inherit !important;

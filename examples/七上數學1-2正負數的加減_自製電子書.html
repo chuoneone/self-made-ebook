@@ -2,6 +2,7 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="../../images/ebook-logo.webp">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>七上數學 1-2 正負數的加減 - 自製電子書</title>
   <style>
@@ -17,7 +18,7 @@
     body {
       margin: 0;
       padding: 0;
-      background-color: #e2e8f0;
+      background-color: #f0f7fc;
       font-family: "Times New Roman", "標楷體", "DFKai-SB", "BiauKai", serif;
       font-size: 14pt;
       line-height: 1.4;
@@ -69,7 +70,7 @@
     }
     .btn-toggle-ans.active {
       background: #eff6ff;
-      border-color: #3b82f6;
+      border-color: #0284c7;
     }
     .toolbar-divider {
       width: 1px;
@@ -121,7 +122,7 @@
     }
     .toc-menu-item:hover {
       background: #eff6ff;
-      color: #2563eb;
+      color: #0284c7;
       font-weight: bold;
     }
     .toc-page-badge {
@@ -130,7 +131,7 @@
       font-weight: normal;
     }
     .toc-menu-item:hover .toc-page-badge {
-      color: #2563eb;
+      color: #0284c7;
     }
 
     /* 畫筆面板 */
@@ -251,7 +252,7 @@
       font-size: 14.5pt;
       font-weight: bold;
       background: #f1f5f9;
-      border-left: 6px solid #2563eb;
+      border-left: 6px solid #0284c7;
       padding: 4px 10px;
       margin: 6px 0 10px 0;
       border-radius: 4px;
@@ -285,7 +286,7 @@
       transition: color 0.2s, border-color 0.2s;
     }
     .show-ans .ans-reveal,
-    .interactive-item.show-one .ans-reveal {
+    .interactive-item.ans-done .ans-reveal {
       color: #dc2626 !important;
     }
 
@@ -320,19 +321,24 @@
       position: relative;
     }
     .calc-solution {
-      color: transparent;
       font-size: 13pt;
       line-height: 1.5;
     }
-    .show-ans .calc-solution,
-    .interactive-item.show-one .calc-solution {
+    .calc-step {
+      color: transparent;
+      line-height: 1.6;
+      transition: color 0.15s ease;
+      user-select: none;
+    }
+    .calc-step.show,
+    .show-ans .calc-step {
       color: #dc2626 !important;
       font-weight: bold;
     }
 
     /* 目錄與提示框 */
     .toc-box {
-      border: 2px solid #2563eb;
+      border: 2px solid #0284c7;
       border-radius: 8px;
       padding: 14px 18px;
       background: #eff6ff;
@@ -350,11 +356,16 @@
       font-weight: bold;
     }
 
-    /* 列印控制 (Print Styles) */
+    /* 列印控制 (Print Styles: 嚴格 1 頁對應 1 張 A4，杜絕溢頁) */
     @media print {
       html, body {
+        width: 100% !important;
+        height: auto !important;
         background: transparent !important;
         padding: 0 !important;
+        margin: 0 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
       .no-print,
       .classroom-toolbar,
@@ -363,16 +374,44 @@
         display: none !important;
       }
       .pages-container {
+        display: block !important;
         padding: 0 !important;
+        margin: 0 !important;
+        gap: 0 !important;
       }
       .page {
+        box-sizing: border-box !important;
         margin: 0 !important;
         box-shadow: none !important;
         width: 100% !important;
-        min-height: 270mm !important;
-        padding: 0 0 10mm 0 !important;
+        height: 275mm !important;
+        max-height: 275mm !important;
+        min-height: 0 !important;
+        padding: 0 !important;
         page-break-after: always !important;
         break-after: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        overflow: hidden !important;
+      }
+      .page:last-child,
+      .page:last-of-type {
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+      }
+      .page-footer {
+        position: static !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        margin-top: auto !important;
+        padding-top: 6px !important;
+        padding-bottom: 2mm !important;
+      }
+      #page-strategy img {
+        max-height: 240mm !important;
       }
       .interactive-item:hover {
         background: transparent !important;
@@ -441,9 +480,9 @@
       </div>
       <div class="sub-divider"></div>
       <div class="size-picker">
-        <button class="size-btn" onclick="setPenSize(3, this)">細</button>
+        <button class="size-btn active" onclick="setPenSize(3, this)">細</button>
         <button class="size-btn" onclick="setPenSize(8, this)">中</button>
-        <button class="size-btn active" onclick="setPenSize(16, this)">粗</button>
+        <button class="size-btn" onclick="setPenSize(16, this)">粗</button>
       </div>
     </div>
     
@@ -475,7 +514,7 @@
           <div style="font-size: 16pt; font-weight: bold; margin-bottom: 10px; color: #1e3a8a; border-bottom: 2px solid #cbd5e1; padding-bottom: 6px;">
             📖 本自製電子書主題目錄（每單元精選 6 題，純淨留白計算空間）
           </div>
-          <a href="#page-strategy" class="toc-item" style="color: #2563eb; font-weight: bold;"><span>⭐ 單元重點策略卡</span><span>Page 2</span></a>
+          <a href="#page-strategy" class="toc-item" style="color: #0284c7; font-weight: bold;"><span>⭐ 單元重點策略卡</span><span>Page 2</span></a>
           <a href="#sec-1" class="toc-item"><span>一、同號相加（6 題）</span><span>Page 3</span></a>
           <a href="#sec-2" class="toc-item"><span>二、異號數相減（6 題）</span><span>Page 4</span></a>
           <a href="#sec-3" class="toc-item"><span>三、利用加法交換律與結合律解題（6 題）</span><span>Page 5</span></a>
@@ -490,12 +529,12 @@
 
         <div style="margin-top: 25px; padding: 16px; border: 1.5px solid #cbd5e1; background: #f8fafc; border-radius: 8px;">
           <div style="font-weight: bold; color: #0f172a; margin-bottom: 6px;">💡 1-2 核心重點速記：</div>
-          <ul style="margin: 0; padding-left: 22px; line-height: 1.7;">
-            <li><b>同號相加</b>：符號不變，兩數絕對值相加。例：(-2) + (-3) = -(2 + 3) = -5。</li>
-            <li><b>異號相加</b>：取絕對值較大者的符號，大減小。例：(-7) + 3 = -(7 - 3) = -4。</li>
-            <li><b>減法轉加法</b>：減去一個數，等於加上它的「相反數」：a - b = a + (-b)；a - (-b) = a + b。</li>
-            <li><b>兩點間距離</b>：數線上 A(a)、B(b) 兩點距離為 |a - b|（大數減小數）。</li>
-            <li><b>中點坐標</b>：中點 M = (A + B) ÷ 2。</li>
+          <ul style="margin: 0; padding-left: 22px; line-height: 1.8;">
+            <li><b>第一步：先去括號</b>——每個數字前只留一個符號（整理好再算，不易出錯）。</li>
+            <li><b>同號相加</b>：同號直接加，符號不變。例：－2 － 3<br>＝ －5。</li>
+            <li><b>異號相減</b>：異號互相消，大減小看誰剩下。例：－7 ＋ 3<br>＝ －4；9 － 4<br>＝ 5。</li>
+            <li><b>純算式原則</b>：解題步驟直接寫算式，不贅述國字，一行一等號垂直對齊。</li>
+            <li><b>兩點間距離與中點</b>：距離為大減小；中點為 (A ＋ B) ÷ 2。</li>
           </ul>
         </div>
       </div>
@@ -511,7 +550,7 @@
       </div>
 
       <div style="flex: 1; display: flex; justify-content: center; align-items: center; width: 100%; padding: 4px 0;">
-        <img src="1-2.png" style="max-width: 98%; max-height: 248mm; object-fit: contain; border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.1); border: 1.5px solid #cbd5e1;" alt="七上數學 1-2 正負數的加減 單元重點策略卡">
+        <img src="math-1-2-card.webp" style="max-width: 98%; max-height: 248mm; object-fit: contain; border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.1); border: 1.5px solid #cbd5e1;" alt="七上數學 1-2 正負數的加減 單元重點策略卡">
       </div>
 
       <div class="page-footer" style="width: 100%;">第 2 頁，共 12 頁</div>
@@ -529,64 +568,61 @@
 
       <div class="grid-2col" style="margin-top: 10px;">
         <div class="col-divider">
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(1) 33＋26＝<span class="write-blank"><span class="ans-reveal">59</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                同為正數：33 ＋ 26 ＝ 59<br>
-                <b>答：</b> 59
+                <div class="calc-step">＝ 59</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(2) 67＋18＝<span class="write-blank"><span class="ans-reveal">85</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                同為正數：67 ＋ 18 ＝ 85<br>
-                <b>答：</b> 85
+                <div class="calc-step">＝ 85</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(3) 49＋55＝<span class="write-blank"><span class="ans-reveal">104</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                同為正數：49 ＋ 55 ＝ 104<br>
-                <b>答：</b> 104
+                <div class="calc-step">＝ 104</div>
               </div>
             </div>
           </div>
         </div>
 
         <div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(4)（－2）＋（－3）＝<span class="write-blank"><span class="ans-reveal">－5</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                同為負數：－(2 ＋ 3) ＝ －5<br>
-                <b>答：</b> －5
+                <div class="calc-step">＝ －2 － 3</div>
+                <div class="calc-step">＝ －5</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(5)（－4）＋（－6）＝<span class="write-blank"><span class="ans-reveal">－10</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                同為負數：－(4 ＋ 6) ＝ －10<br>
-                <b>答：</b> －10
+                <div class="calc-step">＝ －4 － 6</div>
+                <div class="calc-step">＝ －10</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(6)（－9）＋（－8）＝<span class="write-blank"><span class="ans-reveal">－17</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                同為負數：－(9 ＋ 8) ＝ －17<br>
-                <b>答：</b> －17
+                <div class="calc-step">＝ －9 － 8</div>
+                <div class="calc-step">＝ －17</div>
               </div>
             </div>
           </div>
@@ -608,64 +644,64 @@
 
       <div class="grid-2col" style="margin-top: 10px;">
         <div class="col-divider">
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(1)（－4）＋5＝<span class="write-blank"><span class="ans-reveal">1</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                正數絕對值較大：＋(5 － 4) ＝ 1<br>
-                <b>答：</b> 1
+                <div class="calc-step">＝ －4 ＋ 5</div>
+                <div class="calc-step">＝ 1</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(2)（－6）＋9＝<span class="write-blank"><span class="ans-reveal">3</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                正數絕對值較大：＋(9 － 6) ＝ 3<br>
-                <b>答：</b> 3
+                <div class="calc-step">＝ －6 ＋ 9</div>
+                <div class="calc-step">＝ 3</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(3)（－7）＋3＝<span class="write-blank"><span class="ans-reveal">－4</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                負數絕對值較大：－(7 － 3) ＝ －4<br>
-                <b>答：</b> －4
+                <div class="calc-step">＝ －7 ＋ 3</div>
+                <div class="calc-step">＝ －4</div>
               </div>
             </div>
           </div>
         </div>
 
         <div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(4) 9＋（－4）＝<span class="write-blank"><span class="ans-reveal">5</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                正數大於負數：9 － 4 ＝ 5<br>
-                <b>答：</b> 5
+                <div class="calc-step">＝ 9 － 4</div>
+                <div class="calc-step">＝ 5</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(5) 8＋（－9）＝<span class="write-blank"><span class="ans-reveal">－1</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                負數絕對值大：－(9 － 8) ＝ －1<br>
-                <b>答：</b> －1
+                <div class="calc-step">＝ 8 － 9</div>
+                <div class="calc-step">＝ －1</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(6) 0＋（－2）＝<span class="write-blank"><span class="ans-reveal">－2</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                任何數加 0 仍為原數：－2<br>
-                <b>答：</b> －2
+                <div class="calc-step">＝ 0 － 2</div>
+                <div class="calc-step">＝ －2</div>
               </div>
             </div>
           </div>
@@ -687,64 +723,70 @@
 
       <div class="grid-2col" style="margin-top: 10px;">
         <div class="col-divider">
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(1)（－3）＋9＋3＝<span class="write-blank"><span class="ans-reveal">9</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                交換結合：[(-3) + 3] + 9 = 0 + 9 = 9<br>
-                <b>答：</b> 9
+                <div class="calc-step">＝ －3 ＋ 3 ＋ 9</div>
+                <div class="calc-step">＝ 0 ＋ 9</div>
+                <div class="calc-step">＝ 9</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(2)（－17）＋14＋17＝<span class="write-blank"><span class="ans-reveal">14</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                [(-17) + 17] + 14 = 0 + 14 = 14<br>
-                <b>答：</b> 14
+                <div class="calc-step">＝ －17 ＋ 17 ＋ 14</div>
+                <div class="calc-step">＝ 0 ＋ 14</div>
+                <div class="calc-step">＝ 14</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(3) 24＋98＋（－24）＝<span class="write-blank"><span class="ans-reveal">98</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                [24 + (-24)] + 98 = 0 + 98 = 98<br>
-                <b>答：</b> 98
+                <div class="calc-step">＝ 24 － 24 ＋ 98</div>
+                <div class="calc-step">＝ 0 ＋ 98</div>
+                <div class="calc-step">＝ 98</div>
               </div>
             </div>
           </div>
         </div>
 
         <div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(4) 69＋73＋（－69）＝<span class="write-blank"><span class="ans-reveal">73</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                [69 + (-69)] + 73 = 0 + 73 = 73<br>
-                <b>答：</b> 73
+                <div class="calc-step">＝ 69 － 69 ＋ 73</div>
+                <div class="calc-step">＝ 0 ＋ 73</div>
+                <div class="calc-step">＝ 73</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(5)（－26）＋（－31）＋26＝<span class="write-blank"><span class="ans-reveal">－31</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                [(-26) + 26] + (-31) = 0 + (-31) = -31<br>
-                <b>答：</b> －31
+                <div class="calc-step">＝ －26 ＋ 26 － 31</div>
+                <div class="calc-step">＝ 0 － 31</div>
+                <div class="calc-step">＝ －31</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(6) 42＋（－63）＋（－42）＝<span class="write-blank"><span class="ans-reveal">－63</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                [42 + (-42)] + (-63) = 0 + (-63) = -63<br>
-                <b>答：</b> －63
+                <div class="calc-step">＝ 42 － 42 － 63</div>
+                <div class="calc-step">＝ 0 － 63</div>
+                <div class="calc-step">＝ －63</div>
               </div>
             </div>
           </div>
@@ -766,64 +808,61 @@
 
       <div class="grid-2col" style="margin-top: 10px;">
         <div class="col-divider">
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(1) 18－26＝<span class="write-blank"><span class="ans-reveal">－8</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                18 ＋ (－26) ＝ －(26 － 18) ＝ －8<br>
-                <b>答：</b> －8
+                <div class="calc-step">＝ －8</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(2) 27－45＝<span class="write-blank"><span class="ans-reveal">－18</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                27 ＋ (－45) ＝ －(45 － 27) ＝ －18<br>
-                <b>答：</b> －18
+                <div class="calc-step">＝ －18</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(3) 0－32＝<span class="write-blank"><span class="ans-reveal">－32</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                0 減任何數等於其相反數：－32<br>
-                <b>答：</b> －32
+                <div class="calc-step">＝ －32</div>
               </div>
             </div>
           </div>
         </div>
 
         <div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(4) 0－（－15）＝<span class="write-blank"><span class="ans-reveal">15</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                負負得正：0 ＋ 15 ＝ 15<br>
-                <b>答：</b> 15
+                <div class="calc-step">＝ 0 ＋ 15</div>
+                <div class="calc-step">＝ 15</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(5)（－7）－11＝<span class="write-blank"><span class="ans-reveal">－18</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                (－7) ＋ (－11) ＝ －(7 ＋ 11) ＝ －18<br>
-                <b>答：</b> －18
+                <div class="calc-step">＝ －7 － 11</div>
+                <div class="calc-step">＝ －18</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(6)（－15）－15＝<span class="write-blank"><span class="ans-reveal">－30</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                (－15) ＋ (－15) ＝ －(15 ＋ 15) ＝ －30<br>
-                <b>答：</b> －30
+                <div class="calc-step">＝ －15 － 15</div>
+                <div class="calc-step">＝ －30</div>
               </div>
             </div>
           </div>
@@ -845,64 +884,70 @@
 
       <div class="grid-2col" style="margin-top: 10px;">
         <div class="col-divider">
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(1) 22＋（－4）－15＝<span class="write-blank"><span class="ans-reveal">3</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                22 － 4 － 15 ＝ 18 － 15 ＝ 3<br>
-                <b>答：</b> 3
+                <div class="calc-step">＝ 22 － 4 － 15</div>
+                <div class="calc-step">＝ 18 － 15</div>
+                <div class="calc-step">＝ 3</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(2) 18＋（－15）－4＝<span class="write-blank"><span class="ans-reveal">－1</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                18 － 15 － 4 ＝ 3 － 4 ＝ －1<br>
-                <b>答：</b> －1
+                <div class="calc-step">＝ 18 － 15 － 4</div>
+                <div class="calc-step">＝ 3 － 4</div>
+                <div class="calc-step">＝ －1</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(3)（－8）＋（－12）－20＝<span class="write-blank"><span class="ans-reveal">－40</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                (－20) － 20 ＝ －40<br>
-                <b>答：</b> －40
+                <div class="calc-step">＝ －8 － 12 － 20</div>
+                <div class="calc-step">＝ －20 － 20</div>
+                <div class="calc-step">＝ －40</div>
               </div>
             </div>
           </div>
         </div>
 
         <div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(4) 30＋（－8）－（－42）＝<span class="write-blank"><span class="ans-reveal">64</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                30 － 8 ＋ 42 ＝ 22 ＋ 42 ＝ 64<br>
-                <b>答：</b> 64
+                <div class="calc-step">＝ 30 － 8 ＋ 42</div>
+                <div class="calc-step">＝ 22 ＋ 42</div>
+                <div class="calc-step">＝ 64</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(5)（－35）＋（－7）－（－17）＝<span class="write-blank"><span class="ans-reveal">－25</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                (－42) ＋ 17 ＝ －25<br>
-                <b>答：</b> －25
+                <div class="calc-step">＝ －35 － 7 ＋ 17</div>
+                <div class="calc-step">＝ －42 ＋ 17</div>
+                <div class="calc-step">＝ －25</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(6)（－14）－23＋38＝<span class="write-blank"><span class="ans-reveal">1</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                (－37) ＋ 38 ＝ 1<br>
-                <b>答：</b> 1
+                <div class="calc-step">＝ －14 － 23 ＋ 38</div>
+                <div class="calc-step">＝ －37 ＋ 38</div>
+                <div class="calc-step">＝ 1</div>
               </div>
             </div>
           </div>
@@ -924,64 +969,64 @@
 
       <div class="grid-2col" style="margin-top: 10px;">
         <div class="col-divider">
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(1)｜－8｜＋｜－12｜＝<span class="write-blank"><span class="ans-reveal">20</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                先化簡絕對值：8 ＋ 12 ＝ 20<br>
-                <b>答：</b> 20
+                <div class="calc-step">＝ 8 ＋ 12</div>
+                <div class="calc-step">＝ 20</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(2)｜－25｜－｜－14｜＝<span class="write-blank"><span class="ans-reveal">11</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                25 － 14 ＝ 11<br>
-                <b>答：</b> 11
+                <div class="calc-step">＝ 25 － 14</div>
+                <div class="calc-step">＝ 11</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(3)｜－17｜＋13＝<span class="write-blank"><span class="ans-reveal">30</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                17 ＋ 13 ＝ 30<br>
-                <b>答：</b> 30
+                <div class="calc-step">＝ 17 ＋ 13</div>
+                <div class="calc-step">＝ 30</div>
               </div>
             </div>
           </div>
         </div>
 
         <div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(4) 36－｜－24｜＝<span class="write-blank"><span class="ans-reveal">12</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                36 － 24 ＝ 12<br>
-                <b>答：</b> 12
+                <div class="calc-step">＝ 36 － 24</div>
+                <div class="calc-step">＝ 12</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(5)｜－45｜＋｜－18｜＝<span class="write-blank"><span class="ans-reveal">63</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                45 ＋ 18 ＝ 63<br>
-                <b>答：</b> 63
+                <div class="calc-step">＝ 45 ＋ 18</div>
+                <div class="calc-step">＝ 63</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(6)｜－32｜－｜－15｜＝<span class="write-blank"><span class="ans-reveal">17</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                32 － 15 ＝ 17<br>
-                <b>答：</b> 17
+                <div class="calc-step">＝ 32 － 15</div>
+                <div class="calc-step">＝ 17</div>
               </div>
             </div>
           </div>
@@ -1003,64 +1048,70 @@
 
       <div class="grid-2col" style="margin-top: 10px;">
         <div class="col-divider">
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(1) 23－（15－7）＝<span class="write-blank"><span class="ans-reveal">15</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                括號前為減號需變號：23 － 15 ＋ 7 ＝ 8 ＋ 7 ＝ 15<br>
-                <b>答：</b> 15
+                <div class="calc-step">＝ 23 － 15 ＋ 7</div>
+                <div class="calc-step">＝ 8 ＋ 7</div>
+                <div class="calc-step">＝ 15</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(2) 45＋（－18＋12）＝<span class="write-blank"><span class="ans-reveal">39</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                45 － 18 ＋ 12 ＝ 27 ＋ 12 ＝ 39<br>
-                <b>答：</b> 39
+                <div class="calc-step">＝ 45 － 18 ＋ 12</div>
+                <div class="calc-step">＝ 27 ＋ 12</div>
+                <div class="calc-step">＝ 39</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(3) 56－（24＋16）＝<span class="write-blank"><span class="ans-reveal">16</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                56 － 40 ＝ 16<br>
-                <b>答：</b> 16
+                <div class="calc-step">＝ 56 － 24 － 16</div>
+                <div class="calc-step">＝ 32 － 16</div>
+                <div class="calc-step">＝ 16</div>
               </div>
             </div>
           </div>
         </div>
 
         <div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(4) 80－（－30＋25）＝<span class="write-blank"><span class="ans-reveal">85</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                80 － (－5) ＝ 80 ＋ 5 ＝ 85<br>
-                <b>答：</b> 85
+                <div class="calc-step">＝ 80 ＋ 30 － 25</div>
+                <div class="calc-step">＝ 110 － 25</div>
+                <div class="calc-step">＝ 85</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(5)（－18）－（22－15）＝<span class="write-blank"><span class="ans-reveal">－25</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                (－18) － 7 ＝ －25<br>
-                <b>答：</b> －25
+                <div class="calc-step">＝ －18 － 22 ＋ 15</div>
+                <div class="calc-step">＝ －40 ＋ 15</div>
+                <div class="calc-step">＝ －25</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">(6)（－35）＋（45－20）＝<span class="write-blank"><span class="ans-reveal">－10</span></span></div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                (－35) ＋ 25 ＝ －10<br>
-                <b>答：</b> －10
+                <div class="calc-step">＝ －35 ＋ 45 － 20</div>
+                <div class="calc-step">＝ 10 － 20</div>
+                <div class="calc-step">＝ －10</div>
               </div>
             </div>
           </div>
@@ -1082,64 +1133,67 @@
 
       <div class="grid-2col" style="margin-top: 10px;">
         <div class="col-divider">
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">1. A(5)、B(－3)，求 AB。</div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                |5 － (－3)| ＝ |5 ＋ 3| ＝ 8<br>
-                <b>答：</b> 8
+                <div class="calc-step">＝ 5 － (－3)</div>
+                <div class="calc-step">＝ 5 ＋ 3</div>
+                <div class="calc-step">＝ 8</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">2. A(－2)、B(－9)，求 AB。</div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                |(－2) － (－9)| ＝ |－2 ＋ 9| ＝ 7<br>
-                <b>答：</b> 7
+                <div class="calc-step">＝ －2 － (－9)</div>
+                <div class="calc-step">＝ －2 ＋ 9</div>
+                <div class="calc-step">＝ 7</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">3. A(12)、B(4)，求 AB。</div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                |12 － 4| ＝ 8<br>
-                <b>答：</b> 8
+                <div class="calc-step">＝ 12 － 4</div>
+                <div class="calc-step">＝ 8</div>
               </div>
             </div>
           </div>
         </div>
 
         <div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">4. A(－15)、B(0)，求 AB。</div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                |0 － (－15)| ＝ 15<br>
-                <b>答：</b> 15
+                <div class="calc-step">＝ 0 － (－15)</div>
+                <div class="calc-step">＝ 15</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">5. A(－7)、B(7)，求 AB。</div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                |7 － (－7)| ＝ |7 ＋ 7| ＝ 14<br>
-                <b>答：</b> 14
+                <div class="calc-step">＝ 7 － (－7)</div>
+                <div class="calc-step">＝ 7 ＋ 7</div>
+                <div class="calc-step">＝ 14</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">6. A(81)、B(76)，求 AB。</div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                |81 － 76| ＝ 5<br>
-                <b>答：</b> 5
+                <div class="calc-step">＝ 81 － 76</div>
+                <div class="calc-step">＝ 5</div>
               </div>
             </div>
           </div>
@@ -1161,64 +1215,70 @@
 
       <div class="grid-2col" style="margin-top: 10px;">
         <div class="col-divider">
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">1. A 點為 6，AB＝4，求 B 坐標。</div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                右方：6 ＋ 4 ＝ 10；左方：6 － 4 ＝ 2<br>
-                <b>答：</b> 2 或 10
+                <div class="calc-step">6 ＋ 4 ＝ 10</div>
+                <div class="calc-step">6 － 4 ＝ 2</div>
+                <div class="calc-step">2 , 10</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">2. C 點為 7，CD＝8，求 D 坐標。</div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                7 ＋ 8 ＝ 15 或 7 － 8 ＝ －1<br>
-                <b>答：</b> －1 或 15
+                <div class="calc-step">7 ＋ 8 ＝ 15</div>
+                <div class="calc-step">7 － 8 ＝ －1</div>
+                <div class="calc-step">－1 , 15</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">3. E 點為－1，EF＝7，求 F 坐標。</div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                (-1) ＋ 7 ＝ 6 或 (-1) － 7 ＝ －8<br>
-                <b>答：</b> －8 或 6
+                <div class="calc-step">－1 ＋ 7 ＝ 6</div>
+                <div class="calc-step">－1 － 7 ＝ －8</div>
+                <div class="calc-step">－8 , 6</div>
               </div>
             </div>
           </div>
         </div>
 
         <div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">4. H 點為－10，GH＝6，求 G 坐標。</div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                (-10) ＋ 6 ＝ －4 或 (-10) － 6 ＝ －16<br>
-                <b>答：</b> －16 或 －4
+                <div class="calc-step">－10 ＋ 6 ＝ －4</div>
+                <div class="calc-step">－10 － 6 ＝ －16</div>
+                <div class="calc-step">－16 , －4</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">5. N 點為－13，MN＝13，求 M 坐標。</div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                (-13) ＋ 13 ＝ 0 或 (-13) － 13 ＝ －26<br>
-                <b>答：</b> －26 或 0
+                <div class="calc-step">－13 ＋ 13 ＝ 0</div>
+                <div class="calc-step">－13 － 13 ＝ －26</div>
+                <div class="calc-step">－26 , 0</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">6. P 點為 20，PQ＝50，求 Q 坐標。</div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                20 ＋ 50 ＝ 70 或 20 － 50 ＝ －30<br>
-                <b>答：</b> －30 或 70
+                <div class="calc-step">20 ＋ 50 ＝ 70</div>
+                <div class="calc-step">20 － 50 ＝ －30</div>
+                <div class="calc-step">－30 , 70</div>
               </div>
             </div>
           </div>
@@ -1240,64 +1300,69 @@
 
       <div class="grid-2col" style="margin-top: 10px;">
         <div class="col-divider">
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">1. A(4)、B(12)，M 為中點，求 M 坐標。</div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                M ＝ (4 ＋ 12) ÷ 2 ＝ 16 ÷ 2 ＝ 8<br>
-                <b>答：</b> 8
+                <div class="calc-step">＝ (4 ＋ 12) ÷ 2</div>
+                <div class="calc-step">＝ 16 ÷ 2</div>
+                <div class="calc-step">＝ 8</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">2. A(－8)、B(14)，M 為中點，求 M 坐標。</div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                M ＝ [(-8) ＋ 14] ÷ 2 ＝ 6 ÷ 2 ＝ 3<br>
-                <b>答：</b> 3
+                <div class="calc-step">＝ (－8 ＋ 14) ÷ 2</div>
+                <div class="calc-step">＝ 6 ÷ 2</div>
+                <div class="calc-step">＝ 3</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">3. A(－5)、B(－15)，M 為中點，求 M 坐標。</div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                M ＝ [(-5) ＋ (-15)] ÷ 2 ＝ －20 ÷ 2 ＝ －10<br>
-                <b>答：</b> －10
+                <div class="calc-step">＝ (－5 － 15) ÷ 2</div>
+                <div class="calc-step">＝ －20 ÷ 2</div>
+                <div class="calc-step">＝ －10</div>
               </div>
             </div>
           </div>
         </div>
 
         <div>
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">4. A(－17)、B(17)，M 為中點，求 M 坐標。</div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                M ＝ [(-17) ＋ 17] ÷ 2 ＝ 0 ÷ 2 ＝ 0<br>
-                <b>答：</b> 0
+                <div class="calc-step">＝ (－17 ＋ 17) ÷ 2</div>
+                <div class="calc-step">＝ 0 ÷ 2</div>
+                <div class="calc-step">＝ 0</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">5. A(19)、B(－13)，M 為中點，求 M 坐標。</div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                M ＝ [19 ＋ (-13)] ÷ 2 ＝ 6 ÷ 2 ＝ 3<br>
-                <b>答：</b> 3
+                <div class="calc-step">＝ (19 － 13) ÷ 2</div>
+                <div class="calc-step">＝ 6 ÷ 2</div>
+                <div class="calc-step">＝ 3</div>
               </div>
             </div>
           </div>
 
-          <div class="interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="interactive-item" title="點擊逐步揭曉算式（一個等號一步驟）" onclick="toggleItemAnswer(this)">
             <div class="item-title">6. A(－30)、B(0)，M 為中點，求 M 坐標。</div>
             <div class="calc-workspace">
               <div class="calc-solution">
-                M ＝ [(-30) ＋ 0] ÷ 2 ＝ －15<br>
-                <b>答：</b> －15
+                <div class="calc-step">＝ (－30 ＋ 0) ÷ 2</div>
+                <div class="calc-step">＝ －15</div>
               </div>
             </div>
           </div>
@@ -1314,7 +1379,7 @@
     let isAllAnsShown = false;
     let isPenMode = false;
     let currentColor = 'rgba(250, 204, 21, 0.45)'; // 螢光黃
-    let currentSize = 16;
+    let currentSize = 3;
     const canvases = [];
 
     // 0. 目錄面板切換與平滑跳轉
@@ -1344,10 +1409,33 @@
       }
     });
 
-    // 1. 逐題點擊顯現解答
+    // 1. 逐題逐步點擊顯現解答（一個等號算一步驟，點擊依序揭曉）
     function toggleItemAnswer(el) {
       if (isPenMode) return; // 畫筆模式時不觸發答案點擊
-      el.classList.toggle('show-one');
+      
+      const steps = el.querySelectorAll('.calc-step');
+      if (steps.length === 0) {
+        el.classList.toggle('ans-done');
+        return;
+      }
+      
+      // 計算目前已經揭曉的步驟數
+      const shownSteps = el.querySelectorAll('.calc-step.show').length;
+      
+      if (shownSteps < steps.length) {
+        // 揭曉下一步驟（下一個等號）
+        steps[shownSteps].classList.add('show');
+        el.classList.add('show-one');
+        if (shownSteps + 1 === steps.length) {
+          // 最後一步驟已出爐，同時揭曉題幹上的答案框
+          el.classList.add('ans-done');
+        }
+      } else {
+        // 所有步驟皆已揭曉，再次點擊則隱藏重置
+        steps.forEach(s => s.classList.remove('show'));
+        el.classList.remove('show-one');
+        el.classList.remove('ans-done');
+      }
     }
 
     // 2. 一鍵全開 / 全隱答案
@@ -1361,11 +1449,16 @@
         container.classList.add('show-ans');
         btn.classList.add('active');
         icon.textContent = '🙈';
+        document.querySelectorAll('.calc-step').forEach(s => s.classList.add('show'));
       } else {
         container.classList.remove('show-ans');
         btn.classList.remove('active');
         icon.textContent = '👁️';
-        document.querySelectorAll('.show-one').forEach(el => el.classList.remove('show-one'));
+        document.querySelectorAll('.interactive-item').forEach(el => {
+          el.classList.remove('show-one');
+          el.classList.remove('ans-done');
+        });
+        document.querySelectorAll('.calc-step').forEach(s => s.classList.remove('show'));
       }
     }
 
