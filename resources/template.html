@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>{{WORKSHEET_TITLE}}</title>
+  <style>
+    @page { size: A4; margin: 12mm 15mm; }
+    * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body {
+      margin: 0; padding: 0; background-color: #e2e8f0;
+      font-family: "Times New Roman", "標楷體", "DFKai-SB", "BiauKai", serif;
+      font-size: 14pt; line-height: 1.5; color: #111;
+    }
+    /* 課堂懸浮工具列 */
+    .classroom-toolbar {
+      position: fixed; top: 14px; right: 20px; z-index: 9999;
+      display: flex; align-items: center; gap: 3px;
+      background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 4px 8px; border-radius: 40px; border: 1px solid rgba(203, 213, 225, 0.9);
+      box-shadow: 0 4px 22px rgba(0, 0, 0, 0.12);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .tool-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; font-size: 18px; color: #334155;
+      background: transparent; border: 1px solid transparent; border-radius: 50%;
+      cursor: pointer; transition: all 0.15s ease; padding: 0; user-select: none;
+    }
+    .tool-btn:hover { background: #f1f5f9; transform: scale(1.1); }
+    .tool-btn.active { background: #0f172a; color: #ffffff; }
+    .btn-toggle-ans.active { background: #eff6ff; border-color: #3b82f6; }
+    .toolbar-divider { width: 1px; height: 18px; background: #cbd5e1; margin: 0 3px; }
+
+    /* 目錄跳轉選單 (TOC Floating Menu) */
+    .toc-menu {
+      display: none; position: absolute; top: 46px; left: 0;
+      background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.18); padding: 6px 0;
+      min-width: 250px; max-height: 420px; overflow-y: auto; z-index: 10000;
+    }
+    .toc-menu.show { display: block; animation: tocFadeIn 0.15s ease-out; }
+    @keyframes tocFadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .toc-menu-title {
+      padding: 6px 16px 8px 16px; font-size: 13px; font-weight: bold;
+      color: #64748b; border-bottom: 1px solid #f1f5f9;
+    }
+    .toc-menu-item {
+      padding: 8px 16px; font-size: 14px; color: #334155; cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background 0.12s, color 0.12s;
+    }
+    .toc-menu-item:hover { background: #eff6ff; color: #2563eb; font-weight: bold; }
+    .toc-page-badge { font-size: 12px; color: #94a3b8; font-weight: normal; }
+    .toc-menu-item:hover .toc-page-badge { color: #2563eb; }
+
+    .pen-options {
+      display: none; align-items: center; gap: 6px; background: #f8fafc;
+      padding: 3px 8px; border-radius: 20px; border: 1px solid #e2e8f0;
+      margin-left: 2px;
+    }
+    .color-picker { display: flex; align-items: center; gap: 5px; }
+    .color-dot {
+      width: 16px; height: 16px; border-radius: 50%; cursor: pointer;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
+    }
+    .color-dot.active { transform: scale(1.2); box-shadow: 0 0 0 2px #0f172a; }
+    .size-picker { display: flex; align-items: center; gap: 3px; }
+    .size-btn {
+      border: 1px solid #cbd5e1; background: #fff; color: #475569; font-size: 11px;
+      font-weight: bold; padding: 2px 7px; border-radius: 10px; cursor: pointer;
+    }
+    .size-btn.active { background: #0f172a; color: #fff; border-color: #0f172a; }
+
+    /* A4 頁面 */
+    .pages-container { padding: 20px 0 40px 0; }
+    .page {
+      width: 210mm; min-height: 297mm; padding: 14mm 16mm; margin: 0 auto 25px auto;
+      background: #ffffff; box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+      page-break-after: always; break-after: page; position: relative;
+    }
+    .drawing-canvas {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 20; pointer-events: none;
+    }
+    body.pen-mode .drawing-canvas { pointer-events: auto; cursor: crosshair; }
+
+    /* 頁面標題與結構 */
+    .page-header {
+      display: flex; justify-content: space-between; border-bottom: 2px solid #334155;
+      padding-bottom: 6px; margin-bottom: 10px; font-size: 13pt; font-weight: bold;
+    }
+    .main-title { font-size: 20pt; font-weight: 900; text-align: center; margin: 6px 0 12px 0; }
+    .section-title {
+      font-size: 15pt; font-weight: bold; background: #e2e8f0; padding: 5px 10px;
+      border-radius: 6px; margin: 10px 0 8px 0; border-left: 6px solid #2563eb;
+    }
+    .task-title { font-size: 14pt; font-weight: bold; margin: 8px 0 6px 0; }
+    .tip-box {
+      border: 1.5px solid #93c5fd; background-color: #eff6ff; border-radius: 6px;
+      padding: 6px 10px; margin: 6px 0 10px 0; font-size: 13pt;
+    }
+    .item-line { padding: 4px 6px; border-radius: 4px; line-height: 1.5; font-size: 14pt; }
+    body:not(.pen-mode) .interactive-item { cursor: pointer; }
+    body:not(.pen-mode) .interactive-item:hover { background-color: #f8fafc; outline: 1px dashed #93c5fd; }
+
+    /* 解答樣式：紅筆圈選與填入 */
+    .correct-choice { display: inline-block; padding: 0 4px; transition: all 0.2s; }
+    .show-ans .correct-choice, .item-line.show-one .correct-choice, .qa-block.show-one .correct-choice {
+      color: #dc2626 !important; font-weight: bold !important; border: 2px solid #dc2626 !important;
+      border-radius: 14px !important; background-color: #fef2f2 !important; padding: 0 6px !important;
+    }
+    .ans-slot { display: inline-block; min-width: 24px; text-align: center; color: transparent; font-weight: bold; }
+    .show-ans .ans-slot, .item-line.show-one .ans-slot, .qa-block.show-one .ans-slot { color: #dc2626 !important; }
+    .ans-word { color: transparent; font-weight: bold; border-bottom: 1.5px solid #333; padding: 0 6px; }
+    .show-ans .ans-word, .item-line.show-one .ans-word { color: #dc2626 !important; }
+
+    /* 雙欄與單欄網格排版 */
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 14px;
+    }
+    .grid-1col {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .ans-line-block {
+      display: inline-block;
+      min-width: 220px;
+    }
+    .ans-line-wide {
+      display: inline-block;
+      min-width: 320px;
+    }
+
+    /* 選擇題垂直對齊結構 */
+    .qa-block { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; padding: 6px 8px; }
+    .qa-bracket { flex-shrink: 0; width: 54px; text-align: center; font-weight: bold; font-size: 14pt; }
+    .qa-content { flex: 1; }
+    .qa-options { display: flex; flex-direction: column; gap: 3px; margin-top: 4px; }
+
+    /* 表格 */
+    table.custom-table { width: 100%; border-collapse: collapse; margin: 8px 0 12px 0; font-size: 14pt; }
+    table.custom-table th, table.custom-table td { border: 1px solid #475569; padding: 5px 10px; text-align: center; }
+    table.custom-table th { background-color: #e2e8f0; font-weight: bold; }
+
+    /* 計算題/問答題 3~4 行留白書寫空間 */
+    .calc-workspace {
+      min-height: 85px; /* 預留 3~4 行計算空間 */
+      margin: 8px 0 14px 0;
+      padding: 8px 12px;
+      border: 1px dashed #cbd5e1;
+      border-radius: 6px;
+      background-color: #f8fafc;
+      position: relative;
+    }
+    .calc-solution {
+      color: transparent;
+      font-size: 13pt;
+      line-height: 1.6;
+    }
+    .show-ans .calc-solution,
+    .calc-workspace.show-one .calc-solution,
+    .interactive-item.show-one .calc-solution {
+      color: #dc2626 !important;
+      font-weight: bold;
+    }
+
+    /* 列印強制隱藏解答與後台工具，還原白紙卷 */
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 10mm 12mm;
+      }
+      html, body {
+        width: 100% !important;
+        height: auto !important;
+        background: transparent !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .no-print,
+      .classroom-toolbar,
+      .toc-menu,
+      .drawing-canvas {
+        display: none !important;
+      }
+      .pages-container {
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        gap: 0 !important;
+      }
+      .page {
+        box-sizing: border-box !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        width: 100% !important;
+        height: 275mm !important;
+        max-height: 275mm !important;
+        min-height: 0 !important;
+        padding: 0 !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        overflow: hidden !important;
+      }
+      .page:last-child,
+      .page:last-of-type {
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+      }
+      .page-footer,
+      .footer-bar {
+        position: static !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        margin-top: auto !important;
+        padding-top: 6px !important;
+        padding-bottom: 2mm !important;
+      }
+      .correct-choice {
+        color: inherit !important;
+        font-weight: normal !important;
+        border: none !important;
+        background: transparent !important;
+        padding: 0 !important;
+      }
+      .ans-slot, .ans-word, .ans-reveal {
+        color: transparent !important;
+      }
+      .calc-workspace {
+        border: 1px dashed #94a3b8 !important;
+        background: transparent !important;
+        min-height: 85px !important;
+      }
+      .calc-solution {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 課堂懸浮工具列 (純 Emoji 極簡版＋章節目錄跳轉) -->
+  <div class="classroom-toolbar no-print">
+    <!-- 目錄跳轉按鈕 -->
+    <div style="position: relative;">
+      <button class="tool-btn" id="tocBtn" onclick="toggleTocMenu(event)" title="章節目錄導覽">
+        📑
+      </button>
+      <div class="toc-menu" id="tocMenu">
+        <div class="toc-menu-title">📖 單元章節目錄</div>
+        <div class="toc-menu-item" onclick="jumpTo('page1')"><span>第 1 頁</span><span class="toc-page-badge">P.1</span></div>
+        <!-- 依章節需求添加更多 toc-menu-item -->
+      </div>
+    </div>
+
+    <!-- 答案切換按鈕 -->
+    <button class="tool-btn btn-toggle-ans" id="toggleAllAnsBtn" onclick="toggleAllAnswers()" title="一鍵全開/全隱答案">
+      <span id="ansIcon">👁️</span>
+    </button>
+    
+    <!-- 畫筆切換按鈕 -->
+    <button class="tool-btn" id="penBtn" onclick="togglePenMode()" title="螢光筆/板書筆">
+      ✏️
+    </button>
+    
+    <!-- 畫筆選單 -->
+    <div class="pen-options" id="penOptions">
+      <div class="color-picker">
+        <span class="color-dot active" style="background:#facc15;" onclick="setPenColor('rgba(250, 204, 21, 0.45)', this)" title="螢光黃"></span>
+        <span class="color-dot" style="background:#ef4444;" onclick="setPenColor('rgba(239, 68, 68, 0.8)', this)" title="紅筆"></span>
+        <span class="color-dot" style="background:#3b82f6;" onclick="setPenColor('rgba(37, 99, 235, 0.8)', this)" title="藍筆"></span>
+        <span class="color-dot" style="background:#10b981;" onclick="setPenColor('rgba(16, 185, 129, 0.8)', this)" title="綠筆"></span>
+      </div>
+      <div class="sub-divider" style="width:1px; height:14px; background:#cbd5e1; margin:0 2px;"></div>
+      <div class="size-picker">
+        <button class="size-btn active" onclick="setPenSize(4, this)">細</button>
+        <button class="size-btn" onclick="setPenSize(10, this)">中</button>
+        <button class="size-btn" onclick="setPenSize(20, this)">粗</button>
+      </div>
+    </div>
+    
+    <!-- 清除畫跡 -->
+    <button class="tool-btn" onclick="clearAllDrawings()" title="清除本頁/全卷畫筆">
+      🧹
+    </button>
+    
+    <div class="toolbar-divider"></div>
+    
+    <!-- 列印按鈕 -->
+    <button class="tool-btn" onclick="window.print()" title="列印為學生白紙考卷">
+      🖨️
+    </button>
+  </div>
+
+  <div id="toastNotice" class="toast-notice"></div>
+
+  <div class="pages-container">
+    <div class="page" id="page1">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="page-header">
+        <span>班級：_______ 座號：_______ 姓名：_____________</span>
+        <span>第 1 頁</span>
+      </div>
+      <!-- 依學科題目填入內容 -->
+    </div>
+  </div>
+
+  <!-- 互動腳本 -->
+  <script>
+    // 0. 目錄面板切換與平滑跳轉
+    function toggleTocMenu(e) {
+      if (e) e.stopPropagation();
+      const menu = document.getElementById('tocMenu');
+      if (menu) menu.classList.toggle('show');
+    }
+
+    function jumpTo(targetId) {
+      const el = document.getElementById(targetId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      const menu = document.getElementById('tocMenu');
+      if (menu) menu.classList.remove('show');
+    }
+
+    // 點擊頁面其他地方關閉目錄選單
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('tocMenu');
+      const btn = document.getElementById('tocBtn');
+      if (menu && menu.classList.contains('show')) {
+        if (!menu.contains(e.target) && e.target !== btn) {
+          menu.classList.remove('show');
+        }
+      }
+    });
+
+    function toggleItemAnswer(el) {
+      if (document.body.classList.contains('pen-mode')) return;
+      el.classList.toggle('show-one');
+    }
+    var isAllAnsShown = false;
+    function toggleAllAnswers() {
+      isAllAnsShown = !isAllAnsShown;
+      var container = document.querySelector('.pages-container');
+      var btn = document.getElementById('toggleAllAnsBtn');
+      var btnIcon = document.getElementById('ansIcon');
+      if (isAllAnsShown) {
+        container.classList.add('show-ans'); btn.classList.add('active'); btnIcon.textContent = '🙈';
+      } else {
+        container.classList.remove('show-ans'); btn.classList.remove('active'); btnIcon.textContent = '👁️';
+        document.querySelectorAll('.item-line.show-one, .qa-block.show-one').forEach(function(item) { item.classList.remove('show-one'); });
+      }
+    }
+    var isPenMode = false;
+    var currentPenColor = 'rgba(250, 204, 21, 0.45)';
+    var currentPenSize = 20;
+    function setPenColor(color, el) {
+      currentPenColor = color;
+      document.querySelectorAll('.color-dot').forEach(function(d) { d.classList.remove('active'); });
+      el.classList.add('active');
+    }
+    function setPenSize(size, el) {
+      currentPenSize = size;
+      document.querySelectorAll('.size-btn').forEach(function(b) { b.classList.remove('active'); });
+      el.classList.add('active');
+    }
+    function togglePenMode() {
+      isPenMode = !isPenMode;
+      document.body.classList.toggle('pen-mode', isPenMode);
+      var penBtn = document.getElementById('penBtn');
+      var penOptions = document.getElementById('penOptions');
+      if (isPenMode) { penBtn.classList.add('active'); if (penOptions) penOptions.style.display = 'flex'; }
+      else { penBtn.classList.remove('active'); if (penOptions) penOptions.style.display = 'none'; }
+    }
+    function initCanvases() {
+      document.querySelectorAll('.page').forEach(function(page) {
+        var canvas = page.querySelector('.drawing-canvas');
+        if (!canvas) return;
+        var ctx = canvas.getContext('2d');
+        function resizeCanvas() { canvas.width = page.clientWidth; canvas.height = page.clientHeight; }
+        resizeCanvas(); window.addEventListener('resize', resizeCanvas);
+        var isDrawing = false, lastX = 0, lastY = 0;
+        canvas.addEventListener('mousedown', function(e) {
+          if (!isPenMode) return; isDrawing = true;
+          var rect = canvas.getBoundingClientRect(); lastX = e.clientX - rect.left; lastY = e.clientY - rect.top;
+        });
+        canvas.addEventListener('mousemove', function(e) {
+          if (!isDrawing || !isPenMode) return;
+          var rect = canvas.getBoundingClientRect(); var currX = e.clientX - rect.left; var currY = e.clientY - rect.top;
+          ctx.beginPath(); ctx.moveTo(lastX, lastY); ctx.lineTo(currX, currY);
+          ctx.strokeStyle = currentPenColor; ctx.lineWidth = currentPenSize; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke();
+          lastX = currX; lastY = currY;
+        });
+        window.addEventListener('mouseup', function() { isDrawing = false; });
+      });
+    }
+    window.addEventListener('load', initCanvases);
+    function clearAllDrawings() {
+      document.querySelectorAll('.drawing-canvas').forEach(function(canvas) {
+        var ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
+      });
+    }
+
+    function showToast(msg) {
+      var toast = document.getElementById('toastNotice');
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.style.display = 'block';
+      setTimeout(function() { toast.style.display = 'none'; }, 3000);
+    }
+
+    // 取得乾淨且移除解答狀態的講義完整 HTML
+    function getCleanWorksheetHTML(triggerPrintImmediately) {
+      var clonedDoc = document.documentElement.cloneNode(true);
+      var container = clonedDoc.querySelector('.pages-container');
+      if (container) container.classList.remove('show-ans');
+      clonedDoc.querySelectorAll('.show-one').forEach(function(item) {
+        item.classList.remove('show-one');
+      });
+      var toast = clonedDoc.querySelector('#toastNotice');
+      if (toast) toast.remove();
+
+      if (triggerPrintImmediately) {
+        var autoPrintScript = document.createElement('script');
+        autoPrintScript.textContent = 'window.addEventListener("load", function() { setTimeout(function() { window.print(); }, 400); });';
+        clonedDoc.querySelector('body').appendChild(autoPrintScript);
+      }
+      return '<!DOCTYPE html>\n<html lang="zh-TW">' + clonedDoc.innerHTML + '</html>';
+    }
+
+    // 直接列印純淨學習單
+    function smartPrint() {
+      window.print();
+    }
+
+    // 在獨立分頁開啟全功能講義（無任何平台邊界限制）
+    function openInNewTab() {
+      try {
+        var htmlContent = getCleanWorksheetHTML(false);
+        var blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+        var blobUrl = URL.createObjectURL(blob);
+        var win = window.open(blobUrl, '_blank');
+        if (!win) {
+          showToast('請允許瀏覽器彈出式視窗，以順利在新分頁打開講義！');
+        }
+      } catch (e) {
+        showToast('無法在新分頁開啟，請嘗試手動下載。');
+      }
+    }
+  </script>
+</body>
+</html>
