@@ -1,0 +1,2954 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../../images/ebook-logo.webp">
+  <title>國中英語教材庫：七上 Unit 2 單字隨堂學習手冊 (全 16 頁 / 4 節全合一)</title>
+
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 8mm 10mm;
+    }
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f0f7fc;
+      font-family: "Times New Roman", "標楷體", "DFKai-SB", "BiauKai", serif;
+      font-size: 14pt;
+      line-height: 1.45;
+      color: #1e293b;
+      user-select: text;
+    }
+
+    /* 懸浮膠囊工具列 (右上角橫式) */
+    .classroom-toolbar {
+      position: fixed;
+      top: 14px;
+      right: 20px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 4px 8px;
+      border-radius: 40px;
+      border: 1px solid rgba(203, 213, 225, 0.9);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      user-select: none;
+    }
+    .tool-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      font-size: 16px;
+      color: #334155;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .tool-btn:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+    .tool-btn.active {
+      background: #0f172a;
+      color: #ffffff;
+    }
+    .btn-toggle-ans.active {
+      background: #0284c7;
+      color: #ffffff;
+    }
+    .toolbar-divider {
+      width: 1px;
+      height: 18px;
+      background: #cbd5e1;
+      margin: 0 2px;
+    }
+
+    /* 章節目錄選單 (4 節精簡目錄，向下展開) */
+    .toc-menu {
+      display: none;
+      position: absolute;
+      top: 46px;
+      left: 0;
+      width: 290px;
+      background: #ffffff;
+      border-radius: 14px;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+      padding: 10px 8px;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 10000;
+    }
+    .toc-menu.show {
+      display: flex;
+    }
+    .toc-menu-title {
+      font-size: 13.5px;
+      font-weight: bold;
+      color: #0f172a;
+      padding: 4px 8px 8px 8px;
+      border-bottom: 2px solid #0284c7;
+      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .toc-menu-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #1e293b;
+      cursor: pointer;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      transition: all 0.15s ease;
+    }
+    .toc-menu-item:hover {
+      background: #e0f2fe;
+      border-color: #38bdf8;
+      color: #0369a1;
+      font-weight: bold;
+    }
+    .toc-page-badge {
+      font-size: 11px;
+      background: #e2e8f0;
+      padding: 2px 7px;
+      border-radius: 10px;
+      color: #475569;
+      font-weight: bold;
+      white-space: nowrap;
+      margin-left: 6px;
+    }
+
+    /* 螢光筆選項 (向下展開) */
+    .pen-options {
+      display: none;
+      position: absolute;
+      top: 46px;
+      left: 0;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 14px;
+      padding: 8px 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      flex-direction: column;
+      gap: 8px;
+      z-index: 10001;
+    }
+    .pen-options.show {
+      display: flex;
+    }
+    .color-picker {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+    }
+    .color-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
+    }
+    .color-dot.active {
+      transform: scale(1.2);
+      box-shadow: 0 0 0 2px #0f172a, inset 0 0 0 1px #fff;
+    }
+    .size-picker {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 4px;
+    }
+    .size-btn {
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      color: #475569;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 3px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .size-btn.active {
+      background: #0f172a;
+      color: #ffffff;
+      border-color: #0f172a;
+    }
+
+    /* 頁面容器 */
+    .pages-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 0 50px 0;
+      gap: 24px;
+    }
+    .page {
+      position: relative;
+      background: #ffffff;
+      width: 210mm;
+      min-height: 297mm;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+      box-sizing: border-box;
+      padding: 10mm 14mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      page-break-after: always;
+      break-after: page;
+      overflow: hidden;
+    }
+    .page:last-child {
+      page-break-after: avoid;
+      break-after: avoid;
+    }
+
+    /* 板書 Canvas */
+    .drawing-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 50;
+      pointer-events: none;
+    }
+    body.pen-mode .drawing-canvas {
+      pointer-events: auto;
+      cursor: crosshair;
+    }
+
+    /* 頁面標題與學生資訊欄 */
+    .doc-title {
+      font-size: 15pt;
+      font-weight: bold;
+      color: #0f172a;
+      text-align: center;
+      letter-spacing: 0.5px;
+      line-height: 1.35;
+      margin-bottom: 4px;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    .student-bar {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 2px solid #0f172a;
+      padding-bottom: 3px;
+      margin-bottom: 6px;
+      font-size: 12.5pt;
+      color: #334155;
+      font-weight: bold;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    .page-footer {
+      margin-top: auto;
+      border-top: 1px solid #cbd5e1;
+      padding-top: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10.5pt;
+      color: #64748b;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    /* 情境橫幅 */
+    .scene-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #eff6ff;
+      border-left: 5px solid #0284c7;
+      padding: 5px 10px;
+      margin: 3px 0 6px 0;
+      border-radius: 4px;
+      color: #0369a1;
+      font-weight: bold;
+      font-size: 13pt;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    .scene-tag {
+      background: #0284c7;
+      color: #ffffff;
+      font-size: 10.5pt;
+      padding: 1px 8px;
+      border-radius: 12px;
+      white-space: nowrap;
+    }
+
+    /* 任務標題 */
+    .quest-title {
+      font-size: 13.5pt;
+      font-weight: bold;
+      color: #0f172a;
+      margin: 4px 0 6px 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #f1f5f9;
+      padding: 5px 10px;
+      border-radius: 6px;
+      border-left: 4px solid #0284c7;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    /* 🌟 Page 1: 單字探索卡片網格 (加大幅面，充實版面空間) */
+    .vocab-grid-4page {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 16px;
+      margin: 8px 0;
+    }
+    .vocab-card-large {
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      background: #ffffff;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+      cursor: pointer;
+      transition: all 0.15s;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    .vocab-card-large:hover {
+      border-color: #0284c7;
+      background-color: #f8fafc;
+    }
+    .vocab-thumb-large {
+      width: 72px;
+      height: 72px;
+      aspect-ratio: 1 / 1;
+      object-fit: contain;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      flex-shrink: 0;
+    }
+    .vocab-card-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .vocab-header-line {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+    .vocab-word-large {
+      font-size: 17pt;
+      font-weight: bold;
+      color: #0369a1;
+      line-height: 1.2;
+    }
+    .vocab-zh-large {
+      font-size: 14pt;
+      font-weight: bold;
+      color: #334155;
+    }
+    .vocab-action-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 1px;
+    }
+    .vocab-audio-btn {
+      background: #e0f2fe;
+      color: #0284c7;
+      border: 1px solid #bae6fd;
+      border-radius: 10px;
+      padding: 2px 8px;
+      font-size: 10.5pt;
+      font-weight: bold;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      transition: all 0.15s;
+    }
+    .vocab-audio-btn:hover {
+      background: #0284c7;
+      color: #ffffff;
+    }
+    .shadow-check-tag {
+      font-size: 10pt;
+      color: #64748b;
+      font-weight: normal;
+    }
+    .shadow-check-tag input {
+      vertical-align: middle;
+      cursor: pointer;
+    }
+
+    /* 英文標準四線三格（大幅加高放大版：16px大行距，舒適書寫） */
+    .handwriting-guide-large {
+      position: relative;
+      width: 100%;
+      height: 52px;
+      margin-top: 5px;
+      background-color: #fafbfc;
+      border-radius: 4px;
+    }
+    .handwriting-guide-large span:not(.hw-answer-text) {
+      position: absolute;
+      left: 2px;
+      right: 2px;
+      border-top: 1px solid #64748b;
+    }
+    .handwriting-guide-large span:nth-child(1) { top: 3px; }
+    .handwriting-guide-large span:nth-child(2) { top: 19px; border-top-style: dashed; border-top-color: #94a3b8; border-top-width: 1.2px; }
+    .handwriting-guide-large span:nth-child(3) { top: 35px; border-top-color: #0284c7; border-top-width: 2px; }
+    .handwriting-guide-large span:nth-child(4) { top: 51px; }
+
+    /* 四線格點擊顯答案紅字 */
+    .hw-answer-text {
+      position: absolute;
+      left: 10px;
+      top: 5px;
+      font-family: "Times New Roman", serif;
+      font-size: 22pt;
+      line-height: 32px;
+      font-weight: bold;
+      color: #dc2626 !important;
+      display: none;
+      letter-spacing: 1px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .show-ans .hw-answer-text,
+    .vocab-card-large.show-one .hw-answer-text {
+      display: block !important;
+    }
+
+    /* 🌟 Page 2: 聽音連連看 (左右大對照版) */
+    .match-board-full {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 12px;
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin: 4px 0;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    .match-list-col {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .match-q-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 5px 8px;
+      font-size: 13.5pt;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .match-q-card:hover {
+      border-color: #0284c7;
+      background: #f0f9ff;
+    }
+    .match-q-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .match-q-num {
+      font-weight: bold;
+      color: #0284c7;
+      min-width: 22px;
+    }
+    .match-play-btn {
+      background: #e0f2fe;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+      border-radius: 6px;
+      padding: 2px 7px;
+      font-size: 11pt;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .match-play-btn:hover {
+      background: #0284c7;
+      color: #ffffff;
+    }
+    .match-ans-slot {
+      font-weight: bold;
+      color: #334155;
+    }
+    .match-opt-card {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 3px 6px;
+    }
+    .match-opt-code {
+      font-weight: bold;
+      color: #166534;
+      font-size: 12.5pt;
+      min-width: 24px;
+    }
+    .match-opt-text {
+      display: flex;
+      align-items: baseline;
+      gap: 5px;
+    }
+    .match-opt-word {
+      font-weight: bold;
+      color: #0f172a;
+      font-size: 13.5pt;
+    }
+    .match-opt-zh {
+      color: #64748b;
+      font-size: 12pt;
+    }
+    .match-opt-thumb {
+      width: 36px;
+      height: 36px;
+      aspect-ratio: 1 / 1;
+      object-fit: contain;
+      border-radius: 4px;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+    }
+    .ans-box-code {
+      display: inline-block;
+      min-width: 24px;
+      text-align: center;
+      font-weight: bold;
+      color: transparent;
+      transition: color 0.15s;
+    }
+    .show-ans .ans-box-code,
+    .match-q-card.show-one .ans-box-code {
+      color: #dc2626 !important;
+    }
+
+    /* 🌟 Page 3: 補字母拼單字 (Missing Letters) */
+    .word-bank-box {
+      background: #f1f5f9;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 6px 10px;
+      margin: 3px 0 6px 0;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    .word-chip-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 3px;
+    }
+    .word-chip {
+      background: #ffffff;
+      border: 1.5px solid #94a3b8;
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 12.5pt;
+      font-weight: bold;
+      color: #0369a1;
+      font-family: "Times New Roman", serif;
+    }
+    .spell-grid-full {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 14px;
+      margin: 6px 0;
+    }
+    .spell-card-full.span-full {
+      grid-column: 1 / -1;
+    }
+    .spell-card-full {
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      background: #ffffff;
+      padding: 6px 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+      cursor: pointer;
+      transition: all 0.15s;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    .spell-card-full:hover {
+      border-color: #0284c7;
+      background-color: #f8fafc;
+    }
+    .spell-thumb-mid,
+    .spell-thumb-full {
+      width: 60px;
+      height: 60px;
+      aspect-ratio: 1 / 1;
+      object-fit: contain;
+      border-radius: 6px;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      flex-shrink: 0;
+    }
+    .spell-card-info,
+    .spell-info-full {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+    .spell-letters-large,
+    .spell-pattern-line {
+      font-family: "Courier New", Courier, monospace, "Times New Roman", serif;
+      font-size: 16.5pt;
+      letter-spacing: 2px;
+      font-weight: bold;
+      color: #0f172a;
+      white-space: nowrap;
+    }
+    .letter-slot {
+      display: inline-block;
+      min-width: 16px;
+      text-align: center;
+      border-bottom: 2.5px solid #0284c7;
+      margin: 0 2px;
+    }
+    .letter-ans {
+      display: none;
+      color: #dc2626 !important;
+      font-weight: bold;
+    }
+    .show-ans .letter-ans,
+    .spell-card-full.show-one .letter-ans {
+      display: inline !important;
+    }
+    .spell-zh-hint {
+      font-size: 12.5pt;
+      color: #475569;
+      font-weight: bold;
+      margin-top: 1px;
+    }
+
+    /* 🌟 Page 4: 生活情境例句選擇 */
+    .context-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin: 4px 0;
+    }
+    .context-item {
+      padding: 7px 12px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      background: #ffffff;
+      cursor: pointer;
+      transition: all 0.15s;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    .context-item:hover {
+      background-color: #f8fafc;
+      border-color: #93c5fd;
+    }
+    .item-chinese-hint,
+    .context-cue {
+      font-size: 12.5pt;
+      font-weight: bold;
+      color: #0369a1;
+      line-height: 1.35;
+    }
+    .item-sentence-line,
+    .context-sentence {
+      font-size: 14pt;
+      font-family: "Times New Roman", serif;
+      color: #0f172a;
+      line-height: 1.45;
+      margin-top: 2px;
+    }
+    .context-num {
+      font-weight: bold;
+      color: #0284c7;
+      margin-right: 4px;
+    }
+    .correct-choice {
+      display: inline-block;
+      padding: 0 4px;
+      transition: all 0.2s;
+    }
+    .show-ans .correct-choice,
+    .context-item.show-one .correct-choice {
+      color: #dc2626 !important;
+      font-weight: bold !important;
+      border: 2px solid #dc2626 !important;
+      border-radius: 12px !important;
+      background-color: #fef2f2 !important;
+      padding: 0 6px !important;
+    }
+
+    /* 完課星等認證盒 */
+    .mastery-cert-box {
+      margin-top: 6px;
+      padding: 8px 12px;
+      border: 2px dashed #0284c7;
+      border-radius: 8px;
+      background-color: #f0fdf4;
+      text-align: center;
+      font-size: 12pt;
+      line-height: 1.45;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    /* 列印專屬配置：每頁嚴格 1 頁 A4，精準 16 頁不溢出 */
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 8mm 10mm;
+      }
+      html, body {
+        width: 100% !important;
+        height: auto !important;
+        background: #ffffff !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      .classroom-toolbar,
+      .no-print,
+      .vocab-audio-btn,
+      .match-play-btn,
+      .shadow-check-tag,
+      .drawing-canvas {
+        display: none !important;
+      }
+      .pages-container {
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      .page {
+        box-sizing: border-box !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+        width: 100% !important;
+        min-height: 0 !important;
+        height: auto !important;
+        padding: 0 0 4mm 0 !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+      }
+      .page:last-child,
+      #p16 {
+        page-break-after: auto !important;
+        break-after: auto !important;
+      }
+      .ans-box-code,
+      .show-ans .ans-box-code {
+        color: transparent !important;
+      }
+      .hw-answer-text,
+      .show-ans .hw-answer-text,
+      .vocab-card-large.show-one .hw-answer-text {
+        display: none !important;
+      }
+      .letter-ans,
+      .show-ans .letter-ans,
+      .spell-card-full.show-one .letter-ans {
+        display: none !important;
+      }
+      .letter-slot {
+        border-bottom: 2px solid #000000 !important;
+      }
+      .correct-choice,
+      .show-ans .correct-choice {
+        color: inherit !important;
+        font-weight: normal !important;
+        border: none !important;
+        background: transparent !important;
+        padding: 0 2px !important;
+      }
+      .context-item:hover,
+      .match-q-card:hover,
+      .spell-card-full:hover,
+      .vocab-card-large:hover {
+        background-color: transparent !important;
+        border-color: #cbd5e1 !important;
+      }
+    }
+
+    @media screen and (max-width: 900px) {
+      .page {
+        width: 100%;
+        padding: 12px 14px;
+        margin-bottom: 16px;
+      }
+      .classroom-toolbar {
+        right: 6px;
+      }
+      .vocab-grid-4page,
+      .match-board-full,
+      .spell-grid-full {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+</head>
+<body>
+
+  <!-- 課堂極簡工具列 -->
+  <div class="classroom-toolbar no-print">
+    <div style="position: relative;">
+      <button class="tool-btn" id="tocBtn" onclick="toggleTocMenu(event)" title="單元章節目錄 (全16頁)">
+        📑
+      </button>
+      <div class="toc-menu" id="tocMenu">
+        <div class="toc-menu-title">
+          <span>📖 Unit 2 單字隨堂手冊</span>
+          <span style="font-size: 10.5px; color: #0284c7; font-weight: normal;">全 16 頁</span>
+        </div>
+        
+        <div class="toc-item" onclick="jumpTo('sec1')">
+          <span class="toc-num">1</span>
+          <div class="toc-info">
+            <div class="toc-title">第 1 節：undefined</div>
+            <div class="toc-sub">任務一～任務四 (P.1～P.4)</div>
+          </div>
+        </div>
+        <div class="toc-item" onclick="jumpTo('sec2')">
+          <span class="toc-num">2</span>
+          <div class="toc-info">
+            <div class="toc-title">第 2 節：undefined</div>
+            <div class="toc-sub">任務一～任務四 (P.5～P.8)</div>
+          </div>
+        </div>
+        <div class="toc-item" onclick="jumpTo('sec3')">
+          <span class="toc-num">3</span>
+          <div class="toc-info">
+            <div class="toc-title">第 3 節：undefined</div>
+            <div class="toc-sub">任務一～任務四 (P.9～P.12)</div>
+          </div>
+        </div>
+        <div class="toc-item" onclick="jumpTo('sec4')">
+          <span class="toc-num">4</span>
+          <div class="toc-info">
+            <div class="toc-title">第 4 節：undefined</div>
+            <div class="toc-sub">任務一～任務四 (P.13～P.16)</div>
+          </div>
+        </div>      </div>
+    </div>
+
+    <button class="tool-btn btn-toggle-ans" id="toggleAllAnsBtn" onclick="toggleAllAnswers()" title="一鍵全開/全隱答案 (全16頁)">
+      <span id="ansIcon">👁️</span>
+    </button>
+    
+    <div style="position: relative;">
+      <button class="tool-btn" id="penBtn" onclick="togglePenMode()" title="螢光板書筆">
+        🖍️
+      </button>
+      <div class="pen-options" id="penOptions">
+        <div class="color-picker">
+          <span class="color-dot active" style="background:#facc15;" onclick="setPenColor('rgba(250, 204, 21, 0.45)', this)" title="螢光黃"></span>
+          <span class="color-dot" style="background:#ef4444;" onclick="setPenColor('rgba(239, 68, 68, 0.8)', this)" title="紅筆"></span>
+          <span class="color-dot" style="background:#3b82f6;" onclick="setPenColor('rgba(37, 99, 235, 0.8)', this)" title="藍筆"></span>
+          <span class="color-dot" style="background:#10b981;" onclick="setPenColor('rgba(16, 185, 129, 0.8)', this)" title="綠筆"></span>
+        </div>
+        <div class="toolbar-divider"></div>
+        <div class="size-picker">
+          <button class="size-btn active" onclick="setPenSize(4, this)">細</button>
+          <button class="size-btn" onclick="setPenSize(10, this)">中</button>
+          <button class="size-btn" onclick="setPenSize(20, this)">粗</button>
+        </div>
+      </div>
+    </div>
+
+    <button class="tool-btn" onclick="clearAllDrawings()" title="清除劃記">
+      🧹
+    </button>
+    <div class="toolbar-divider"></div>
+    <button class="tool-btn" onclick="window.print()" title="學生純淨白紙列印 (全書16頁)">
+      🖨️
+    </button>
+    
+    <!-- 全螢幕切換 -->
+    <button class="tool-btn" id="fullscreenBtn" onclick="toggleFullscreen()" title="全螢幕模式（放大/縮小）">
+      <svg id="fsIconExpand" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display: block;">
+        <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+      </svg>
+      <svg id="fsIconCompress" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+        <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/>
+      </svg>
+    </button>
+
+    <!-- 收合工具列 -->
+    <button class="tool-btn" onclick="closeToolbar()" title="收合工具列">
+      ✖
+    </button>
+  </div>
+
+  <div class="pages-container">
+    <!-- ==================== SECTION 1: PAGE 1 (P.1/16) ==================== -->
+    <div class="page" id="p1" data-section="sec1">
+      <a id="sec1"></a>
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">國中英語教材庫：七上 Unit 2 單字隨堂學習單<br>(第 1 節：居家格局與亮眼色彩)</div>
+      <div class="student-bar"><span>班級：_______ 座號：____ 姓名：______________</span>
+        <span>評分：__________</span></div>
+      <div class="scene-banner">
+        <span>🏠 情境主題：柴克家的房屋格局 ‧ 溫馨客餐廳與繽紛色彩</span>
+        <span class="scene-tag">第 1 頁 / 全 16 頁</span>
+      </div>
+      <div class="quest-title"><span>🎯 任務一：看圖認讀 ＋ 四線格手寫抄寫</span></div>
+      <div class="vocab-grid-4page">
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/house.webp" alt="house" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">house</span>
+              <span class="vocab-zh-large">房子</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('house', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">house</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/parents.webp" alt="parents" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">parents</span>
+              <span class="vocab-zh-large">父母親</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('parents', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">parents</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/living-room.webp" alt="living room" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">living room</span>
+              <span class="vocab-zh-large">客廳</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('living room', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">living room</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/wall.webp" alt="wall" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">wall</span>
+              <span class="vocab-zh-large">牆壁</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('wall', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">wall</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/purple.webp" alt="purple" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">purple</span>
+              <span class="vocab-zh-large">紫色（的）</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('purple', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">purple</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/favorite.webp" alt="favorite" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">favorite</span>
+              <span class="vocab-zh-large">最喜愛（的）</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('favorite', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">favorite</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/color.webp" alt="color" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">color</span>
+              <span class="vocab-zh-large">顏色</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('color', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">color</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/kitchen.webp" alt="kitchen" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">kitchen</span>
+              <span class="vocab-zh-large">廚房</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('kitchen', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">kitchen</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/dining-room.webp" alt="dining room" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">dining room</span>
+              <span class="vocab-zh-large">飯廳</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('dining room', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">dining room</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SECTION 1: PAGE 2 (P.2/16) ==================== -->
+    <div class="page" id="p2" data-section="sec1">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">國中英語教材庫：七上 Unit 2 單字隨堂學習單<br>(第 1 節：居家格局與亮眼色彩)</div>
+      <div class="student-bar"><span>班級：_______ 座號：____ 姓名：______________</span>
+        <span>評分：__________</span></div>
+      <div class="scene-banner" style="background:#fef3c7; border-left-color:#d97706; color:#92400e;"><span>🎧 任務二：聽音連連看</span></div>
+      <div class="quest-title"><span>🎧 任務二：聽音連連看 ＋ 圖片配對大對照 (點擊喇叭聽發音，在括號內填入正確代號)</span></div>
+      <div class="match-board-full">
+        <div class="match-list-col">
+          <div style="font-weight:bold; color:#475569; margin-bottom:2px; font-size:13pt;">🎧 聽音作答區：</div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(1)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('house', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">C</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(2)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('parents', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">A</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(3)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('living room', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">F</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(4)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('wall', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">B</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(5)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('purple', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">H</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(6)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('favorite', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">D</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(7)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('color', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">I</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(8)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('kitchen', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">E</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(9)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('dining room', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">G</span>&nbsp; )</span>
+          </div>
+        </div>
+        <div class="match-list-col">
+          <div style="font-weight:bold; color:#475569; margin-bottom:2px; font-size:13pt;">🖼️ 圖片與選項庫：</div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(A)</span>
+            <img src="../../images/vocab/g7u2/parents.webp" alt="parents" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">parents</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">父母親</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(B)</span>
+            <img src="../../images/vocab/g7u2/wall.webp" alt="wall" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">wall</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">牆壁</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(C)</span>
+            <img src="../../images/vocab/g7u2/house.webp" alt="house" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">house</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">房子</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(D)</span>
+            <img src="../../images/vocab/g7u2/favorite.webp" alt="favorite" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">favorite</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">最喜愛（的）</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(E)</span>
+            <img src="../../images/vocab/g7u2/kitchen.webp" alt="kitchen" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">kitchen</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">廚房</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(F)</span>
+            <img src="../../images/vocab/g7u2/living-room.webp" alt="living room" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">living room</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">客廳</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(G)</span>
+            <img src="../../images/vocab/g7u2/dining-room.webp" alt="dining room" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">dining room</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">飯廳</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(H)</span>
+            <img src="../../images/vocab/g7u2/purple.webp" alt="purple" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">purple</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">紫色（的）</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(I)</span>
+            <img src="../../images/vocab/g7u2/color.webp" alt="color" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">color</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">顏色</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SECTION 1: PAGE 3 (P.3/16) ==================== -->
+    <div class="page" id="p3" data-section="sec1">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">國中英語教材庫：七上 Unit 2 單字隨堂學習單<br>(第 1 節：居家格局與亮眼色彩)</div>
+      <div class="student-bar"><span>班級：_______ 座號：____ 姓名：______________</span>
+        <span>評分：__________</span></div>
+      <div class="scene-banner" style="background:#f0fdf4; border-left-color:#16a34a; color:#15803d;"><span>✏️ 任務三：補字母拼單字</span></div>
+      <div class="word-bank-box">
+        <div style="font-weight:bold; color:#475569; font-size:12pt;">🔤 本節單字庫（參考單字）：</div>
+        <div class="word-chip-grid">
+<span class="word-chip">house</span>
+<span class="word-chip">parents</span>
+<span class="word-chip">living room</span>
+<span class="word-chip">wall</span>
+<span class="word-chip">purple</span>
+<span class="word-chip">favorite</span>
+<span class="word-chip">color</span>
+<span class="word-chip">kitchen</span>
+<span class="word-chip">dining room</span>
+        </div>
+      </div>
+      <div class="quest-title"><span>✏️ 任務三：補字母微拼字特訓 (Missing Letters：參考上方單字庫，補齊缺漏字母)</span></div>
+      <div class="spell-grid-full">
+        <div class="spell-card-full" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/house.webp" alt="house" class="spell-thumb-mid" >
+          <div class="spell-card-info">
+            <div class="spell-letters-large">h<span class="letter-slot"><span class="letter-ans">ou</span></span>se</div>
+            <div class="spell-zh-hint">房子</div>
+          </div>
+        </div>
+        <div class="spell-card-full" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/parents.webp" alt="parents" class="spell-thumb-mid" >
+          <div class="spell-card-info">
+            <div class="spell-letters-large">p<span class="letter-slot"><span class="letter-ans">a</span></span>r<span class="letter-slot"><span class="letter-ans">e</span></span>nts</div>
+            <div class="spell-zh-hint">父母親</div>
+          </div>
+        </div>
+        <div class="spell-card-full" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/wall.webp" alt="wall" class="spell-thumb-mid" >
+          <div class="spell-card-info">
+            <div class="spell-letters-large">w<span class="letter-slot"><span class="letter-ans">a</span></span>ll</div>
+            <div class="spell-zh-hint">牆壁</div>
+          </div>
+        </div>
+        <div class="spell-card-full" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/purple.webp" alt="purple" class="spell-thumb-mid" >
+          <div class="spell-card-info">
+            <div class="spell-letters-large">p<span class="letter-slot"><span class="letter-ans">u</span></span>rpl<span class="letter-slot"><span class="letter-ans">e</span></span></div>
+            <div class="spell-zh-hint">紫色（的）</div>
+          </div>
+        </div>
+        <div class="spell-card-full" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/favorite.webp" alt="favorite" class="spell-thumb-mid" >
+          <div class="spell-card-info">
+            <div class="spell-letters-large">f<span class="letter-slot"><span class="letter-ans">a</span></span>v<span class="letter-slot"><span class="letter-ans">o</span></span>r<span class="letter-slot"><span class="letter-ans">i</span></span>te</div>
+            <div class="spell-zh-hint">最喜愛（的）</div>
+          </div>
+        </div>
+        <div class="spell-card-full" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/color.webp" alt="color" class="spell-thumb-mid" >
+          <div class="spell-card-info">
+            <div class="spell-letters-large">c<span class="letter-slot"><span class="letter-ans">o</span></span>l<span class="letter-slot"><span class="letter-ans">o</span></span>r</div>
+            <div class="spell-zh-hint">顏色</div>
+          </div>
+        </div>
+        <div class="spell-card-full" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/kitchen.webp" alt="kitchen" class="spell-thumb-mid" >
+          <div class="spell-card-info">
+            <div class="spell-letters-large">k<span class="letter-slot"><span class="letter-ans">i</span></span>tch<span class="letter-slot"><span class="letter-ans">e</span></span>n</div>
+            <div class="spell-zh-hint">廚房</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SECTION 1: PAGE 4 (P.4/16) ==================== -->
+    <div class="page" id="p4" data-section="sec1">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">國中英語教材庫：七上 Unit 2 單字隨堂學習單<br>(第 1 節：居家格局與亮眼色彩)</div>
+      <div class="student-bar"><span>班級：_______ 座號：____ 姓名：______________</span>
+        <span>評分：__________</span></div>
+      <div class="scene-banner" style="background:#f5f3ff; border-left-color:#7c3aed; color:#6d28d9;"><span>🚀 任務四：生活實用語境應用特訓</span></div>
+      <div class="quest-title"><span>🚀 任務四：生活實用語境應用特訓 (閱讀中文翻譯，圈選出最適當的單字)</span></div>
+      <div class="context-list">
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：柴克住在一棟附有漂亮院子的大房子裡。</div>
+          <div class="item-sentence-line">(1) Zack lives in a big ( <span class="correct-choice">house</span> / cookie ) with a nice yard.</div>
+        </div>
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：我的父母親都是老師。他們很熱愛閱讀書籍。</div>
+          <div class="item-sentence-line">(2) My ( <span class="correct-choice">parents</span> / pencils ) are both teachers. They love reading books.</div>
+        </div>
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：我們經常一起在客廳裡看電視。</div>
+          <div class="item-sentence-line">(3) We often watch TV together in the ( <span class="correct-choice">living room</span> / pencil case ).</div>
+        </div>
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：牆壁上掛著許多溫馨的家庭合照。</div>
+          <div class="item-sentence-line">(4) There are many family photos on the ( <span class="correct-choice">wall</span> / sofa ).</div>
+        </div>
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：媽媽正在廚房裡煮美味的熱湯。</div>
+          <div class="item-sentence-line">(5) Amy likes grapes because she loves the color ( <span class="correct-choice">purple</span> / between ).</div>
+        </div>
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：全家人在餐廳裡開心地享用晚餐。</div>
+          <div class="item-sentence-line">(6) English is my ( <span class="correct-choice">favorite</span> / hungry ) subject at school.</div>
+        </div>
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：牆上那幅花卉畫作多麼美麗呀！</div>
+          <div class="item-sentence-line">(7) "What ( <span class="correct-choice">color</span> / table ) do you like?" "I like sky blue."</div>
+        </div>
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：請舒服地坐在柔軟的沙發上。</div>
+          <div class="item-sentence-line">(8) Dad is cooking soup in the ( <span class="correct-choice">kitchen</span> / behind ).</div>
+        </div>
+      </div>
+      <div class="mastery-cert-box">
+        <div style="font-weight:bold; font-size:13pt; color:#15803d; margin-bottom:4px;">
+          🌟 學習自我檢核與完課認證
+        </div>
+        <div style="font-size:11.5pt; color:#334155; margin-bottom:4px;">
+          我能熟練唸讀本節重點單字：⭐⭐⭐⭐⭐ ｜ 我能正確工整抄寫：⭐⭐⭐⭐⭐
+        </div>
+        <div style="display:flex; justify-content:space-around; font-size:11pt; color:#475569; border-top:1px dashed #86efac; padding-top:4px;">
+          <span>教師簽章 / 評語：____________________</span>
+          <span>完成日期：____ 年 ____ 月 ____ 日</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SECTION 2: PAGE 1 (P.5/16) ==================== -->
+    <div class="page" id="p5" data-section="sec2">
+      <a id="sec2"></a>
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">國中英語教材庫：七上 Unit 2 單字隨堂學習單<br>(第 2 節：客廳傢俱與點心尋寶)</div>
+      <div class="student-bar"><span>班級：_______ 座號：____ 姓名：______________</span>
+        <span>評分：__________</span></div>
+      <div class="scene-banner">
+        <span>🛋️ 情境主題：客廳舒適沙發 ‧ 貪吃小老鼠與香脆餅乾</span>
+        <span class="scene-tag">第 5 頁 / 全 16 頁</span>
+      </div>
+      <div class="quest-title"><span>🎯 任務一：看圖認讀 ＋ 四線格手寫抄寫</span></div>
+      <div class="vocab-grid-4page">
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/but.webp" alt="but" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">but</span>
+              <span class="vocab-zh-large">但是</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('but', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">but</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/gray.webp" alt="gray" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">gray</span>
+              <span class="vocab-zh-large">灰色（的）</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('gray', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">gray</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/brown.webp" alt="brown" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">brown</span>
+              <span class="vocab-zh-large">棕色（的）</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('brown', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">brown</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/cookie.webp" alt="cookie" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">cookie</span>
+              <span class="vocab-zh-large">餅乾</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('cookie', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">cookie</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/mice.webp" alt="mice" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">mice</span>
+              <span class="vocab-zh-large">老鼠（複數）</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('mice', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">mice</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/maybe.webp" alt="maybe" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">maybe</span>
+              <span class="vocab-zh-large">可能</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('maybe', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">maybe</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/sofa.webp" alt="sofa" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">sofa</span>
+              <span class="vocab-zh-large">沙發</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('sofa', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">sofa</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/hungry.webp" alt="hungry" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">hungry</span>
+              <span class="vocab-zh-large">餓的</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('hungry', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">hungry</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/notebook.webp" alt="notebook" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">notebook</span>
+              <span class="vocab-zh-large">筆記本</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('notebook', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">notebook</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SECTION 2: PAGE 2 (P.6/16) ==================== -->
+    <div class="page" id="p6" data-section="sec2">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">國中英語教材庫：七上 Unit 2 單字隨堂學習單<br>(第 2 節：客廳傢俱與點心尋寶)</div>
+      <div class="student-bar"><span>班級：_______ 座號：____ 姓名：______________</span>
+        <span>評分：__________</span></div>
+      <div class="scene-banner" style="background:#fef3c7; border-left-color:#d97706; color:#92400e;"><span>🎧 任務二：聽音連連看</span></div>
+      <div class="quest-title"><span>🎧 任務二：聽音連連看 ＋ 圖片配對大對照 (點擊喇叭聽發音，在括號內填入正確代號)</span></div>
+      <div class="match-board-full">
+        <div class="match-list-col">
+          <div style="font-weight:bold; color:#475569; margin-bottom:2px; font-size:13pt;">🎧 聽音作答區：</div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(1)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('but', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">C</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(2)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('gray', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">A</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(3)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('brown', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">F</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(4)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('cookie', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">B</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(5)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('mice', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">H</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(6)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('maybe', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">D</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(7)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('sofa', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">I</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(8)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('hungry', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">E</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(9)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('notebook', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">G</span>&nbsp; )</span>
+          </div>
+        </div>
+        <div class="match-list-col">
+          <div style="font-weight:bold; color:#475569; margin-bottom:2px; font-size:13pt;">🖼️ 圖片與選項庫：</div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(A)</span>
+            <img src="../../images/vocab/g7u2/gray.webp" alt="gray" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">gray</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">灰色（的）</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(B)</span>
+            <img src="../../images/vocab/g7u2/cookie.webp" alt="cookie" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">cookie</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">餅乾</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(C)</span>
+            <img src="../../images/vocab/g7u2/but.webp" alt="but" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">but</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">但是</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(D)</span>
+            <img src="../../images/vocab/g7u2/maybe.webp" alt="maybe" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">maybe</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">可能</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(E)</span>
+            <img src="../../images/vocab/g7u2/hungry.webp" alt="hungry" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">hungry</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">餓的</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(F)</span>
+            <img src="../../images/vocab/g7u2/brown.webp" alt="brown" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">brown</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">棕色（的）</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(G)</span>
+            <img src="../../images/vocab/g7u2/notebook.webp" alt="notebook" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">notebook</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">筆記本</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(H)</span>
+            <img src="../../images/vocab/g7u2/mice.webp" alt="mice" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">mice</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">老鼠（複數）</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(I)</span>
+            <img src="../../images/vocab/g7u2/sofa.webp" alt="sofa" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">sofa</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">沙發</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SECTION 2: PAGE 3 (P.7/16) ==================== -->
+    <div class="page" id="p7" data-section="sec2">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">國中英語教材庫：七上 Unit 2 單字隨堂學習單<br>(第 2 節：客廳傢俱與點心尋寶)</div>
+      <div class="student-bar"><span>班級：_______ 座號：____ 姓名：______________</span>
+        <span>評分：__________</span></div>
+      <div class="scene-banner" style="background:#f0fdf4; border-left-color:#16a34a; color:#15803d;"><span>✏️ 任務三：補字母拼單字</span></div>
+      <div class="word-bank-box">
+        <div style="font-weight:bold; color:#475569; font-size:12pt;">🔤 本節單字庫（參考單字）：</div>
+        <div class="word-chip-grid">
+<span class="word-chip">but</span>
+<span class="word-chip">gray</span>
+<span class="word-chip">brown</span>
+<span class="word-chip">cookie</span>
+<span class="word-chip">mice</span>
+<span class="word-chip">maybe</span>
+<span class="word-chip">sofa</span>
+<span class="word-chip">hungry</span>
+<span class="word-chip">notebook</span>
+        </div>
+      </div>
+      <div class="quest-title"><span>✏️ 任務三：補字母微拼字特訓 (Missing Letters：參考上方單字庫，補齊缺漏字母)</span></div>
+      <div class="spell-grid-full">
+        <div class="spell-card-full" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/but.webp" alt="but" class="spell-thumb-mid" >
+          <div class="spell-card-info">
+            <div class="spell-letters-large">b<span class="letter-slot"><span class="letter-ans">u</span></span>t</div>
+            <div class="spell-zh-hint">但是</div>
+          </div>
+        </div>
+        <div class="spell-card-full" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/gray.webp" alt="gray" class="spell-thumb-mid" >
+          <div class="spell-card-info">
+            <div class="spell-letters-large">gr<span class="letter-slot"><span class="letter-ans">a</span></span>y</div>
+            <div class="spell-zh-hint">灰色（的）</div>
+          </div>
+        </div>
+        <div class="spell-card-full" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/brown.webp" alt="brown" class="spell-thumb-mid" >
+          <div class="spell-card-info">
+            <div class="spell-letters-large">br<span class="letter-slot"><span class="letter-ans">o</span></span>wn</div>
+            <div class="spell-zh-hint">棕色（的）</div>
+          </div>
+        </div>
+        <div class="spell-card-full" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/cookie.webp" alt="cookie" class="spell-thumb-mid" >
+          <div class="spell-card-info">
+            <div class="spell-letters-large">c<span class="letter-slot"><span class="letter-ans">oo</span></span>k<span class="letter-slot"><span class="letter-ans">ie</span></span></div>
+            <div class="spell-zh-hint">餅乾</div>
+          </div>
+        </div>
+        <div class="spell-card-full" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/mice.webp" alt="mice" class="spell-thumb-mid" >
+          <div class="spell-card-info">
+            <div class="spell-letters-large">m<span class="letter-slot"><span class="letter-ans">i</span></span>c<span class="letter-slot"><span class="letter-ans">e</span></span></div>
+            <div class="spell-zh-hint">老鼠（複數）</div>
+          </div>
+        </div>
+        <div class="spell-card-full" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/maybe.webp" alt="maybe" class="spell-thumb-mid" >
+          <div class="spell-card-info">
+            <div class="spell-letters-large">m<span class="letter-slot"><span class="letter-ans">a</span></span>yb<span class="letter-slot"><span class="letter-ans">e</span></span></div>
+            <div class="spell-zh-hint">可能</div>
+          </div>
+        </div>
+        <div class="spell-card-full" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/sofa.webp" alt="sofa" class="spell-thumb-mid" >
+          <div class="spell-card-info">
+            <div class="spell-letters-large">s<span class="letter-slot"><span class="letter-ans">o</span></span>f<span class="letter-slot"><span class="letter-ans">a</span></span></div>
+            <div class="spell-zh-hint">沙發</div>
+          </div>
+        </div>
+        <div class="spell-card-full" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/hungry.webp" alt="hungry" class="spell-thumb-mid" >
+          <div class="spell-card-info">
+            <div class="spell-letters-large">h<span class="letter-slot"><span class="letter-ans">u</span></span>ngr<span class="letter-slot"><span class="letter-ans">y</span></span></div>
+            <div class="spell-zh-hint">餓的</div>
+          </div>
+        </div>
+        <div class="spell-card-full" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/notebook.webp" alt="notebook" class="spell-thumb-mid" >
+          <div class="spell-card-info">
+            <div class="spell-letters-large">n<span class="letter-slot"><span class="letter-ans">o</span></span>t<span class="letter-slot"><span class="letter-ans">e</span></span>b<span class="letter-slot"><span class="letter-ans">oo</span></span>k</div>
+            <div class="spell-zh-hint">筆記本</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SECTION 2: PAGE 4 (P.8/16) ==================== -->
+    <div class="page" id="p8" data-section="sec2">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">國中英語教材庫：七上 Unit 2 單字隨堂學習單<br>(第 2 節：客廳傢俱與點心尋寶)</div>
+      <div class="student-bar"><span>班級：_______ 座號：____ 姓名：______________</span>
+        <span>評分：__________</span></div>
+      <div class="scene-banner" style="background:#f5f3ff; border-left-color:#7c3aed; color:#6d28d9;"><span>🚀 任務四：生活實用語境應用特訓</span></div>
+      <div class="quest-title"><span>🚀 任務四：生活實用語境應用特訓 (閱讀中文翻譯，圈選出最適當的單字)</span></div>
+      <div class="context-list">
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：小貓咪正在窗戶附近睡午覺。</div>
+          <div class="item-sentence-line">(1) The house is small, ( <span class="correct-choice">but</span> / above ) it is very comfortable.</div>
+        </div>
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：我的爺爺正坐在舒適的扶手椅上。</div>
+          <div class="item-sentence-line">(2) The cute cat has beautiful ( <span class="correct-choice">gray</span> / between ) fur.</div>
+        </div>
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：電話響了；請幫我接聽一下。</div>
+          <div class="item-sentence-line">(3) The dog's eyes are round and ( <span class="correct-choice">brown</span> / safe ).</div>
+        </div>
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：我們這週末一起來做巧克力餅乾吧。</div>
+          <div class="item-sentence-line">(4) Can I have a chocolate ( <span class="correct-choice">cookie</span> / wall ), please? I love sweets.</div>
+        </div>
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：我肚子非常餓；我們來吃點麵包和水果吧。</div>
+          <div class="item-sentence-line">(5) Look! Three small ( <span class="correct-choice">mice</span> / dining rooms ) are running under the table.</div>
+        </div>
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：美味的蛋糕放在白色的盤子上。</div>
+          <div class="item-sentence-line">(6) "Where is my pencil?" "( <span class="correct-choice">Maybe</span> / Really ) it is in your schoolbag."</div>
+        </div>
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：看看椅子底下；你遺失的鑰匙就在那裡。</div>
+          <div class="item-sentence-line">(7) Grandpa is reading a newspaper on the ( <span class="correct-choice">sofa</span> / brush ).</div>
+        </div>
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：葡萄新鮮又呈現深紫色；看起來真好吃。</div>
+          <div class="item-sentence-line">(8) It's twelve o'clock. I am so ( <span class="correct-choice">hungry</span> / purple )! Let's eat lunch.</div>
+        </div>
+      </div>
+      <div class="mastery-cert-box">
+        <div style="font-weight:bold; font-size:13pt; color:#15803d; margin-bottom:4px;">
+          🌟 學習自我檢核與完課認證
+        </div>
+        <div style="font-size:11.5pt; color:#334155; margin-bottom:4px;">
+          我能熟練唸讀本節重點單字：⭐⭐⭐⭐⭐ ｜ 我能正確工整抄寫：⭐⭐⭐⭐⭐
+        </div>
+        <div style="display:flex; justify-content:space-around; font-size:11pt; color:#475569; border-top:1px dashed #86efac; padding-top:4px;">
+          <span>教師簽章 / 評語：____________________</span>
+          <span>完成日期：____ 年 ____ 月 ____ 日</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SECTION 3: PAGE 1 (P.9/16) ==================== -->
+    <div class="page" id="p9" data-section="sec3">
+      <a id="sec3"></a>
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">國中英語教材庫：七上 Unit 2 單字隨堂學習單<br>(第 3 節：文具用品與空間方位)</div>
+      <div class="student-bar"><span>班級：_______ 座號：____ 姓名：______________</span>
+        <span>評分：__________</span></div>
+      <div class="scene-banner">
+        <span>✏️ 情境主題：學習文具大集合 ‧ 臥室衛浴與相鄰方位</span>
+        <span class="scene-tag">第 9 頁 / 全 16 頁</span>
+      </div>
+      <div class="quest-title"><span>🎯 任務一：看圖認讀 ＋ 四線格手寫抄寫</span></div>
+      <div class="vocab-grid-4page">
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/marker.webp" alt="marker" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">marker</span>
+              <span class="vocab-zh-large">記號筆；彩色筆</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('marker', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">marker</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/brush.webp" alt="brush" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">brush</span>
+              <span class="vocab-zh-large">毛筆；筆刷</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('brush', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">brush</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/gift.webp" alt="gift" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">gift</span>
+              <span class="vocab-zh-large">禮物</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('gift', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">gift</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/pencil-case.webp" alt="pencil case" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">pencil case</span>
+              <span class="vocab-zh-large">鉛筆盒</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('pencil case', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">pencil case</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/bathroom.webp" alt="bathroom" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">bathroom</span>
+              <span class="vocab-zh-large">浴室；廁所</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('bathroom', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">bathroom</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/table.webp" alt="table" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">table</span>
+              <span class="vocab-zh-large">桌子</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('table', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">table</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/bedroom.webp" alt="bedroom" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">bedroom</span>
+              <span class="vocab-zh-large">臥室</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('bedroom', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">bedroom</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/near.webp" alt="near" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">near</span>
+              <span class="vocab-zh-large">在⋯附近</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('near', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">near</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/between.webp" alt="between" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">between</span>
+              <span class="vocab-zh-large">在⋯之間</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('between', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">between</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SECTION 3: PAGE 2 (P.10/16) ==================== -->
+    <div class="page" id="p10" data-section="sec3">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">國中英語教材庫：七上 Unit 2 單字隨堂學習單<br>(第 3 節：文具用品與空間方位)</div>
+      <div class="student-bar"><span>班級：_______ 座號：____ 姓名：______________</span>
+        <span>評分：__________</span></div>
+      <div class="scene-banner" style="background:#fef3c7; border-left-color:#d97706; color:#92400e;"><span>🎧 任務二：聽音連連看</span></div>
+      <div class="quest-title"><span>🎧 任務二：聽音連連看 ＋ 圖片配對大對照 (點擊喇叭聽發音，在括號內填入正確代號)</span></div>
+      <div class="match-board-full">
+        <div class="match-list-col">
+          <div style="font-weight:bold; color:#475569; margin-bottom:2px; font-size:13pt;">🎧 聽音作答區：</div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(1)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('marker', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">C</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(2)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('brush', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">A</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(3)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('gift', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">F</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(4)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('pencil case', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">B</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(5)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('bathroom', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">H</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(6)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('table', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">D</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(7)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('bedroom', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">I</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(8)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('near', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">E</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(9)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('between', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">G</span>&nbsp; )</span>
+          </div>
+        </div>
+        <div class="match-list-col">
+          <div style="font-weight:bold; color:#475569; margin-bottom:2px; font-size:13pt;">🖼️ 圖片與選項庫：</div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(A)</span>
+            <img src="../../images/vocab/g7u2/brush.webp" alt="brush" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">brush</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">毛筆；筆刷</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(B)</span>
+            <img src="../../images/vocab/g7u2/pencil-case.webp" alt="pencil case" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">pencil case</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">鉛筆盒</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(C)</span>
+            <img src="../../images/vocab/g7u2/marker.webp" alt="marker" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">marker</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">記號筆；彩色筆</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(D)</span>
+            <img src="../../images/vocab/g7u2/table.webp" alt="table" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">table</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">桌子</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(E)</span>
+            <img src="../../images/vocab/g7u2/near.webp" alt="near" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">near</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">在⋯附近</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(F)</span>
+            <img src="../../images/vocab/g7u2/gift.webp" alt="gift" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">gift</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">禮物</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(G)</span>
+            <img src="../../images/vocab/g7u2/between.webp" alt="between" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">between</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">在⋯之間</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(H)</span>
+            <img src="../../images/vocab/g7u2/bathroom.webp" alt="bathroom" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">bathroom</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">浴室；廁所</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(I)</span>
+            <img src="../../images/vocab/g7u2/bedroom.webp" alt="bedroom" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">bedroom</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">臥室</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SECTION 3: PAGE 3 (P.11/16) ==================== -->
+    <div class="page" id="p11" data-section="sec3">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">國中英語教材庫：七上 Unit 2 單字隨堂學習單<br>(第 3 節：文具用品與空間方位)</div>
+      <div class="student-bar"><span>班級：_______ 座號：____ 姓名：______________</span>
+        <span>評分：__________</span></div>
+      <div class="scene-banner" style="background:#f0fdf4; border-left-color:#16a34a; color:#15803d;"><span>✏️ 任務三：補字母拼單字</span></div>
+      <div class="word-bank-box">
+        <div style="font-weight:bold; color:#475569; font-size:12pt;">🔤 本節單字庫（參考單字）：</div>
+        <div class="word-chip-grid">
+<span class="word-chip">marker</span>
+<span class="word-chip">brush</span>
+<span class="word-chip">gift</span>
+<span class="word-chip">pencil case</span>
+<span class="word-chip">bathroom</span>
+<span class="word-chip">table</span>
+<span class="word-chip">bedroom</span>
+<span class="word-chip">near</span>
+<span class="word-chip">between</span>
+        </div>
+      </div>
+      <div class="quest-title"><span>✏️ 任務三：補字母微拼字特訓 (Missing Letters：參考上方單字庫，補齊缺漏字母)</span></div>
+      <div class="spell-grid-full">
+        <div class="spell-card-full" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/marker.webp" alt="marker" class="spell-thumb-mid" >
+          <div class="spell-card-info">
+            <div class="spell-letters-large">m<span class="letter-slot"><span class="letter-ans">a</span></span>rk<span class="letter-slot"><span class="letter-ans">e</span></span>r</div>
+            <div class="spell-zh-hint">記號筆；彩色筆</div>
+          </div>
+        </div>
+        <div class="spell-card-full" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/brush.webp" alt="brush" class="spell-thumb-mid" >
+          <div class="spell-card-info">
+            <div class="spell-letters-large">br<span class="letter-slot"><span class="letter-ans">u</span></span>sh</div>
+            <div class="spell-zh-hint">毛筆；筆刷</div>
+          </div>
+        </div>
+        <div class="spell-card-full" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/gift.webp" alt="gift" class="spell-thumb-mid" >
+          <div class="spell-card-info">
+            <div class="spell-letters-large">g<span class="letter-slot"><span class="letter-ans">i</span></span>ft</div>
+            <div class="spell-zh-hint">禮物</div>
+          </div>
+        </div>
+        <div class="spell-card-full" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/table.webp" alt="table" class="spell-thumb-mid" >
+          <div class="spell-card-info">
+            <div class="spell-letters-large">t<span class="letter-slot"><span class="letter-ans">a</span></span>bl<span class="letter-slot"><span class="letter-ans">e</span></span></div>
+            <div class="spell-zh-hint">桌子</div>
+          </div>
+        </div>
+        <div class="spell-card-full" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/near.webp" alt="near" class="spell-thumb-mid" >
+          <div class="spell-card-info">
+            <div class="spell-letters-large">n<span class="letter-slot"><span class="letter-ans">ea</span></span>r</div>
+            <div class="spell-zh-hint">在⋯附近</div>
+          </div>
+        </div>
+        <div class="spell-card-full" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/between.webp" alt="between" class="spell-thumb-mid" >
+          <div class="spell-card-info">
+            <div class="spell-letters-large">b<span class="letter-slot"><span class="letter-ans">e</span></span>tw<span class="letter-slot"><span class="letter-ans">ee</span></span>n</div>
+            <div class="spell-zh-hint">在⋯之間</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SECTION 3: PAGE 4 (P.12/16) ==================== -->
+    <div class="page" id="p12" data-section="sec3">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">國中英語教材庫：七上 Unit 2 單字隨堂學習單<br>(第 3 節：文具用品與空間方位)</div>
+      <div class="student-bar"><span>班級：_______ 座號：____ 姓名：______________</span>
+        <span>評分：__________</span></div>
+      <div class="scene-banner" style="background:#f5f3ff; border-left-color:#7c3aed; color:#6d28d9;"><span>🚀 任務四：生活實用語境應用特訓</span></div>
+      <div class="quest-title"><span>🚀 任務四：生活實用語境應用特訓 (閱讀中文翻譯，圈選出最適當的單字)</span></div>
+      <div class="context-list">
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：我可以借你的黑色原子筆來寫這張卡片嗎？</div>
+          <div class="item-sentence-line">(1) The teacher uses a red ( <span class="correct-choice">marker</span> / kitchen ) to correct our homework.</div>
+        </div>
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：請用削好的鉛筆寫下你的答案。</div>
+          <div class="item-sentence-line">(2) Wash your paint ( <span class="correct-choice">brush</span> / sofa ) with clean water after class.</div>
+        </div>
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：如果你拼錯字了，可以使用橡皮擦擦掉。</div>
+          <div class="item-sentence-line">(3) This cute doll is a birthday ( <span class="correct-choice">gift</span> / wall ) from my best friend.</div>
+        </div>
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：請用尺在筆記本上畫一條直線。</div>
+          <div class="item-sentence-line">(4) Put your pens into your ( <span class="correct-choice">pencil case</span> / dining room ).</div>
+        </div>
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：用餐前請先在浴室把雙手洗乾淨。</div>
+          <div class="item-sentence-line">(5) Please wash your hands in the ( <span class="correct-choice">bathroom</span> / parents ) before eating.</div>
+        </div>
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：茶杯和餅乾都擺在桌子上。</div>
+          <div class="item-sentence-line">(6) The tea cups and cookies are on the ( <span class="correct-choice">table</span> / purple ).</div>
+        </div>
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：柴克的床在他的臥室裡。房間非常整潔。</div>
+          <div class="item-sentence-line">(7) Zack's bed is in his ( <span class="correct-choice">bedroom</span> / marker ). It is very tidy.</div>
+        </div>
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：銀行位於郵局和書店兩者之間。</div>
+          <div class="item-sentence-line">(8) The bank is ( <span class="correct-choice">between</span> / enough ) the post office and the bookstore.</div>
+        </div>
+      </div>
+      <div class="mastery-cert-box">
+        <div style="font-weight:bold; font-size:13pt; color:#15803d; margin-bottom:4px;">
+          🌟 學習自我檢核與完課認證
+        </div>
+        <div style="font-size:11.5pt; color:#334155; margin-bottom:4px;">
+          我能熟練唸讀本節重點單字：⭐⭐⭐⭐⭐ ｜ 我能正確工整抄寫：⭐⭐⭐⭐⭐
+        </div>
+        <div style="display:flex; justify-content:space-around; font-size:11pt; color:#475569; border-top:1px dashed #86efac; padding-top:4px;">
+          <span>教師簽章 / 評語：____________________</span>
+          <span>完成日期：____ 年 ____ 月 ____ 日</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SECTION 4: PAGE 1 (P.13/16) ==================== -->
+    <div class="page" id="p13" data-section="sec4">
+      <a id="sec4"></a>
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">國中英語教材庫：七上 Unit 2 單字隨堂學習單<br>(第 4 節：前後相對與立體方位)</div>
+      <div class="student-bar"><span>班級：_______ 座號：____ 姓名：______________</span>
+        <span>評分：__________</span></div>
+      <div class="scene-banner">
+        <span>🧭 情境主題：前後裡外空間概念 ‧ 人際互動與特別事物</span>
+        <span class="scene-tag">第 13 頁 / 全 16 頁</span>
+      </div>
+      <div class="quest-title"><span>🎯 任務一：看圖認讀 ＋ 四線格手寫抄寫</span></div>
+      <div class="vocab-grid-4page">
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/behind.webp" alt="behind" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">behind</span>
+              <span class="vocab-zh-large">在⋯後面</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('behind', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">behind</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/in-front-of.webp" alt="in front of" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">in front of</span>
+              <span class="vocab-zh-large">在⋯前面</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('in front of', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">in front of</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/special.webp" alt="special" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">special</span>
+              <span class="vocab-zh-large">特別的</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('special', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">special</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/inside.webp" alt="inside" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">inside</span>
+              <span class="vocab-zh-large">在⋯裡面</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('inside', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">inside</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/right.webp" alt="right" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">right</span>
+              <span class="vocab-zh-large">就</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('right', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">right</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/each-other.webp" alt="each other" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">each other</span>
+              <span class="vocab-zh-large">彼此；互相</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('each other', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">each other</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/above.webp" alt="above" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">above</span>
+              <span class="vocab-zh-large">在⋯上方；在上方</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('above', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">above</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/enough.webp" alt="enough" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">enough</span>
+              <span class="vocab-zh-large">足夠（的）</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('enough', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">enough</span>
+            </div>
+          </div>
+        </div>
+        <div class="vocab-card-large" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/person.webp" alt="person" class="vocab-thumb-large" >
+          <div class="vocab-card-body">
+            <div class="vocab-header-line">
+              <span class="vocab-word-large">person</span>
+              <span class="vocab-zh-large">人</span>
+            </div>
+            <div class="vocab-action-line">
+              <button type="button" class="vocab-audio-btn" onclick="speakWord('person', event)">🔊 聽發音</button>
+              <label class="shadow-check-tag" onclick="event.stopPropagation()">跟讀：<input type="checkbox"> 1 <input type="checkbox"> 2</label>
+            </div>
+            <div class="handwriting-guide-large" aria-label="英文單字四線書寫區">
+              <span></span><span></span><span></span><span></span>
+              <span class="hw-answer-text">person</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SECTION 4: PAGE 2 (P.14/16) ==================== -->
+    <div class="page" id="p14" data-section="sec4">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">國中英語教材庫：七上 Unit 2 單字隨堂學習單<br>(第 4 節：前後相對與立體方位)</div>
+      <div class="student-bar"><span>班級：_______ 座號：____ 姓名：______________</span>
+        <span>評分：__________</span></div>
+      <div class="scene-banner" style="background:#fef3c7; border-left-color:#d97706; color:#92400e;"><span>🎧 任務二：聽音連連看</span></div>
+      <div class="quest-title"><span>🎧 任務二：聽音連連看 ＋ 圖片配對大對照 (點擊喇叭聽發音，在括號內填入正確代號)</span></div>
+      <div class="match-board-full">
+        <div class="match-list-col">
+          <div style="font-weight:bold; color:#475569; margin-bottom:2px; font-size:13pt;">🎧 聽音作答區：</div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(1)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('behind', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">C</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(2)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('in front of', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">A</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(3)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('special', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">F</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(4)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('inside', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">B</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(5)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('right', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">H</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(6)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('each other', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">D</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(7)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('above', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">I</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(8)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('enough', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">E</span>&nbsp; )</span>
+          </div>
+          <div class="match-q-card" onclick="toggleItemAnswer(this)">
+            <span style="font-weight:bold; color:#1e293b;">(9)</span>
+            <button type="button" class="match-play-btn" onclick="speakWord('person', event)">🔊 點我聽發音</button>
+            <span style="font-weight:bold; color:#0284c7;">( &nbsp;<span class="ans-box-code">G</span>&nbsp; )</span>
+          </div>
+        </div>
+        <div class="match-list-col">
+          <div style="font-weight:bold; color:#475569; margin-bottom:2px; font-size:13pt;">🖼️ 圖片與選項庫：</div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(A)</span>
+            <img src="../../images/vocab/g7u2/in-front-of.webp" alt="in front of" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">in front of</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">在⋯前面</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(B)</span>
+            <img src="../../images/vocab/g7u2/inside.webp" alt="inside" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">inside</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">在⋯裡面</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(C)</span>
+            <img src="../../images/vocab/g7u2/behind.webp" alt="behind" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">behind</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">在⋯後面</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(D)</span>
+            <img src="../../images/vocab/g7u2/each-other.webp" alt="each other" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">each other</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">彼此；互相</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(E)</span>
+            <img src="../../images/vocab/g7u2/enough.webp" alt="enough" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">enough</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">足夠（的）</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(F)</span>
+            <img src="../../images/vocab/g7u2/special.webp" alt="special" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">special</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">特別的</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(G)</span>
+            <img src="../../images/vocab/g7u2/person.webp" alt="person" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">person</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">人</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(H)</span>
+            <img src="../../images/vocab/g7u2/right.webp" alt="right" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">right</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">就</span>
+            </div>
+          </div>
+          <div class="match-opt-card">
+            <span style="font-weight:bold; color:#0284c7; min-width:26px; font-size:13.5pt;">(I)</span>
+            <img src="../../images/vocab/g7u2/above.webp" alt="above" class="match-opt-thumb" >
+            <div style="line-height:1.2;">
+              <span style="font-weight:bold; color:#0f172a; font-family:'Times New Roman', serif;">above</span>
+              <span style="font-size:12pt; color:#475569; margin-left:4px;">在⋯上方；在上方</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SECTION 4: PAGE 3 (P.15/16) ==================== -->
+    <div class="page" id="p15" data-section="sec4">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">國中英語教材庫：七上 Unit 2 單字隨堂學習單<br>(第 4 節：前後相對與立體方位)</div>
+      <div class="student-bar"><span>班級：_______ 座號：____ 姓名：______________</span>
+        <span>評分：__________</span></div>
+      <div class="scene-banner" style="background:#f0fdf4; border-left-color:#16a34a; color:#15803d;"><span>✏️ 任務三：補字母拼單字</span></div>
+      <div class="word-bank-box">
+        <div style="font-weight:bold; color:#475569; font-size:12pt;">🔤 本節單字庫（參考單字）：</div>
+        <div class="word-chip-grid">
+<span class="word-chip">behind</span>
+<span class="word-chip">in front of</span>
+<span class="word-chip">special</span>
+<span class="word-chip">inside</span>
+<span class="word-chip">right</span>
+<span class="word-chip">each other</span>
+<span class="word-chip">above</span>
+<span class="word-chip">enough</span>
+<span class="word-chip">person</span>
+        </div>
+      </div>
+      <div class="quest-title"><span>✏️ 任務三：補字母微拼字特訓 (Missing Letters：參考上方單字庫，補齊缺漏字母)</span></div>
+      <div class="spell-grid-full">
+        <div class="spell-card-full" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/behind.webp" alt="behind" class="spell-thumb-mid" >
+          <div class="spell-card-info">
+            <div class="spell-letters-large">b<span class="letter-slot"><span class="letter-ans">e</span></span>h<span class="letter-slot"><span class="letter-ans">i</span></span>nd</div>
+            <div class="spell-zh-hint">在⋯後面</div>
+          </div>
+        </div>
+        <div class="spell-card-full" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/special.webp" alt="special" class="spell-thumb-mid" >
+          <div class="spell-card-info">
+            <div class="spell-letters-large">sp<span class="letter-slot"><span class="letter-ans">e</span></span>c<span class="letter-slot"><span class="letter-ans">ia</span></span>l</div>
+            <div class="spell-zh-hint">特別的</div>
+          </div>
+        </div>
+        <div class="spell-card-full" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/inside.webp" alt="inside" class="spell-thumb-mid" >
+          <div class="spell-card-info">
+            <div class="spell-letters-large"><span class="letter-slot"><span class="letter-ans">i</span></span>ns<span class="letter-slot"><span class="letter-ans">i</span></span>d<span class="letter-slot"><span class="letter-ans">e</span></span></div>
+            <div class="spell-zh-hint">在⋯裡面</div>
+          </div>
+        </div>
+        <div class="spell-card-full" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/right.webp" alt="right" class="spell-thumb-mid" >
+          <div class="spell-card-info">
+            <div class="spell-letters-large">r<span class="letter-slot"><span class="letter-ans">i</span></span>ght</div>
+            <div class="spell-zh-hint">就</div>
+          </div>
+        </div>
+        <div class="spell-card-full" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/above.webp" alt="above" class="spell-thumb-mid" >
+          <div class="spell-card-info">
+            <div class="spell-letters-large"><span class="letter-slot"><span class="letter-ans">a</span></span>b<span class="letter-slot"><span class="letter-ans">o</span></span>v<span class="letter-slot"><span class="letter-ans">e</span></span></div>
+            <div class="spell-zh-hint">在⋯上方；在上方</div>
+          </div>
+        </div>
+        <div class="spell-card-full" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/enough.webp" alt="enough" class="spell-thumb-mid" >
+          <div class="spell-card-info">
+            <div class="spell-letters-large"><span class="letter-slot"><span class="letter-ans">e</span></span>n<span class="letter-slot"><span class="letter-ans">ou</span></span>gh</div>
+            <div class="spell-zh-hint">足夠（的）</div>
+          </div>
+        </div>
+        <div class="spell-card-full" onclick="toggleItemAnswer(this)">
+          <img src="../../images/vocab/g7u2/person.webp" alt="person" class="spell-thumb-mid" >
+          <div class="spell-card-info">
+            <div class="spell-letters-large">p<span class="letter-slot"><span class="letter-ans">e</span></span>rs<span class="letter-slot"><span class="letter-ans">o</span></span>n</div>
+            <div class="spell-zh-hint">人</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SECTION 4: PAGE 4 (P.16/16) ==================== -->
+    <div class="page" id="p16" data-section="sec4">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">國中英語教材庫：七上 Unit 2 單字隨堂學習單<br>(第 4 節：前後相對與立體方位)</div>
+      <div class="student-bar"><span>班級：_______ 座號：____ 姓名：______________</span>
+        <span>評分：__________</span></div>
+      <div class="scene-banner" style="background:#f5f3ff; border-left-color:#7c3aed; color:#6d28d9;"><span>🚀 任務四：生活實用語境應用特訓</span></div>
+      <div class="quest-title"><span>🚀 任務四：生活實用語境應用特訓 (閱讀中文翻譯，圈選出最適當的單字)</span></div>
+      <div class="context-list">
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：貓咪正躲在門的後方。</div>
+          <div class="item-sentence-line">(1) The cat is hiding ( <span class="correct-choice">behind</span> / hungry ) the door.</div>
+        </div>
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：我們學校大門口前面有一棵大樹。</div>
+          <div class="item-sentence-line">(2) There is a big tree ( <span class="correct-choice">in front of</span> / purple ) our school gate.</div>
+        </div>
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：今天是個特別的日子，因為今天是媽媽的生日。</div>
+          <div class="item-sentence-line">(3) Today is a ( <span class="correct-choice">special</span> / pencil case ) day because it is Mom's birthday.</div>
+        </div>
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：禮物盒裡面裝著什麼？打開來看看吧！</div>
+          <div class="item-sentence-line">(4) What is ( <span class="correct-choice">inside</span> / between ) the gift box? Open it and see!</div>
+        </div>
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：看！你遺失的鉛筆就在這裡，在你的筆記本下方。</div>
+          <div class="item-sentence-line">(5) Look! Your missing pencil is ( <span class="correct-choice">right</span> / gray ) here under your notebook.</div>
+        </div>
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：好朋友總是會互相幫忙並彼此尊重。</div>
+          <div class="item-sentence-line">(6) Good friends always help and respect ( <span class="correct-choice">each other</span> / dining rooms ).</div>
+        </div>
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：時鐘正懸掛在白板的正上方。</div>
+          <div class="item-sentence-line">(7) The wall clock is hanging ( <span class="correct-choice">above</span> / behind ) the whiteboard.</div>
+        </div>
+        <div class="context-item" onclick="toggleItemAnswer(this)">
+          <div class="item-chinese-hint">💡 中文翻譯：我們準備了足夠全體同學在派對享用的食物與飲料。</div>
+          <div class="item-sentence-line">(8) We have ( <span class="correct-choice">enough</span> / young ) food and drinks for all students at the party.</div>
+        </div>
+      </div>
+      <div class="mastery-cert-box">
+        <div style="font-weight:bold; font-size:13pt; color:#15803d; margin-bottom:4px;">
+          🌟 學習自我檢核與完課認證
+        </div>
+        <div style="font-size:11.5pt; color:#334155; margin-bottom:4px;">
+          我能熟練唸讀本節重點單字：⭐⭐⭐⭐⭐ ｜ 我能正確工整抄寫：⭐⭐⭐⭐⭐
+        </div>
+        <div style="display:flex; justify-content:space-around; font-size:11pt; color:#475569; border-top:1px dashed #86efac; padding-top:4px;">
+          <span>教師簽章 / 評語：____________________</span>
+          <span>完成日期：____ 年 ____ 月 ____ 日</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 課堂教學互動邏輯 -->
+  <script>
+
+    function toggleItemAnswer(el) {
+      if (document.body.classList.contains('pen-mode')) return;
+      el.classList.toggle('show-one');
+    }
+
+    function toggleTocMenu(e) {
+      if (e) e.stopPropagation();
+      var menu = document.getElementById('tocMenu');
+      if (menu) menu.classList.toggle('show');
+    }
+    document.addEventListener('click', function(e) {
+      var menu = document.getElementById('tocMenu');
+      var btn = document.getElementById('tocBtn');
+      if (menu && !menu.contains(e.target) && e.target !== btn) {
+        menu.classList.remove('show');
+      }
+    });
+
+    function jumpTo(pageId) {
+      var target = document.getElementById(pageId);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+        var menu = document.getElementById('tocMenu');
+        if (menu) menu.classList.remove('show');
+      }
+    }
+
+    var allAnswersRevealed = false;
+    function toggleAllAnswers() {
+      allAnswersRevealed = !allAnswersRevealed;
+      var btn = document.getElementById('toggleAllAnsBtn');
+      var icon = document.getElementById('ansIcon');
+      
+      if (allAnswersRevealed) {
+        document.body.classList.add('show-ans');
+        if (btn) btn.classList.add('active');
+        if (icon) icon.textContent = '🙈';
+      } else {
+        document.body.classList.remove('show-ans');
+        if (btn) btn.classList.remove('active');
+        if (icon) icon.textContent = '👁️';
+        document.querySelectorAll('.show-one').forEach(function(el) {
+          el.classList.remove('show-one');
+        });
+      }
+    }
+
+    function speakWord(word, e) {
+      if (e) e.stopPropagation();
+      if (!window.speechSynthesis) return;
+      window.speechSynthesis.cancel();
+      var utterance = new SpeechSynthesisUtterance(word);
+      utterance.lang = 'en-US';
+      utterance.rate = 0.8;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function speakSentence(sentence, e) {
+      if (e) e.stopPropagation();
+      if (!window.speechSynthesis) return;
+      window.speechSynthesis.cancel();
+      var utterance = new SpeechSynthesisUtterance(sentence);
+      utterance.lang = 'en-US';
+      utterance.rate = 0.85;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    var isPenMode = false;
+    function togglePenMode() {
+      isPenMode = !isPenMode;
+      var penBtn = document.getElementById('penBtn');
+      var penOptions = document.getElementById('penOptions');
+      
+      if (isPenMode) {
+        document.body.classList.add('pen-mode');
+        if (penBtn) penBtn.classList.add('active');
+        if (penOptions) penOptions.style.display = 'flex';
+        initCanvases();
+      } else {
+        document.body.classList.remove('pen-mode');
+        if (penBtn) penBtn.classList.remove('active');
+        if (penOptions) penOptions.style.display = 'none';
+      }
+    }
+
+    var currentColor = 'rgba(250, 204, 21, 0.45)';
+    var currentSize = 4;
+
+    function setPenColor(color, el) {
+      currentColor = color;
+      document.querySelectorAll('.color-dot').forEach(function(d) {
+        d.classList.remove('active');
+      });
+      if (el) el.classList.add('active');
+    }
+
+    function setPenSize(size, el) {
+      currentSize = size;
+      document.querySelectorAll('.size-btn').forEach(function(b) {
+        b.classList.remove('active');
+      });
+      if (el) el.classList.add('active');
+    }
+
+    var canvasesInited = false;
+    function initCanvases() {
+      if (canvasesInited) return;
+      canvasesInited = true;
+
+      document.querySelectorAll('.page').forEach(function(page) {
+        var canvas = page.querySelector('.drawing-canvas');
+        if (!canvas) return;
+        var ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+          var rect = page.getBoundingClientRect();
+          var scale = window.devicePixelRatio || 1;
+          
+          var tempCanvas = document.createElement('canvas');
+          tempCanvas.width = canvas.width;
+          tempCanvas.height = canvas.height;
+          var tempCtx = tempCanvas.getContext('2d');
+          tempCtx.drawImage(canvas, 0, 0);
+
+          canvas.width = rect.width * scale;
+          canvas.height = rect.height * scale;
+          canvas.style.width = rect.width + 'px';
+          canvas.style.height = rect.height + 'px';
+          ctx.scale(scale, scale);
+
+          ctx.drawImage(tempCanvas, 0, 0, rect.width, rect.height);
+        }
+
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        var isDrawing = false;
+        var lastX = 0;
+        var lastY = 0;
+
+        function getPos(e) {
+          var rect = canvas.getBoundingClientRect();
+          var clientX = e.clientX || (e.touches && e.touches[0].clientX);
+          var clientY = e.clientY || (e.touches && e.touches[0].clientY);
+          return {
+            x: clientX - rect.left,
+            y: clientY - rect.top
+          };
+        }
+
+        function startDraw(e) {
+          if (!document.body.classList.contains('pen-mode')) return;
+          isDrawing = true;
+          var pos = getPos(e);
+          lastX = pos.x;
+          lastY = pos.y;
+          ctx.beginPath();
+          ctx.moveTo(lastX, lastY);
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+          ctx.strokeStyle = currentColor;
+          ctx.lineWidth = currentSize;
+        }
+
+        function draw(e) {
+          if (!isDrawing || !document.body.classList.contains('pen-mode')) return;
+          var pos = getPos(e);
+          ctx.lineTo(pos.x, pos.y);
+          ctx.stroke();
+          lastX = pos.x;
+          lastY = pos.y;
+        }
+
+        function stopDraw() {
+          if (isDrawing) {
+            ctx.closePath();
+            isDrawing = false;
+          }
+        }
+
+        canvas.addEventListener('mousedown', startDraw);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDraw);
+        canvas.addEventListener('mouseleave', stopDraw);
+
+        canvas.addEventListener('touchstart', function(e) {
+          if (document.body.classList.contains('pen-mode')) {
+            e.preventDefault();
+            startDraw(e);
+          }
+        }, { passive: false });
+        canvas.addEventListener('touchmove', function(e) {
+          if (document.body.classList.contains('pen-mode')) {
+            e.preventDefault();
+            draw(e);
+          }
+        }, { passive: false });
+        canvas.addEventListener('touchend', stopDraw);
+      });
+    }
+
+    function clearAllDrawings() {
+      document.querySelectorAll('.drawing-canvas').forEach(function(canvas) {
+        var ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      });
+    }
+
+    function toggleFullscreen() {
+      var fsExpand = document.getElementById('fsIconExpand');
+      var fsCompress = document.getElementById('fsIconCompress');
+      var fsBtn = document.getElementById('fullscreenBtn');
+
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().then(function() {
+          if (fsExpand) fsExpand.style.display = 'none';
+          if (fsCompress) fsCompress.style.display = 'block';
+          if (fsBtn) fsBtn.classList.add('active');
+        }).catch(function(err) {
+          console.error(err);
+        });
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen().then(function() {
+            if (fsExpand) fsExpand.style.display = 'block';
+            if (fsCompress) fsCompress.style.display = 'none';
+            if (fsBtn) fsBtn.classList.remove('active');
+          }).catch(function(err) {
+            console.error(err);
+          });
+        }
+      }
+    }
+
+    document.addEventListener('fullscreenchange', function() {
+      var fsExpand = document.getElementById('fsIconExpand');
+      var fsCompress = document.getElementById('fsIconCompress');
+      var fsBtn = document.getElementById('fullscreenBtn');
+
+      if (document.fullscreenElement) {
+        if (fsExpand) fsExpand.style.display = 'none';
+        if (fsCompress) fsCompress.style.display = 'block';
+        if (fsBtn) fsBtn.classList.add('active');
+      } else {
+        if (fsExpand) fsExpand.style.display = 'block';
+        if (fsCompress) fsCompress.style.display = 'none';
+        if (fsBtn) fsBtn.classList.remove('active');
+      }
+    });
+
+    function closeToolbar() {
+      var toolbar = document.querySelector('.classroom-toolbar');
+      if (toolbar) toolbar.style.display = 'none';
+    }
+
+    // Check hash on load
+    window.addEventListener('DOMContentLoaded', function() {
+      if (window.location.hash) {
+        var id = window.location.hash.substring(1);
+        jumpTo(id);
+      }
+    });
+
+  </script>
+</body>
+</html>

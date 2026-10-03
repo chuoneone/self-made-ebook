@@ -1,0 +1,2072 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../../images/ebook-logo.webp">
+  <title>Unit 2 Where Are My Pencils?（文法精華版）</title>
+  <style>
+    /* 簡約目錄 */
+    .toc-simple { display: flex; flex-direction: column; gap: 4px; margin: 14px 8px; }
+    .toc-simple-row { display: flex; align-items: baseline; gap: 8px; font-size: 15pt; padding: 10px 6px; border-bottom: 1px dashed #cbd5e1; cursor: pointer; }
+    body:not(.pen-mode) .toc-simple-row:hover { background: #f0f9ff; color: #0369a1; }
+    .toc-simple-dots { flex: 1; }
+
+    @page {
+      size: A4 portrait;
+      margin: 10mm 12mm;
+    }
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f0f7fc;
+      font-family: "Times New Roman", "標楷體", "DFKai-SB", "BiauKai", serif;
+      font-size: 14pt;
+      line-height: 1.6;
+      color: #111;
+      user-select: text;
+    }
+
+    /* 現代極簡懸浮工具列 (Pure Emoji 膠囊工具列) */
+    .classroom-toolbar {
+      position: fixed;
+      top: 14px;
+      right: 20px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 4px 8px;
+      border-radius: 40px;
+      border: 1px solid rgba(203, 213, 225, 0.9);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      user-select: none;
+    }
+    .tool-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      font-size: 16px;
+      color: #334155;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: inherit;
+    }
+    .tool-btn:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+    .tool-btn.active {
+      background: #0f172a;
+      color: #ffffff;
+    }
+    .btn-toggle-ans.active {
+      background: #0284c7;
+      color: #ffffff;
+    }
+    .toolbar-divider {
+      width: 1px;
+      height: 18px;
+      background: #cbd5e1;
+      margin: 0 2px;
+    }
+
+    /* 章節目錄選單 */
+    .toc-menu {
+      display: none;
+      position: absolute;
+      top: 46px;
+      left: auto;
+      right: 0;
+      width: 280px;
+      background: #ffffff;
+      border-radius: 14px;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.16);
+      padding: 8px;
+      flex-direction: column;
+      gap: 4px;
+      z-index: 10000;
+    }
+    .toc-menu.show {
+      display: flex;
+    }
+    .toc-menu-title {
+      font-size: 13px;
+      font-weight: bold;
+      color: #64748b;
+      padding: 4px 8px 6px 8px;
+      border-bottom: 1px solid #f1f5f9;
+      margin-bottom: 2px;
+    }
+    .toc-menu-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: #1e293b;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .toc-menu-item:hover {
+      background: #f1f5f9;
+      color: #0284c7;
+    }
+    .toc-page-badge {
+      font-size: 11px;
+      background: #e2e8f0;
+      color: #475569;
+      padding: 1px 6px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+
+    /* 畫筆顏色選單 */
+    .pen-options {
+      display: none;
+      position: absolute;
+      left: auto;
+      right: 0;
+      top: 46px;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 8px 5px;
+      border-radius: 20px;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      z-index: 10001;
+    }
+    .color-picker {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 6px;
+    }
+    .color-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .color-dot:hover {
+      transform: scale(1.18);
+    }
+    .color-dot.active {
+      transform: scale(1.22);
+      box-shadow: 0 0 0 2px #0f172a, inset 0 0 0 1px #fff;
+    }
+    .sub-divider {
+      width: 14px;
+      height: 1px;
+      background: #cbd5e1;
+      margin: 2px 0;
+    }
+    .size-picker {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 4px;
+    }
+    .size-btn {
+      border: none;
+      background: #ffffff;
+      color: #475569;
+      font-size: 11px;
+      font-weight: bold;
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      border-radius: 6px;
+      cursor: pointer;
+      border: 1px solid #cbd5e1;
+      transition: all 0.15s;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    .size-btn:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+    .size-btn.active {
+      background: #0f172a;
+      color: #ffffff;
+      border-color: #0f172a;
+    }
+
+    /* 頁面容器 */
+    .pages-container {
+      padding: 20px 0 40px 0;
+    }
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      padding: 12mm 16mm 10mm 16mm;
+      margin: 0 auto 25px auto;
+      background: #ffffff;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+      page-break-after: always;
+      break-after: page;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 螢光筆繪圖層 (Canvas) */
+    .drawing-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 50;
+      pointer-events: none;
+    }
+    body.pen-mode .drawing-canvas {
+      pointer-events: auto;
+      cursor: crosshair;
+    }
+
+    /* 標題與資訊列 */
+    .doc-title {
+      text-align: center;
+      font-size: 14pt;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+    .student-bar {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 2px solid #222;
+      padding-bottom: 4px;
+      margin-bottom: 8px;
+      font-size: 13.5pt;
+    }
+    
+    /* 關卡大標題 */
+    .section-title {
+      font-size: 13.5pt;
+      font-weight: bold;
+      background: #f1f5f9;
+      border-left: 6px solid #0284c7;
+      padding: 4px 10px;
+      margin: 6px 0 6px 0;
+      border-radius: 4px;
+    }
+    
+    /* 提示小卡盒 */
+    .tip-box {
+      border: 1.5px solid #cbd5e1;
+      background: #f8fafc;
+      border-radius: 8px;
+      padding: 8px 12px;
+      margin-bottom: 8px;
+      font-size: 13.5pt;
+      line-height: 1.55;
+    }
+    .tip-title {
+      font-weight: bold;
+      color: #0f172a;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    /* 任務標題 */
+    .task-title {
+      font-weight: bold;
+      margin: 7px 0 4px 0;
+      color: #1e3a8a;
+      font-size: 13.5pt;
+    }
+
+    /* 易讀性對話/問答專用垂直分行卡片 */
+    .qa-pair-box {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 7px 12px;
+      margin-bottom: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .qa-line-q, .qa-line-a {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .q-tag {
+      background: #dbeafe;
+      color: #1d4ed8;
+      font-weight: bold;
+      font-size: 11pt;
+      padding: 1px 7px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+    .a-tag {
+      background: #dcfce7;
+      color: #15803d;
+      font-weight: bold;
+      font-size: 11pt;
+      padding: 1px 7px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+    .zh-sub {
+      color: #475569;
+      font-size: 12.5pt;
+    }
+    .rule-note {
+      font-size: 12pt;
+      color: #b45309;
+      background: #fefce8;
+      border-left: 3px solid #eab308;
+      padding: 2px 8px;
+      border-radius: 2px;
+      margin-top: 2px;
+    }
+
+    /* 練習題題目清單（垂直分離中文與英文） */
+    .item-list {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .item-block {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 5px 8px;
+      transition: background 0.15s;
+      line-height: 1.5;
+    }
+    body:not(.pen-mode) .item-block.interactive-item {
+      cursor: pointer;
+    }
+    body:not(.pen-mode) .item-block.interactive-item:hover {
+      background-color: #f1f5f9;
+      outline: 1px dashed #93c5fd;
+    }
+    .item-zh {
+      color: #1e293b;
+      font-weight: bold;
+      margin-bottom: 2px;
+    }
+    .item-en {
+      color: #0f172a;
+      font-family: "Times New Roman", serif;
+      font-size: 13.5pt;
+      padding-left: 4px;
+    }
+
+    /* 圈選正確選項 */
+    .correct-choice {
+      transition: color 0.2s, font-weight 0.2s;
+    }
+    .show-ans .correct-choice,
+    .item-block.show-one .correct-choice,
+    .item-line.show-one .correct-choice {
+      color: #dc2626 !important;
+      font-weight: bold !important;
+      border: 1.5px solid #dc2626 !important;
+      border-radius: 12px;
+      padding: 0 5px;
+    }
+
+    /* 括弧內的代號答案 */
+    .ans-slot {
+      color: transparent;
+      font-weight: bold;
+      transition: color 0.2s;
+    }
+    .show-ans .ans-slot,
+    .item-block.show-one .ans-slot,
+    .qa-block.show-one .ans-slot {
+      color: #dc2626 !important;
+    }
+
+    /* 填空答案字詞 */
+    .ans-word {
+      color: transparent;
+      font-weight: bold;
+      border-bottom: 1.5px solid #333;
+      padding: 0 6px;
+      transition: color 0.2s;
+    }
+    .show-ans .ans-word,
+    .item-block.show-one .ans-word,
+    .scaffold-step.show-one .ans-word,
+    .cloze-row.show-one .ans-word,
+    .cloze-slot.show-one .ans-word {
+      color: #dc2626 !important;
+    }
+
+    /* 克漏字雙欄對照表格 */
+    table.cloze-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 4px 0 6px 0;
+      font-size: 12pt;
+      line-height: 1.45;
+    }
+    table.cloze-table th,
+    table.cloze-table td {
+      border: 1px solid #cbd5e1;
+      padding: 4px 8px;
+      vertical-align: middle;
+    }
+    table.cloze-table th {
+      background-color: #f1f5f9;
+      font-weight: bold;
+      text-align: center;
+      color: #1e293b;
+    }
+    .cloze-subhead td {
+      background-color: #f1f5f9;
+      font-weight: bold;
+      text-align: center;
+      color: #1e3a8a;
+      padding: 3px 6px;
+      font-size: 11.5pt;
+    }
+    .cloze-zh {
+      width: 44%;
+      color: #1e293b;
+      font-family: "標楷體", "DFKai-SB", "BiauKai", serif;
+      font-size: 11.5pt;
+    }
+    .cloze-en {
+      width: 56%;
+      color: #0f172a;
+      font-family: "Times New Roman", serif;
+      font-size: 12.5pt;
+    }
+    .cloze-num {
+      font-size: 9pt;
+      color: #475569;
+      font-weight: bold;
+      vertical-align: super;
+      margin-right: 2px;
+      user-select: none;
+    }
+    .cloze-slot {
+      display: inline-flex;
+      align-items: baseline;
+      white-space: nowrap;
+      margin: 0 2px;
+      padding: 0 3px;
+      border-radius: 4px;
+      transition: background-color 0.15s, outline 0.15s;
+    }
+    body:not(.pen-mode) .cloze-slot.interactive-item {
+      cursor: pointer;
+    }
+    body:not(.pen-mode) .cloze-slot.interactive-item:hover {
+      background-color: #e0f2fe;
+      outline: 1.5px dashed #0284c7;
+    }
+
+    /* 漸進式鷹架組句結構（垂直分行，徹底杜絕單行擠塞） */
+    .scaffold-box {
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      background: #f8fafc;
+      padding: 6px 10px;
+      margin: 6px 0 8px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .scaffold-step {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      padding: 5px 8px;
+      border-radius: 6px;
+      font-size: 13pt;
+      line-height: 1.45;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    body:not(.pen-mode) .scaffold-step.interactive-item {
+      cursor: pointer;
+    }
+    body:not(.pen-mode) .scaffold-step.interactive-item:hover {
+      background-color: #f1f5f9;
+      border-color: #93c5fd;
+      outline: 1px dashed #93c5fd;
+    }
+    .scaffold-step-head {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .step-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1px 6px;
+      font-size: 10.5pt;
+      font-weight: bold;
+      border-radius: 4px;
+      background: #e0e7ff;
+      color: #4338ca;
+      border: 1px solid #c7d2fe;
+      white-space: nowrap;
+    }
+    .scaffold-q-line {
+      color: #475569;
+      padding-left: 4px;
+      font-family: "Times New Roman", serif;
+      font-size: 13pt;
+    }
+    .scaffold-a-line {
+      color: #0f172a;
+      font-family: "Times New Roman", serif;
+      font-size: 13.5pt;
+      padding-left: 4px;
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 3px;
+    }
+
+    /* 選擇題專用排版 */
+    .qa-block {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 8px;
+      padding: 4px 6px;
+      border-radius: 6px;
+      font-size: 13.5pt;
+      transition: background 0.15s;
+    }
+    body:not(.pen-mode) .qa-block.interactive-item {
+      cursor: pointer;
+    }
+    body:not(.pen-mode) .qa-block.interactive-item:hover {
+      background-color: #f8fafc;
+      outline: 1px dashed #93c5fd;
+    }
+    .qa-bracket {
+      flex-shrink: 0;
+      width: 45px;
+      text-align: center;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+    .qa-content {
+      flex-grow: 1;
+    }
+    .qa-stem {
+      margin-bottom: 3px;
+    }
+    .qa-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 20px;
+      margin-top: 3px;
+    }
+    .qa-opt {
+      padding-left: 2px;
+      white-space: nowrap;
+    }
+
+    /* 表格設計（ADHD 降噪寬敞排版，一行不折行） */
+    table.custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 10px 0;
+      font-size: 12.5pt;
+    }
+    table.custom-table th,
+    table.custom-table td {
+      border: 1.5px solid #cbd5e1;
+      padding: 6px 10px;
+      text-align: center;
+      white-space: nowrap;
+    }
+    table.custom-table th {
+      background-color: #f1f5f9;
+      color: #1e3a8a;
+      font-weight: bold;
+    }
+    table.custom-table td:first-child {
+      text-align: left;
+      padding-left: 14px;
+    }
+
+    /* 連連看專屬互動板 */
+    .matching-container {
+      position: relative;
+      margin: 6px 0 8px 0;
+    }
+    .matching-board {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1.5px solid #cbd5e1;
+      background: #f8fafc;
+      border-radius: 8px;
+      padding: 8px 12px;
+      gap: 16px;
+      position: relative;
+    }
+    .matching-col {
+      display: flex;
+      flex-direction: column;
+    }
+    .left-subjects {
+      gap: 6px;
+      width: 54%;
+      z-index: 10;
+    }
+    .subject-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #ffffff;
+      border: 1.5px solid #94a3b8;
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 13pt;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .subject-card:hover {
+      border-color: #0284c7;
+      background: #eff6ff;
+    }
+    .subject-card.linked {
+      border-color: #dc2626;
+      background: #fef2f2;
+      box-shadow: 0 2px 5px rgba(220,38,38,0.2);
+    }
+    .subject-card .dot {
+      color: #0284c7;
+      font-size: 15pt;
+      line-height: 1;
+      padding-left: 6px;
+    }
+    .subject-card.linked .dot {
+      color: #dc2626;
+    }
+    .example-tag {
+      font-size: 10.5pt;
+      color: #dc2626;
+      font-weight: bold;
+      margin-left: 4px;
+    }
+    .right-targets {
+      gap: 6px;
+      width: 42%;
+      z-index: 10;
+    }
+    .target-house {
+      display: flex;
+      align-items: center;
+      border: 1.5px solid #64748b;
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 13pt;
+      background: #ffffff;
+      transition: all 0.2s;
+    }
+    .target-house .dot {
+      color: #0284c7;
+      font-size: 15pt;
+      line-height: 1;
+      padding-right: 6px;
+    }
+    .house-under { border-color: #fb923c; background-color: #fff7ed; color: #c2410c; }
+    .house-in { border-color: #38bdf8; background-color: #f0f9ff; color: #0369a1; }
+    .house-next { border-color: #a78bfa; background-color: #faf5ff; color: #6b21a8; }
+    .house-infront { border-color: #2dd4bf; background-color: #f0fdfa; color: #0f766e; }
+    .house-on { border-color: #4ade80; background-color: #f0fdf4; color: #15803d; }
+    .house-behind { border-color: #f472b6; background-color: #fdf2f8; color: #9d174d; }
+    
+    /* SVG 連線層 */
+    .matching-svg-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 5;
+    }
+    .match-line {
+      stroke: #dc2626;
+      stroke-width: 3.5;
+      stroke-linecap: round;
+      stroke-dasharray: 6 3;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .show-ans .match-line,
+    .match-line.active {
+      opacity: 1;
+    }
+
+    /* 頁尾精簡備註條（單行不折行） */
+    .page-footer {
+      margin-top: auto;
+      padding-top: 4px;
+      border-top: 1px solid #cbd5e1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 9.5pt;
+      color: #64748b;
+      white-space: nowrap;
+    }
+    .ref-tag {
+      background: #f1f5f9;
+      padding: 1px 8px;
+      border-radius: 4px;
+      border: 1px solid #e2e8f0;
+      font-weight: 500;
+    }
+
+    /* 首頁目錄專用排版 */
+    .toc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 8px 0;
+    }
+    .toc-card {
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 7px 10px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    body:not(.pen-mode) .toc-card:hover {
+      border-color: #0284c7;
+      background: #f0f9ff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.12);
+    }
+    .toc-card-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 3px;
+    }
+    .toc-card-num {
+      background: #0284c7;
+      color: #ffffff;
+      font-size: 10pt;
+      font-weight: bold;
+      padding: 1px 6px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+    .toc-card-title {
+      font-weight: bold;
+      color: #0f172a;
+      font-size: 11pt;
+      line-height: 1.35;
+    }
+    .toc-card-desc {
+      font-size: 10pt;
+      color: #64748b;
+      line-height: 1.4;
+      padding-left: 2px;
+    }
+
+    @page {
+      size: A4 portrait;
+      margin: 10mm 12mm 8mm 12mm;
+    }
+
+    /* 列印控制：嚴格隱藏工具列與還原純學生卷，確保 A4 完美成頁、題目絕不被跨頁切割 */
+    @media print {
+      html, body {
+        width: 100% !important;
+        height: auto !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: transparent !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .classroom-toolbar {
+        display: none !important;
+      }
+      .drawing-canvas {
+        display: none !important;
+      }
+      .matching-svg-layer {
+        display: none !important;
+      }
+      .pages-container {
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      .page {
+        box-sizing: border-box !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: 265mm !important;
+        max-height: 278mm !important;
+        padding: 0 0 5mm 0 !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+      }
+      .page:last-child,
+      .page:last-of-type {
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+      }
+      /* 絕不允許任何題目或區塊跨頁被裁切 */
+      .item-block,
+      .scaffold-box,
+      .scaffold-step,
+      .qa-block,
+      .qa-pair-box,
+      .tip-box,
+      .matching-container,
+      .reward-box,
+      table.custom-table,
+      table.cloze-table {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+      .correct-choice {
+        color: inherit !important;
+        font-weight: normal !important;
+        border: none !important;
+        background: transparent !important;
+        padding: 0 4px !important;
+      }
+      .ans-slot {
+        color: transparent !important;
+      }
+      .ans-word {
+        color: transparent !important;
+      }
+      .subject-card.linked {
+        border-color: #94a3b8 !important;
+        background: #fff !important;
+        box-shadow: none !important;
+      }
+      .subject-card .dot {
+        color: #0284c7 !important;
+      }
+      .scaffold-box {
+        border-color: #94a3b8 !important;
+        background: transparent !important;
+      }
+      .scaffold-step {
+        border-color: #cbd5e1 !important;
+        background: transparent !important;
+      }
+      .step-badge {
+        background: #f1f5f9 !important;
+        color: #1e293b !important;
+        border-color: #cbd5e1 !important;
+      }
+      table.cloze-table {
+        font-size: 10.5pt !important;
+        margin: 2px 0 4px 0 !important;
+      }
+      table.cloze-table th,
+      table.cloze-table td {
+        border-color: #333 !important;
+        padding: 2.5px 5px !important;
+      }
+      .cloze-subhead td {
+        background-color: #f1f5f9 !important;
+      }
+      .cloze-zh {
+        font-size: 10.5pt !important;
+      }
+      .cloze-en {
+        font-size: 11pt !important;
+      }
+    }
+
+    /* ── 平板 (≤ 900px) ── */
+    @media screen and (max-width: 900px) {
+      .pages-container {
+        padding: 12px 0 24px 0;
+      }
+      .page {
+        width: 100%;
+        max-width: 210mm;
+        padding: 10mm 10mm;
+        margin: 0 auto 16px auto;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.10);
+      }
+    }
+
+    /* ── 手機 (≤ 600px) ── */
+    @media screen and (max-width: 600px) {
+      body {
+        font-size: 12pt;
+      }
+      .pages-container {
+        padding: 8px 0 20px 0;
+      }
+      .page {
+        width: 100%;
+        max-width: 100%;
+        padding: 8mm 6mm;
+        margin: 0 0 12px 0;
+        border-radius: 0;
+        box-shadow: none;
+        border-top: 1px solid #e2e8f0;
+        border-bottom: 1px solid #e2e8f0;
+      }
+      .tool-btn {
+        width: 34px;
+        height: 34px;
+        font-size: 15px;
+      }
+      .toolbar-divider {
+        width: 1px;
+        height: 18px;
+        background: #cbd5e1;
+        margin: 0 2px;
+      }
+      .toc-menu {
+        width: min(240px, calc(100vw - 70px));
+        right: 0;
+        left: auto;
+        top: 46px;
+      }
+      .pen-options {
+        right: 0;
+        left: auto;
+        top: 46px;
+      }
+      .doc-title {
+        font-size: 13pt;
+      }
+      .section-title {
+        font-size: 12pt;
+      }
+      .matching-board {
+        flex-direction: column;
+        gap: 12px;
+      }
+      .left-subjects, .right-targets {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 現代極簡懸浮工具列 (Pure Emoji 膠囊工具列) -->
+  <div class="classroom-toolbar no-print">
+    <div style="position: relative;">
+      <button class="tool-btn" id="tocBtn" onclick="toggleTocMenu(event)" title="章節目錄導覽">
+        📑
+      </button>
+      <div class="toc-menu" id="tocMenu">
+        <div class="toc-menu-title">📖 單元講義章節目錄</div>
+        <div class="toc-menu-item" onclick="jumpTo('page1')"><span>目錄</span><span class="toc-page-badge">P.1</span></div>
+        <div class="toc-menu-item" onclick="jumpTo('page2')"><span>第一關：What 問句 ＆ 名詞複數</span><span class="toc-page-badge">P.2</span></div>
+        <div class="toc-menu-item" onclick="jumpTo('page5')"><span>第二關：a / an、yes/no 問句 ＆ 句型轉換</span><span class="toc-page-badge">P.5</span></div>
+        <div class="toc-menu-item" onclick="jumpTo('page9')"><span>第三關：Where 問句 ＆ 地點介系詞</span><span class="toc-page-badge">P.9</span></div>
+        <div class="toc-menu-item" onclick="jumpTo('page11')"><span>第四關：Where 問答漸進組句</span><span class="toc-page-badge">P.11</span></div>
+      </div>
+    </div>
+
+    <button class="tool-btn btn-toggle-ans" id="toggleAllAnsBtn" onclick="toggleAllAnswers()" title="一鍵全開/全隱答案">
+      <span id="ansIcon">👁️</span>
+    </button>
+    <div style="position: relative;">
+      <button class="tool-btn" id="penBtn" onclick="togglePenMode()" title="螢光板書筆">
+        ✏️
+      </button>
+      <div class="pen-options" id="penOptions">
+        <div class="color-picker">
+          <span class="color-dot active" style="background:#facc15;" onclick="setPenColor('rgba(250, 204, 21, 0.45)', this)" title="螢光黃"></span>
+          <span class="color-dot" style="background:#ef4444;" onclick="setPenColor('rgba(239, 68, 68, 0.8)', this)" title="紅筆"></span>
+          <span class="color-dot" style="background:#3b82f6;" onclick="setPenColor('rgba(37, 99, 235, 0.8)', this)" title="藍筆"></span>
+          <span class="color-dot" style="background:#10b981;" onclick="setPenColor('rgba(16, 185, 129, 0.8)', this)" title="綠筆"></span>
+        </div>
+        <div class="sub-divider"></div>
+        <div class="size-picker">
+          <button class="size-btn active" onclick="setPenSize(4, this)">細</button>
+          <button class="size-btn" onclick="setPenSize(10, this)">中</button>
+          <button class="size-btn" onclick="setPenSize(20, this)">粗</button>
+        </div>
+      </div>
+    </div>
+    <button class="tool-btn" onclick="clearAllDrawings()" title="清除全書劃記">
+      🧽
+    </button>
+    <div class="toolbar-divider"></div>
+    <button class="tool-btn" onclick="smartPrint()" title="學生版純淨列印">
+      🖨️
+    </button>
+    <button class="tool-btn" id="fullscreenBtn" onclick="toggleFullscreen()" title="全螢幕模式（放大/縮小）">
+      <svg id="fsIconExpand" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display: block;">
+        <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+      </svg>
+      <svg id="fsIconCompress" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+        <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/>
+      </svg>
+    </button>
+    <button class="tool-btn" onclick="closeToolbar()" title="收合工具列">
+      ✖
+    </button>
+  </div>
+
+  <div class="pages-container">
+
+    <!-- ==================== PAGE 1：目錄 ==================== -->
+    <div class="page" id="page1">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">Unit 2 Where Are My Pencils?（文法篇）</div>
+      <div class="student-bar">
+        <span>班級：_________</span>
+        <span>座號：_____</span>
+        <span>姓名：_____________</span>
+        <span>目錄</span>
+      </div>
+
+      <div class="section-title">📖 目錄</div>
+      <div class="toc-simple">
+        <div class="toc-simple-row" onclick="jumpTo('page2')"><span>第一關：What 問句 ＆ 名詞複數</span><span class="toc-simple-dots"></span><span>P.2</span></div>
+        <div class="toc-simple-row" onclick="jumpTo('page5')"><span>第二關：a / an、yes/no 問句 ＆ 句型轉換</span><span class="toc-simple-dots"></span><span>P.5</span></div>
+        <div class="toc-simple-row" onclick="jumpTo('page9')"><span>第三關：Where 問句 ＆ 地點介系詞</span><span class="toc-simple-dots"></span><span>P.9</span></div>
+        <div class="toc-simple-row" onclick="jumpTo('page11')"><span>第四關：Where 問答漸進組句</span><span class="toc-simple-dots"></span><span>P.11</span></div>
+      </div>
+
+      <div class="page-footer">
+        <span>Unit 2 課堂講義</span>
+        <span class="ref-tag">參考：翰林英語七上 U2</span>
+        <span class="page-num">P.1</span>
+      </div>
+    </div>
+
+    <!-- ==================== PAGE 2 ==================== -->
+    <div class="page" id="page2">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">Unit 2 Where Are My Pencils?（文法篇）</div>
+      <div class="student-bar">
+        <span>班級：_________</span>
+        <span>座號：_____</span>
+        <span>姓名：_____________</span>
+        <span>第一關：What問句與名詞複數</span>
+      </div>
+
+      <div class="section-title">★ 第一關：詢問事物 What 問句 ＆ 名詞單複數變身</div>
+
+      <div class="tip-box">
+        <div class="tip-title">💡【文法導航一】詢問事物「這是什麼？/ 那些是什麼？」</div>
+        <div class="qa-pair-box">
+          <div class="qa-line-q"><span class="q-tag">單數問</span> <strong>What is this / that?</strong> <span class="zh-sub">（這是什麼？/ 那是什麼？）</span></div>
+          <div class="qa-line-a"><span class="a-tag">答句</span> <strong>It is a / an + 單數名詞.</strong> <span class="zh-sub">（它是一…）</span></div>
+        </div>
+        <div class="qa-pair-box">
+          <div class="qa-line-q"><span class="q-tag">複數問</span> <strong>What are these / those?</strong> <span class="zh-sub">（這些是什麼？/ 那些是什麼？）</span></div>
+          <div class="qa-line-a"><span class="a-tag">答句</span> <strong>They are + 複數名詞.</strong> <span class="zh-sub">（它們是…）</span></div>
+        </div>
+      </div>
+
+      <div class="task-title">【名詞變複數 5 大形成規則】</div>
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th style="width: 34%;">變化規則</th>
+            <th style="width: 22%;">單數範例</th>
+            <th style="width: 24%;">複數型態（自己寫）</th>
+            <th style="width: 20%;">中文意思</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="cloze-row interactive-item" onclick="toggleItemAnswer(this)">
+            <td rowspan="2"><strong>1. 直接加 -s</strong></td>
+            <td>cat</td>
+            <td><span class="ans-word" style="min-width: 90px; display: inline-block;">cats</span></td>
+            <td>貓</td>
+          </tr>
+          <tr class="cloze-row interactive-item" onclick="toggleItemAnswer(this)">
+            <td style="text-align: center; padding-left: 10px;">dog</td>
+            <td><span class="ans-word" style="min-width: 90px; display: inline-block;">dogs</span></td>
+            <td>狗</td>
+          </tr>
+          <tr class="cloze-row interactive-item" onclick="toggleItemAnswer(this)">
+            <td rowspan="1"><strong>2. 字尾「子音 + y」去 y 加 -ies</strong></td>
+            <td>party</td>
+            <td><span class="ans-word" style="min-width: 90px; display: inline-block;">parties</span></td>
+            <td>宴會</td>
+          </tr>
+          <tr class="cloze-row interactive-item" onclick="toggleItemAnswer(this)">
+            <td rowspan="1"><strong>3. 字尾「母音 + y」直接加 -s</strong></td>
+            <td>boy</td>
+            <td><span class="ans-word" style="min-width: 90px; display: inline-block;">boys</span></td>
+            <td>男孩</td>
+          </tr>
+          <tr class="cloze-row interactive-item" onclick="toggleItemAnswer(this)">
+            <td rowspan="2"><strong>4. 字尾 s, z, x, o, ch, sh 加 -es</strong></td>
+            <td>box</td>
+            <td><span class="ans-word" style="min-width: 90px; display: inline-block;">boxes</span></td>
+            <td>盒子</td>
+          </tr>
+          <tr class="cloze-row interactive-item" onclick="toggleItemAnswer(this)">
+            <td style="text-align: center; padding-left: 10px;">watch</td>
+            <td><span class="ans-word" style="min-width: 90px; display: inline-block;">watches</span></td>
+            <td>手錶</td>
+          </tr>
+          <tr class="cloze-row interactive-item" onclick="toggleItemAnswer(this)">
+            <td rowspan="1"><strong>5. 字尾 -fe 改為 -ves</strong></td>
+            <td>wife</td>
+            <td><span class="ans-word" style="min-width: 90px; display: inline-block;">wives</span></td>
+            <td>妻子</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="page-footer">
+        <span>Unit 2 課堂講義</span>
+        <span class="ref-tag">參考：翰林英語七上 U2</span>
+        <span class="page-num">P.2</span>
+      </div>
+    </div>
+
+    <div class="page" id="page3">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">Unit 2 Where Are My Pencils?（文法篇）</div>
+      <div class="student-bar">
+        <span>班級：_________</span>
+        <span>座號：_____</span>
+        <span>姓名：_____________</span>
+        <span>第一關（續）</span>
+      </div>
+
+      <div class="section-title">★ 第一關（續）：What 問句階梯練習</div>
+
+      <div class="task-title">情境提問：What is this?</div>
+      <div class="scaffold-box">
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 1：挖 1 格</span> 填名詞</div>
+          <div class="scaffold-a-line">答句：It is a <span class="ans-word" style="min-width: 35px;">dog</span>. （狗）</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 2：挖 2 格</span> 填 a / an ＋ 名詞</div>
+          <div class="scaffold-a-line">答句：It is <span class="ans-word" style="min-width: 35px;">a</span> <span class="ans-word" style="min-width: 35px;">dog</span>.</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 3：挖 3 格</span> 填 be 動詞 ＋ a / an ＋ 名詞</div>
+          <div class="scaffold-a-line">答句：It <span class="ans-word" style="min-width: 35px;">is</span> <span class="ans-word" style="min-width: 35px;">a</span> <span class="ans-word" style="min-width: 35px;">dog</span>.</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 4：全句組句</span> 完整寫出整個句子</div>
+          <div class="scaffold-a-line">答句：<span class="ans-word" style="min-width: 200px;">It is a dog.</span></div>
+        </div>
+      </div>
+
+      <div class="task-title">情境提問：What are those?</div>
+      <div class="scaffold-box">
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 1：挖 1 格</span> 填複數名詞</div>
+          <div class="scaffold-a-line">答句：They are pencil <span class="ans-word" style="min-width: 55px;">boxes</span>. （盒子）</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 2：挖 2 格</span> 填 be 動詞 ＋ 複數名詞</div>
+          <div class="scaffold-a-line">答句：They <span class="ans-word" style="min-width: 35px;">are</span> pencil <span class="ans-word" style="min-width: 55px;">boxes</span>.</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 3：挖 3 格</span> 填代名詞 ＋ be 動詞 ＋ 複數名詞</div>
+          <div class="scaffold-a-line">答句：<span class="ans-word" style="min-width: 44px;">They</span> <span class="ans-word" style="min-width: 35px;">are</span> pencil <span class="ans-word" style="min-width: 55px;">boxes</span>.</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 4：全句組句</span> 完整寫出整個句子</div>
+          <div class="scaffold-a-line">答句：<span class="ans-word" style="min-width: 220px;">They are pencil boxes.</span></div>
+        </div>
+      </div>
+
+      <div class="page-footer">
+        <span>Unit 2 課堂講義</span>
+        <span class="ref-tag">參考：翰林英語七上 U2</span>
+        <span class="page-num">P.3</span>
+      </div>
+    </div>
+    <div class="page" id="page4">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">Unit 2 Where Are My Pencils?（文法篇）</div>
+      <div class="student-bar">
+        <span>班級：_________</span>
+        <span>座號：_____</span>
+        <span>姓名：_____________</span>
+        <span>第一關（續）</span>
+      </div>
+
+      <div class="section-title">★ 第一關（續）：It is 還是 They are？選擇題判斷</div>
+
+      <div class="task-title">選擇題：判斷用 It is 還是 They are</div>
+      <div class="item-list">
+        <div class="qa-block interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="qa-bracket">( &nbsp;<span class="ans-slot">A</span>&nbsp; )</div>
+          <div class="qa-content">
+            <div class="qa-stem">1. A: What is this?<br>&nbsp;&nbsp;&nbsp;&nbsp;B: __________ a cat.</div>
+            <div class="qa-options">
+              <span class="qa-opt">(A) It is</span>
+              <span class="qa-opt">(B) They are</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="qa-block interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="qa-bracket">( &nbsp;<span class="ans-slot">B</span>&nbsp; )</div>
+          <div class="qa-content">
+            <div class="qa-stem">2. A: What are these?<br>&nbsp;&nbsp;&nbsp;&nbsp;B: __________ pencil boxes.</div>
+            <div class="qa-options">
+              <span class="qa-opt">(A) It is</span>
+              <span class="qa-opt">(B) They are</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="qa-block interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="qa-bracket">( &nbsp;<span class="ans-slot">A</span>&nbsp; )</div>
+          <div class="qa-content">
+            <div class="qa-stem">3. A: What is that?<br>&nbsp;&nbsp;&nbsp;&nbsp;B: __________ an apple.</div>
+            <div class="qa-options">
+              <span class="qa-opt">(A) It is</span>
+              <span class="qa-opt">(B) They are</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="qa-block interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="qa-bracket">( &nbsp;<span class="ans-slot">B</span>&nbsp; )</div>
+          <div class="qa-content">
+            <div class="qa-stem">4. A: What are those?<br>&nbsp;&nbsp;&nbsp;&nbsp;B: __________ comic books.</div>
+            <div class="qa-options">
+              <span class="qa-opt">(A) It is</span>
+              <span class="qa-opt">(B) They are</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="qa-block interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="qa-bracket">( &nbsp;<span class="ans-slot">A</span>&nbsp; )</div>
+          <div class="qa-content">
+            <div class="qa-stem">5. A: What is it?<br>&nbsp;&nbsp;&nbsp;&nbsp;B: __________ a watch.</div>
+            <div class="qa-options">
+              <span class="qa-opt">(A) It is</span>
+              <span class="qa-opt">(B) They are</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="qa-block interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="qa-bracket">( &nbsp;<span class="ans-slot">B</span>&nbsp; )</div>
+          <div class="qa-content">
+            <div class="qa-stem">6. A: What are they?<br>&nbsp;&nbsp;&nbsp;&nbsp;B: __________ buses.</div>
+            <div class="qa-options">
+              <span class="qa-opt">(A) It is</span>
+              <span class="qa-opt">(B) They are</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-footer">
+        <span>Unit 2 課堂講義</span>
+        <span class="ref-tag">參考：翰林英語七上 U2</span>
+        <span class="page-num">P.4</span>
+      </div>
+    </div>
+
+
+    <!-- ==================== PAGE 2 ==================== -->
+    <div class="page" id="page5">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">Unit 2 Where Are My Pencils?（文法篇）</div>
+      <div class="student-bar">
+        <span>班級：_________</span>
+        <span>座號：_____</span>
+        <span>姓名：_____________</span>
+        <span>第二關：指示詞與句型轉換</span>
+      </div>
+
+      <div class="section-title">★ 第二關：指示代名詞 ＆ 單複數句型轉換漸進鷹架</div>
+
+      <div class="tip-box">
+        <div class="tip-title">💡【文法導航二】a / an 的用法 ＆ yes/no 問句</div>
+        <div class="qa-pair-box">
+          <div style="font-weight: bold; color: #1e3a8a;">1. 指示詞修飾名詞：</div>
+          <div class="item-en">• <strong>this / that ＋ 單數名詞</strong> ➔ This watch is cute.（這隻手錶很可愛。）</div>
+          <div class="item-en">• <strong>these / those ＋ 複數名詞</strong> ➔ Those brushes are good.（那些毛筆很好。）</div>
+        </div>
+        <div class="qa-pair-box">
+          <div style="font-weight: bold; color: #1e3a8a;">2. a / an 的用法：</div>
+          <div class="item-en">• 名詞字首發音為<strong>母音（a, e, i, o, u）</strong>用 <strong>an</strong> ➔ an eraser、an egg</div>
+          <div class="item-en">• 名詞字首發音為<strong>子音</strong>用 <strong>a</strong> ➔ a book、a ball</div>
+        </div>
+        <div class="qa-pair-box">
+          <div style="font-weight: bold; color: #1e3a8a;">3. yes/no 問句：be 動詞與主詞對調</div>
+          <div class="item-en">• This is a book. ➔ <strong>Is this</strong> a book? ➔ Yes, <strong>it</strong> is. / No, <strong>it</strong> isn't.</div>
+          <div class="item-en">• These are books. ➔ <strong>Are these</strong> books? ➔ Yes, <strong>they</strong> are. / No, <strong>they</strong> aren't.</div>
+        </div>
+      </div>
+
+      <div class="task-title">改成複數：That is a brush.</div>
+      <div class="scaffold-box">
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 1：挖 1 格</span> 填複數名詞</div>
+          <div class="scaffold-a-line">答句：Those are <span class="ans-word" style="min-width: 77px;">brushes</span>.</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 2：挖 2 格</span> 填 be 動詞 ＋ 複數名詞</div>
+          <div class="scaffold-a-line">答句：Those <span class="ans-word" style="min-width: 35px;">are</span> <span class="ans-word" style="min-width: 77px;">brushes</span>.</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 3：全句組句</span> 完整寫出整個句子</div>
+          <div class="scaffold-a-line">答句：<span class="ans-word" style="min-width: 200px;">Those are brushes.</span></div>
+        </div>
+      </div>
+
+      <div class="page-footer">
+        <span>Unit 2 課堂講義</span>
+        <span class="ref-tag">參考：翰林英語七上 U2</span>
+        <span class="page-num">P.5</span>
+      </div>
+    </div>
+
+    <div class="page" id="page6">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">Unit 2 Where Are My Pencils?（文法篇）</div>
+      <div class="student-bar">
+        <span>班級：_________</span>
+        <span>座號：_____</span>
+        <span>姓名：_____________</span>
+        <span>第二關（續）</span>
+      </div>
+
+      <div class="section-title">★ 第二關（續）：a / an ＆ yes/no 問句階梯練習</div>
+
+      <div class="task-title">情境提問：What is it?</div>
+      <div class="scaffold-box">
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 1：挖 1 格</span> 填 a / an</div>
+          <div class="scaffold-a-line">答句：It is <span class="ans-word" style="min-width: 35px;">an</span> eraser. （eraser 母音開頭）</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 2：挖 2 格</span> 填 a / an ＋ 名詞</div>
+          <div class="scaffold-a-line">答句：It is <span class="ans-word" style="min-width: 35px;">an</span> <span class="ans-word" style="min-width: 66px;">eraser</span>.</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 3：挖 3 格</span> 填 be 動詞 ＋ an ＋ 名詞</div>
+          <div class="scaffold-a-line">答句：It <span class="ans-word" style="min-width: 35px;">is</span> <span class="ans-word" style="min-width: 35px;">an</span> <span class="ans-word" style="min-width: 66px;">eraser</span>.</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 4：全句組句</span> 完整寫出整個句子</div>
+          <div class="scaffold-a-line">答句：<span class="ans-word" style="min-width: 200px;">It is an eraser.</span></div>
+        </div>
+      </div>
+
+      <div class="task-title">改成問句：This is a book.</div>
+      <div class="scaffold-box">
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 1：挖 1 格</span> 填 be 動詞（放句首）</div>
+          <div class="scaffold-a-line">問句：<span class="ans-word" style="min-width: 35px;">Is</span> this a book?</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 2：挖 2 格</span> 填 be 動詞 ＋ 主詞</div>
+          <div class="scaffold-a-line">問句：<span class="ans-word" style="min-width: 35px;">Is</span> <span class="ans-word" style="min-width: 44px;">this</span> a book?</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 3：挖 3 格</span> 填 be 動詞 ＋ 主詞 ＋ 名詞</div>
+          <div class="scaffold-a-line">問句：<span class="ans-word" style="min-width: 35px;">Is</span> <span class="ans-word" style="min-width: 44px;">this</span> a <span class="ans-word" style="min-width: 44px;">book</span>?</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 4：全句組句</span> 完整寫出整個句子</div>
+          <div class="scaffold-a-line">問句：<span class="ans-word" style="min-width: 200px;">Is this a book?</span></div>
+        </div>
+      </div>
+
+      <div class="page-footer">
+        <span>Unit 2 課堂講義</span>
+        <span class="ref-tag">參考：翰林英語七上 U2</span>
+        <span class="page-num">P.6</span>
+      </div>
+    </div>
+
+    <div class="page" id="page7">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">Unit 2 Where Are My Pencils?（文法篇）</div>
+      <div class="student-bar">
+        <span>班級：_________</span>
+        <span>座號：_____</span>
+        <span>姓名：_____________</span>
+        <span>第二關（續）</span>
+      </div>
+
+      <div class="section-title">★ 第二關（續）：否定句階梯練習</div>
+
+      <div class="task-title">改成否定句：This is Amy's pencil case.</div>
+      <div class="scaffold-box">
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 1：挖 1 格</span> 填 not</div>
+          <div class="scaffold-a-line">答句：This is <span class="ans-word" style="min-width: 35px;">not</span> Amy's pencil case.</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 2：挖 2 格</span> 填 be 動詞 ＋ not</div>
+          <div class="scaffold-a-line">答句：This <span class="ans-word" style="min-width: 35px;">is</span> <span class="ans-word" style="min-width: 35px;">not</span> Amy's pencil case.</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 3：挖 3 格</span> 填主詞 ＋ be 動詞 ＋ not</div>
+          <div class="scaffold-a-line">答句：<span class="ans-word" style="min-width: 44px;">This</span> <span class="ans-word" style="min-width: 35px;">is</span> <span class="ans-word" style="min-width: 35px;">not</span> Amy's pencil case.</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 4：挖 4 格</span> 填主詞 ＋ be 動詞 ＋ not ＋ Amy's</div>
+          <div class="scaffold-a-line">答句：<span class="ans-word" style="min-width: 44px;">This</span> <span class="ans-word" style="min-width: 35px;">is</span> <span class="ans-word" style="min-width: 35px;">not</span> <span class="ans-word" style="min-width: 55px;">Amy's</span> pencil case.</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 5：全句組句</span> 完整寫出整個句子</div>
+          <div class="scaffold-a-line">答句：<span class="ans-word" style="min-width: 300px;">This is not Amy's pencil case.</span></div>
+        </div>
+      </div>
+
+      <div class="page-footer">
+        <span>Unit 2 課堂講義</span>
+        <span class="ref-tag">參考：翰林英語七上 U2</span>
+        <span class="page-num">P.7</span>
+      </div>
+    </div>
+    <div class="page" id="page8">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">Unit 2 Where Are My Pencils?（文法篇）</div>
+      <div class="student-bar">
+        <span>班級：_________</span>
+        <span>座號：_____</span>
+        <span>姓名：_____________</span>
+        <span>第二關（續）</span>
+      </div>
+
+      <div class="section-title">★ 第二關（續）：指示詞 ＆ a / an 選擇題判斷</div>
+
+      <div class="task-title">選擇題：判斷指示詞 (This/These/That/Those) 與 a / an</div>
+      <div class="item-list">
+        <div class="qa-block interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="qa-bracket">( &nbsp;<span class="ans-slot">A</span>&nbsp; )</div>
+          <div class="qa-content">
+            <div class="qa-stem">1. __________ is my favorite watch.</div>
+            <div class="qa-options">
+              <span class="qa-opt">(A) This</span>
+              <span class="qa-opt">(B) These</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="qa-block interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="qa-bracket">( &nbsp;<span class="ans-slot">B</span>&nbsp; )</div>
+          <div class="qa-content">
+            <div class="qa-stem">2. __________ brushes are very clean.</div>
+            <div class="qa-options">
+              <span class="qa-opt">(A) That</span>
+              <span class="qa-opt">(B) Those</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="qa-block interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="qa-bracket">( &nbsp;<span class="ans-slot">B</span>&nbsp; )</div>
+          <div class="qa-content">
+            <div class="qa-stem">3. Look! It is __________ eraser.</div>
+            <div class="qa-options">
+              <span class="qa-opt">(A) a</span>
+              <span class="qa-opt">(B) an</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="qa-block interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="qa-bracket">( &nbsp;<span class="ans-slot">A</span>&nbsp; )</div>
+          <div class="qa-content">
+            <div class="qa-stem">4. Is that __________ comic book?</div>
+            <div class="qa-options">
+              <span class="qa-opt">(A) a</span>
+              <span class="qa-opt">(B) an</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="qa-block interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="qa-bracket">( &nbsp;<span class="ans-slot">A</span>&nbsp; )</div>
+          <div class="qa-content">
+            <div class="qa-stem">5. __________ are my new markers.</div>
+            <div class="qa-options">
+              <span class="qa-opt">(A) These</span>
+              <span class="qa-opt">(B) This</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="qa-block interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="qa-bracket">( &nbsp;<span class="ans-slot">B</span>&nbsp; )</div>
+          <div class="qa-content">
+            <div class="qa-stem">6. Peter has __________ apple in his bag.</div>
+            <div class="qa-options">
+              <span class="qa-opt">(A) a</span>
+              <span class="qa-opt">(B) an</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-footer">
+        <span>Unit 2 課堂講義</span>
+        <span class="ref-tag">參考：翰林英語七上 U2</span>
+        <span class="page-num">P.8</span>
+      </div>
+    </div>
+
+
+    <!-- ==================== PAGE 3 ==================== -->
+    <div class="page" id="page9">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">Unit 2 Where Are My Pencils?（文法篇）</div>
+      <div class="student-bar">
+        <span>班級：_________</span>
+        <span>座號：_____</span>
+        <span>姓名：_____________</span>
+        <span>第三關：Where問句</span>
+      </div>
+
+      <div class="section-title">★ 第三關：詢問地點 Where 問句 ＆ 地點介系詞</div>
+
+      <div class="tip-box">
+        <div class="tip-title">💡【文法導航三】詢問地點「在哪裡？」</div>
+        <div class="qa-pair-box">
+          <div class="qa-line-q"><span class="q-tag">問單數</span> <strong>Where is the dog?</strong> <span class="zh-sub">（狗狗在哪裡？）</span></div>
+          <div class="qa-line-a"><span class="a-tag">答句</span> <strong>It is in the kitchen.</strong> <span class="zh-sub">（牠在廚房裡。）</span></div>
+        </div>
+        <div class="qa-pair-box">
+          <div class="qa-line-q"><span class="q-tag">問複數</span> <strong>Where are the boys?</strong> <span class="zh-sub">（那些男孩在哪裡？）</span></div>
+          <div class="qa-line-a"><span class="a-tag">答句</span> <strong>They are at the park.</strong> <span class="zh-sub">（他們在公園裡。）</span></div>
+        </div>
+        <div class="qa-pair-box">
+          <div class="item-en">• 句型：<strong>Where ＋ be 動詞 ＋ 主詞？</strong><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;➔ <strong>主詞 ＋ be 動詞 ＋ 介系詞 ＋ the ＋ 名詞.</strong></div>
+          <div class="item-en">• Where 問地點，答句<strong>不用 yes / no</strong> 回答；where is 可縮寫成 <strong>where's</strong>。</div>
+        </div>
+        <div class="qa-pair-box">
+          <div style="font-weight: bold; color: #1e3a8a;">表示地點的介系詞：</div>
+          <table class="custom-table" style="margin: 2px 0; table-layout: fixed;">
+            <tr><td><strong>in</strong>（在…裡面）</td><td><strong>on</strong>（在…上面）</td></tr>
+            <tr><td><strong>under</strong>（在…下面）</td><td><strong>near</strong>（在…附近）</td></tr>
+            <tr><td><strong>in front of</strong>（在…前面）</td><td><strong>behind</strong>（在…後面）</td></tr>
+            <tr><td><strong>next to</strong>（在…旁邊）</td><td><strong>between</strong>（在…之間）</td></tr>
+          </table>
+          <div class="item-en">• between 常用 <strong>between A and B</strong>：Peter is between his father and his mother.</div>
+        </div>
+      </div>
+
+      <div class="page-footer">
+        <span>Unit 2 課堂講義</span>
+        <span class="ref-tag">參考：翰林英語七上 U2</span>
+        <span class="page-num">P.9</span>
+      </div>
+    </div>
+
+    <div class="page" id="page10">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">Unit 2 Where Are My Pencils?（文法篇）</div>
+      <div class="student-bar">
+        <span>班級：_________</span>
+        <span>座號：_____</span>
+        <span>姓名：_____________</span>
+        <span>第三關（續）</span>
+      </div>
+
+      <div class="section-title">★ 第三關（續）：Where 問句階梯練習</div>
+
+      <div class="task-title">情境提問：Where is the cat?</div>
+      <div class="scaffold-box">
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 1：挖 1 格</span> 填地點名詞</div>
+          <div class="scaffold-a-line">答句：It is between the sofa and the <span class="ans-word" style="min-width: 44px;">desk</span>. （書桌）</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 2：挖 2 格</span> 填兩個地點名詞</div>
+          <div class="scaffold-a-line">答句：It is between the <span class="ans-word" style="min-width: 44px;">sofa</span> and the <span class="ans-word" style="min-width: 44px;">desk</span>.</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 3：挖 3 格</span> 填 between ＋ 兩個地點名詞</div>
+          <div class="scaffold-a-line">答句：It is <span class="ans-word" style="min-width: 77px;">between</span> the <span class="ans-word" style="min-width: 44px;">sofa</span> and the <span class="ans-word" style="min-width: 44px;">desk</span>.</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 4：挖 4 格</span> 填 between ＋ and ＋ 兩個地點名詞</div>
+          <div class="scaffold-a-line">答句：It is <span class="ans-word" style="min-width: 77px;">between</span> the <span class="ans-word" style="min-width: 44px;">sofa</span> <span class="ans-word" style="min-width: 35px;">and</span> the <span class="ans-word" style="min-width: 44px;">desk</span>.</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 5：挖 5 格</span> 填 be 動詞 ＋ between ＋ and ＋ 兩個名詞</div>
+          <div class="scaffold-a-line">答句：It <span class="ans-word" style="min-width: 35px;">is</span> <span class="ans-word" style="min-width: 77px;">between</span> the <span class="ans-word" style="min-width: 44px;">sofa</span> <span class="ans-word" style="min-width: 35px;">and</span> the <span class="ans-word" style="min-width: 44px;">desk</span>.</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 6：全句組句</span> 完整寫出整個句子</div>
+          <div class="scaffold-a-line">答句：<span class="ans-word" style="min-width: 360px;">It is between the sofa and the desk.</span></div>
+        </div>
+      </div>
+
+      <div class="page-footer">
+        <span>Unit 2 課堂講義</span>
+        <span class="ref-tag">參考：翰林英語七上 U2</span>
+        <span class="page-num">P.10</span>
+      </div>
+    </div>
+
+    <!-- ==================== PAGE 4 ==================== -->
+    <div class="page" id="page11">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">Unit 2 Where Are My Pencils?（文法篇）</div>
+      <div class="student-bar">
+        <span>班級：_________</span>
+        <span>座號：_____</span>
+        <span>姓名：_____________</span>
+        <span>第四關：漸進鷹架組句</span>
+      </div>
+
+      <div class="section-title">★ 第四關：空間問答 5 階漸進鷹架組句特訓 (Progressive Scaffolding)</div>
+
+      <div class="tip-box">
+        <div class="tip-title">💡【解題秘笈】分行看清楚，一步一步寫出滿分英文句子！</div>
+        <div>問單數事物：<strong>What is it?</strong> ➔ 答：<strong>It is a / an...</strong></div>
+        <div>問單數地點：<strong>Where is it?</strong> ➔ 答：<strong>It is under the...</strong></div>
+        <div>問複數地點：<strong>Where are they?</strong> ➔ 答：<strong>They are on the...</strong></div>
+      </div>
+
+      <div class="task-title">情境提問：Where is the cat?</div>
+      <div class="scaffold-box">
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 1：挖 1 格</span> 填核心地點名詞</div>
+          <div class="scaffold-a-line">答句：It is under the <span class="ans-word" style="min-width: 55px;">sofa</span>. （沙發）</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 2：挖 2 格</span> 填方位介系詞 ＋ 地點名詞</div>
+          <div class="scaffold-a-line">答句：It is <span class="ans-word" style="min-width: 55px;">under</span> the <span class="ans-word" style="min-width: 55px;">sofa</span>.</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 3：挖 3 格</span> 填 be 動詞 ＋ 方位介系詞 ＋ 地點名詞</div>
+          <div class="scaffold-a-line">答句：It <span class="ans-word" style="min-width: 35px;">is</span> <span class="ans-word" style="min-width: 55px;">under</span> the <span class="ans-word" style="min-width: 55px;">sofa</span>.</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 4：挖 4 格</span> 填代名詞 ＋ be動詞 ＋ 方位 ＋ 地點名詞</div>
+          <div class="scaffold-a-line">答句：<span class="ans-word" style="min-width: 35px;">It</span> <span class="ans-word" style="min-width: 35px;">is</span> <span class="ans-word" style="min-width: 55px;">under</span> the <span class="ans-word" style="min-width: 55px;">sofa</span>.</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 5：全句組句</span> 看問句完整寫出整句答案</div>
+          <div class="scaffold-a-line">答句：<span class="ans-word" style="min-width: 230px;">It is under the sofa.</span></div>
+        </div>
+      </div>
+
+      <div class="page-footer">
+        <span>Unit 2 課堂講義</span>
+        <span class="ref-tag">參考：翰林英語七上 U2</span>
+        <span class="page-num">P.11</span>
+      </div>
+    </div>
+
+    <div class="page" id="page12">
+      <canvas class="drawing-canvas"></canvas>
+      <div class="doc-title">Unit 2 Where Are My Pencils?（文法篇）</div>
+      <div class="student-bar">
+        <span>班級：_________</span>
+        <span>座號：_____</span>
+        <span>姓名：_____________</span>
+        <span>第四關（續）</span>
+      </div>
+
+      <div class="section-title">★ 第四關（續）：複數地點 Where 漸進組句</div>
+
+      <div class="task-title">情境提問：Where are the cookies?</div>
+      <div class="scaffold-box">
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 1：挖 1 格</span> 填核心地點名詞</div>
+          <div class="scaffold-a-line">答句：They are on the <span class="ans-word" style="min-width: 55px;">table</span>. （桌子）</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 2：挖 2 格</span> 填方位介系詞 ＋ 地點名詞</div>
+          <div class="scaffold-a-line">答句：They are <span class="ans-word" style="min-width: 40px;">on</span> the <span class="ans-word" style="min-width: 55px;">table</span>.</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 3：挖 3 格</span> 填 be 動詞 ＋ 方位介系詞 ＋ 地點名詞</div>
+          <div class="scaffold-a-line">答句：They <span class="ans-word" style="min-width: 35px;">are</span> <span class="ans-word" style="min-width: 40px;">on</span> the <span class="ans-word" style="min-width: 55px;">table</span>.</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 4：挖 4 格</span> 填代名詞 ＋ be動詞 ＋ 方位 ＋ 地點名詞</div>
+          <div class="scaffold-a-line">答句：<span class="ans-word" style="min-width: 45px;">They</span> <span class="ans-word" style="min-width: 35px;">are</span> <span class="ans-word" style="min-width: 40px;">on</span> the <span class="ans-word" style="min-width: 55px;">table</span>.</div>
+        </div>
+
+        <div class="scaffold-step interactive-item" onclick="toggleItemAnswer(this)">
+          <div class="scaffold-step-head"><span class="step-badge">階梯 5：全句組句</span> 看問句完整寫出整句答案</div>
+          <div class="scaffold-a-line">答句：<span class="ans-word" style="min-width: 230px;">They are on the table.</span></div>
+        </div>
+      </div>
+
+      <div class="page-footer">
+        <span>Unit 2 課堂講義</span>
+        <span class="ref-tag">參考：翰林英語七上 U2</span>
+        <span class="page-num">P.12</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 教學互動控制邏輯 -->
+  <script>
+    // 1. 單題秀答案 / 隱藏切換
+    function toggleItemAnswer(el) {
+      if (document.body.classList.contains('pen-mode')) return;
+      el.classList.toggle('show-one');
+    }
+
+    // 單一克漏字挖空秀答案 / 隱藏切換
+    function toggleSlotAnswer(e, el) {
+      if (e) e.stopPropagation();
+      if (document.body.classList.contains('pen-mode')) return;
+      el.classList.toggle('show-one');
+    }
+
+    // 章節目錄切換
+    function toggleTocMenu(e) {
+      if (e) e.stopPropagation();
+      var menu = document.getElementById('tocMenu');
+      if (menu) menu.classList.toggle('show');
+    }
+    document.addEventListener('click', function(e) {
+      var menu = document.getElementById('tocMenu');
+      var btn = document.getElementById('tocBtn');
+      if (menu && !menu.contains(e.target) && e.target !== btn) {
+        menu.classList.remove('show');
+      }
+    });
+
+    // 平滑滾動到目標頁面
+    function jumpTo(id) {
+      var el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        var menu = document.getElementById('tocMenu');
+        if (menu) menu.classList.remove('show');
+      }
+    }
+
+    // 2. 一鍵全開 / 全關答案
+    var isAllAnsShown = false;
+    function toggleAllAnswers() {
+      isAllAnsShown = !isAllAnsShown;
+      var container = document.querySelector('.pages-container');
+      var btn = document.getElementById('toggleAllAnsBtn');
+      var btnIcon = document.getElementById('ansIcon');
+      
+      if (isAllAnsShown) {
+        container.classList.add('show-ans');
+        btn.classList.add('active');
+        btnIcon.textContent = '🙈';
+      } else {
+        container.classList.remove('show-ans');
+        btn.classList.remove('active');
+        btnIcon.textContent = '👁️';
+        document.querySelectorAll('.item-block.show-one, .qa-block.show-one, .scaffold-step.show-one, .cloze-row.show-one, .cloze-slot.show-one').forEach(function(item) {
+          item.classList.remove('show-one');
+        });
+      }
+    }
+
+    // 4. 螢光筆劃記畫布 (Canvas Highlighter)
+    var isPenMode = false;
+    var currentPenColor = 'rgba(250, 204, 21, 0.45)';
+    var currentPenSize = 4;
+
+    function setPenColor(color, el) {
+      currentPenColor = color;
+      document.querySelectorAll('.color-dot').forEach(function(d) {
+        d.classList.remove('active');
+      });
+      el.classList.add('active');
+    }
+
+    function setPenSize(size, el) {
+      currentPenSize = size;
+      document.querySelectorAll('.size-btn').forEach(function(b) {
+        b.classList.remove('active');
+      });
+      el.classList.add('active');
+    }
+
+    function togglePenMode() {
+      isPenMode = !isPenMode;
+      document.body.classList.toggle('pen-mode', isPenMode);
+      var penBtn = document.getElementById('penBtn');
+      var penOptions = document.getElementById('penOptions');
+      if (isPenMode) {
+        penBtn.classList.add('active');
+        if (penOptions) penOptions.style.display = 'flex';
+      } else {
+        penBtn.classList.remove('active');
+        if (penOptions) penOptions.style.display = 'none';
+      }
+    }
+
+    function initCanvases() {
+      document.querySelectorAll('.page').forEach(function(page) {
+        var canvas = page.querySelector('.drawing-canvas');
+        if (!canvas) return;
+        var ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+          canvas.width = page.clientWidth;
+          canvas.height = page.clientHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        var isDrawing = false;
+        var lastX = 0;
+        var lastY = 0;
+
+        canvas.addEventListener('mousedown', function(e) {
+          if (!isPenMode) return;
+          isDrawing = true;
+          var rect = canvas.getBoundingClientRect();
+          lastX = e.clientX - rect.left;
+          lastY = e.clientY - rect.top;
+        });
+
+        canvas.addEventListener('mousemove', function(e) {
+          if (!isDrawing || !isPenMode) return;
+          var rect = canvas.getBoundingClientRect();
+          var currX = e.clientX - rect.left;
+          var currY = e.clientY - rect.top;
+
+          ctx.beginPath();
+          ctx.moveTo(lastX, lastY);
+          ctx.lineTo(currX, currY);
+          ctx.strokeStyle = currentPenColor;
+          ctx.lineWidth = currentPenSize;
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+          ctx.stroke();
+
+          lastX = currX;
+          lastY = currY;
+        });
+
+        window.addEventListener('mouseup', function() {
+          isDrawing = false;
+        });
+
+        canvas.addEventListener('touchstart', function(e) {
+          if (!isPenMode) return;
+          isDrawing = true;
+          var rect = canvas.getBoundingClientRect();
+          var touch = e.touches[0];
+          lastX = touch.clientX - rect.left;
+          lastY = touch.clientY - rect.top;
+          e.preventDefault();
+        });
+
+        canvas.addEventListener('touchmove', function(e) {
+          if (!isPenMode) return;
+          var rect = canvas.getBoundingClientRect();
+          var touch = e.touches[0];
+          var currX = touch.clientX - rect.left;
+          var currY = touch.clientY - rect.top;
+
+          ctx.beginPath();
+          ctx.moveTo(lastX, lastY);
+          ctx.lineTo(currX, currY);
+          ctx.strokeStyle = currentPenColor;
+          ctx.lineWidth = currentPenSize;
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+          ctx.stroke();
+
+          lastX = currX;
+          lastY = currY;
+          e.preventDefault();
+        });
+
+        canvas.addEventListener('touchend', function() {
+          isDrawing = false;
+        });
+      });
+    }
+    window.addEventListener('load', initCanvases);
+
+    function clearAllDrawings() {
+      document.querySelectorAll('.drawing-canvas').forEach(function(canvas) {
+        var ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      });
+    }
+
+    // 智慧列印
+    function smartPrint() {
+      var inIframe = false;
+      try {
+        inIframe = (window.self !== window.top);
+      } catch (e) {
+        inIframe = true;
+      }
+
+      if (inIframe) {
+        var htmlContent = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+        var blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+        var blobUrl = URL.createObjectURL(blob);
+        var printWindow = window.open(blobUrl, '_blank');
+        if (printWindow) {
+          printWindow.onload = function() {
+            printWindow.print();
+          };
+        } else {
+          alert('預覽環境限制了直接列印，已自動為您下載 HTML 檔，請開啟下載檔案即可直接列印！');
+          downloadHtml();
+        }
+      } else {
+        window.print();
+      }
+    }
+
+    function downloadHtml() {
+      var title = document.title || '互動講義';
+      var htmlContent = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+      var blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = title + '.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(a.href);
+    }
+
+    // 全螢幕切換
+    function toggleFullscreen() {
+      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        const el = document.documentElement;
+        if (el.requestFullscreen) {
+          el.requestFullscreen().catch(err => console.warn(err));
+        } else if (el.webkitRequestFullscreen) {
+          el.webkitRequestFullscreen();
+        } else if (el.msRequestFullscreen) {
+          el.msRequestFullscreen();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen().catch(err => console.warn(err));
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+        }
+      }
+    }
+
+    function updateFullscreenBtn() {
+      const expandIcon = document.getElementById('fsIconExpand');
+      const compressIcon = document.getElementById('fsIconCompress');
+      const btn = document.getElementById('fullscreenBtn');
+      if (!btn) return;
+      const isFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+      if (isFs) {
+        if (expandIcon) expandIcon.style.display = 'none';
+        if (compressIcon) compressIcon.style.display = 'block';
+        btn.title = '退出全螢幕（縮小）';
+        btn.classList.add('active');
+      } else {
+        if (expandIcon) expandIcon.style.display = 'block';
+        if (compressIcon) compressIcon.style.display = 'none';
+        btn.title = '全螢幕模式（放大）';
+        btn.classList.remove('active');
+      }
+    }
+
+    document.addEventListener('fullscreenchange', updateFullscreenBtn);
+    document.addEventListener('webkitfullscreenchange', updateFullscreenBtn);
+
+    // 收合工具列
+    function closeToolbar() {
+      const tb = document.querySelector('.classroom-toolbar');
+      if (tb) tb.style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>
