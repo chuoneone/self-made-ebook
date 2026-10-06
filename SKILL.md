@@ -44,10 +44,46 @@ description: >-
 ### 2. 字型與排版規範（特教學障與投影友善）
 - **字型家族**：英文 `"Times New Roman"`, 中文 `"標楷體", "DFKai-SB", "BiauKai", serif`。
 - **字級大小**：內文標準字級一律為 **14pt**（降低認知負荷、適合中學生及學障生閱讀、遠距投影清晰）。
-- **A4 頁面容器**：
-  - 頁面寬度 `210mm`，最小高度 `297mm`，頁邊距內縮 `14mm 16mm`。
-  - 預設背景一律以很淺的柔和淡藍色為主（如 `#f0f7fc` 或 `#f4f8fc`），頁面本體白色並帶有柔和陰影，章節橫幅與點綴色亦以清新天藍/蔚藍（如 `#0284c7`、`#0f4c81`）為主，每頁有獨立頁碼與關卡進度。
-  - 列印樣式 `@page { size: A4; margin: 12mm 15mm; }`，`.page { page-break-after: always; }`。
+- **A4 頁面容器與零溢頁高度鐵律（Strict A4 Page Height Limits）**：
+  - **螢幕容器規格**：寬度固定 `210mm`，高度嚴格鎖定 `297mm`（或 `min-height: 297mm; max-height: 297mm`），邊距內縮 `10mm 14mm 8mm`。
+  - **單頁物理高度極限（嚴禁超出 A4 邊界）**：
+    - A4 總高度為 `297mm`，扣除上下邊距後，**單頁有效內容高度上限為 265mm～270mm（約 1000px～1020px）**。
+    - **計算題與題量容量鐵律**：
+      - 若每題包含「3～4 行留白計算框（約 80px～90px）」，**每頁 A4 絕對嚴格限制最多 4～6 題**！
+      - 當單頁題目達 6 題時，計算框高度控制在 `75px～85px`，行距控制在 `line-height: 1.45～1.6`，題距與邊距緊湊，**徹底杜絕尾題或頁尾被推擠到下一頁產生多餘空白頁**！
+  - **列印樣式強制規範**：
+    ```css
+    @page { size: A4 portrait; margin: 10mm 12mm; }
+    @media print {
+      html, body { width: 100% !important; height: auto !important; background: #fff !important; padding: 0 !important; margin: 0 !important; }
+      .no-print, .classroom-toolbar, .drawing-canvas, .toc-menu, .mini-toolbar-toggle { display: none !important; }
+      .pages-container { padding: 0 !important; gap: 0 !important; }
+      .page {
+        width: 100% !important;
+        height: 275mm !important;
+        max-height: 275mm !important;
+        min-height: 275mm !important;
+        padding: 0 4mm !important;
+        box-shadow: none !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        overflow: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+      }
+      .page:last-child, .page:last-of-type {
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+      }
+      .footer-bar, .page-footer {
+        margin-top: auto !important;
+        padding-top: 4px !important;
+      }
+    }
+    ```
 
 ### 3. 禁止出現的干擾文字（Zero Annoying Text）
 - **絕對禁止**在題目的大標題、小題中輸出任何引導操作的文字，例如：
