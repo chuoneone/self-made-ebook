@@ -221,6 +221,12 @@ description: >-
 
 ### 9. 題目絕對防切割與頁面容量安全規範（Strict Anti-Fragmentation & Overflow Prevention，極重要）
 - **核心痛點**：題目如果跨頁被切成兩半（例如題幹在上一頁、選項掉到下一頁；或題目底部被 `overflow: hidden` 截斷），會嚴重破壞紙本列印與課堂教學體驗，學生無法完整作答。
+- **🚨 最高優先鐵律（凡與下列衝突，一律以本條為準）**：
+  1. **頁數由題量決定，不是反過來**：嚴禁為了「剛好雙面 1 張」把題目硬擠進固定頁數。30 題單選一律先量高度再分頁（通常 4 面），**寧可多一頁，絕不切題**。「完美雙頁」僅適用 §7 的 10 題小考卷。
+  2. **行距與字級維持舒適標準**（題幹約 14.5pt、選項約 13.5pt、行高 1.4～1.45）：嚴禁為了塞進頁數而縮小字級、壓縮行距或題距。放不下就分頁。
+  3. **`@media print` 的 `.page` 一律 `height: auto !important; min-height: 275mm !important; max-height: none !important; overflow: visible !important;`**；**嚴禁**使用固定 `height/max-height: 275mm` 搭配 `overflow: hidden`（這會把超出的題目直接裁掉，是最常見的切題原因）。
+  4. **交付前必做溢出驗證**：用瀏覽器以列印寬度（約 186mm）逐頁量測 `.page` 實際高度，**每頁內容高度必須 ≤ 275mm（≈1039px）且保留至少 60px 餘裕**；任何一頁超過就重新分頁。回報時須寫出每頁實測高度。
+  5. 估算單題高度（A4、舒適行距）：4 欄短選項題約 22mm、2 欄長選項題約 30mm；每頁扣掉頁首＋橫幅＋頁尾約 40mm 後再排題。
 - **嚴格排版容量限制（嚴禁單頁題目過多導致溢出切斷）**：
   1. **選擇題（長選項／單欄垂直堆疊）**：每頁 A4 **嚴格限制最多 4～5 題**，絕不可堆疊 6 題以上。
   2. **詞語填空／短選項（雙欄或 4 欄網格）**：每頁最多 6～7 題。
@@ -484,9 +490,9 @@ body.pen-mode .drawing-canvas {
     margin: 0 !important;
     box-shadow: none !important;
     width: 100% !important;
-    height: 275mm !important;
-    max-height: 275mm !important;
-    min-height: 0 !important;
+    height: auto !important;
+    max-height: none !important;
+    min-height: 275mm !important;
     padding: 0 !important;
     page-break-after: always !important;
     break-after: page !important;
@@ -495,7 +501,7 @@ body.pen-mode .drawing-canvas {
     display: flex !important;
     flex-direction: column !important;
     justify-content: flex-start !important; /* 嚴禁使用 space-between，避免 flex 分散多餘高度導致題距過大切斷題尾 */
-    overflow: hidden !important;
+    overflow: visible !important;
   }
   .page:last-child,
   .page:last-of-type {
