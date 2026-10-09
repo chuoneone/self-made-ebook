@@ -3,6 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <title>{{WORKSHEET_TITLE}}</title>
+  <!-- 電子書目錄用身分標記（見 SKILL.md §11） -->
+  <meta name="ebook:subject" content="{{SUBJECT}}">
+  <meta name="ebook:grade" content="{{GRADE}}">
+  <meta name="ebook:type" content="{{TYPE}}">
+  <meta name="ebook:pages" content="{{PAGES}}">
+  <meta name="ebook:summary" content="{{SUMMARY}}">
   <style>
     @page { size: A4; margin: 12mm 15mm; }
     * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -26,6 +32,7 @@
       width: 36px; height: 36px; font-size: 18px; color: #334155;
       background: transparent; border: 1px solid transparent; border-radius: 50%;
       cursor: pointer; transition: all 0.15s ease; padding: 0; user-select: none;
+      text-decoration: none;
     }
     .tool-btn:hover { background: #f1f5f9; transform: scale(1.1); }
     .tool-btn.active { background: #0f172a; color: #ffffff; }
@@ -255,6 +262,8 @@
 
   <!-- 課堂懸浮工具列 (純 Emoji 極簡版＋章節目錄跳轉) -->
   <div class="classroom-toolbar no-print">
+    <!-- 回電子書目錄 -->
+    <a class="tool-btn" href="../index.html" title="回電子書目錄">🏠</a>
     <!-- 目錄跳轉按鈕 -->
     <div style="position: relative;">
       <button class="tool-btn" id="tocBtn" onclick="toggleTocMenu(event)" title="章節目錄導覽">

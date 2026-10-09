@@ -49,11 +49,11 @@
 
 ## 📦 專屬收錄：5 大雙模式備課電子書核心大師 Skills
 
-本套件將 **5 大雙模式電子書專用 Skills** 完整收錄於 `skills/` 資料夾，下載本倉庫即可一次擁有：
+本套件將 **5 大雙模式電子書專用 Skills** 完整收錄於 `.claude/skills/` 資料夾，clone 本倉庫、用 AI 助理打開即可使用：
 
 | 分類 | Skill 名稱 | 功能亮點 |
 | :--- | :--- | :--- |
-| **通用底層** | `self-made-ebook` | 國中教材庫通用雙模式互動 HTML 電子書底層框架與規格 |
+| **通用底層** | `self-made-ebook` | 通用雙模式互動 HTML 電子書底層框架、存檔規則與電子書目錄 |
 | **國文大師** | `sped-chinese-master` | 國中特教國文備課大師（30 頁雙頁精讀 ＋ 注音田字格 ＋ 句意深究 ＋ 字族文辨析） |
 | **英文大師** | `sped-english-master` | 國中特教英文備課大師（**雙支柱：12 頁關卡式文法講義 ＋ 16 頁四頁式單字手冊**） |
 | **數學大師** | `sped-math-master` | 國中特教數學備課大師（觀念解題原則 ＋ 1-2 適性 5 階漸進式填空鷹架） |
@@ -65,51 +65,68 @@
 
 ```text
 self-made-ebook/
-├── README.md                 # 專案詳細說明文件
-├── SKILL.md                  # 電子書主要 Skill 規範
-├── assets/
-│   └── preview.png           # 電子書大屏教學現場操作示意圖
-├── resources/
-│   └── template.html         # 通用自製電子書 HTML/CSS/JS 完整模板（開箱即用）
-├── examples/
-│   ├── reference_example.html                # 國中英語 5 頁完整示範電子書
-│   ├── math-7s1-1-1-ebook.html               # 國中數學 1-1 範例（策略地圖 ＋ 去國字極簡答案）
-│   └── math-7s1-1-2-ebook.html               # 國中數學 1-2 範例（3~4 行留白草稿 ＋ 漸進算式）
-├── scripts/
-│   └── install-skills.ps1    # 一鍵安裝 5 大 Skills 至 Antigravity / 專案環境
-└── skills/                   # 5 大核心備課大師 Skills
-    ├── self-made-ebook/
-    ├── sped-chinese-master/
-    ├── sped-english-master/
-    │   ├── SKILL.md
-    │   └── resources/
-    │       ├── template-grammar-12page.html  # 12 頁文法講義完整範本
-    │       └── template-vocab-16page.html    # 16 頁單字手冊完整範本
-    ├── sped-math-master/
-    └── sped-youtube-master/
+├── AGENTS.md                 # 給 AI 助理的入口說明（Codex、Cursor、Copilot 等通用）
+├── CLAUDE.md / GEMINI.md     # 指向 AGENTS.md（Claude Code、Gemini / Antigravity）
+├── ebook/
+│   └── index.html            # 📚 你的電子書目錄首頁（搜尋、依科目／年級篩選）
+├── .claude/skills/           # 5 大 Skills（Claude Code 打開資料夾即自動載入）
+│   ├── self-made-ebook/      # 通用底層 ＋ 存檔與目錄規則
+│   │   ├── SKILL.md
+│   │   ├── resources/
+│   │   │   ├── template.html        # 電子書 HTML/CSS/JS 模板
+│   │   │   └── index-template.html  # 電子書目錄首頁模板
+│   │   ├── references/              # 英文、文言文、YouTube 補充規格
+│   │   ├── scripts/rebuild-index.mjs  # 掃描 ebook/ 自動補登目錄
+│   │   └── examples/                # 範例電子書（英文 5 頁、數學 1-1、1-2）
+│   ├── sped-chinese-master/
+│   ├── sped-english-master/
+│   ├── sped-math-master/
+│   └── sped-youtube-master/
+├── assets/preview.png
+└── scripts/
+    ├── install-skills.ps1    # （選用）安裝到其他資料夾或全域，Windows
+    └── install-skills.sh     # （選用）同上，macOS / Linux
 ```
 
 ---
 
-## 🚀 快速安裝與使用方式
+## 🚀 第一次使用（3 步驟）
 
 ### 1. Clone 倉庫
 ```bash
 git clone https://github.com/chuoneone/self-made-ebook.git
-cd self-made-ebook
 ```
 
-### 2. 一鍵安裝 5 大 Skills
+### 2. 用你的 AI 助理打開這個資料夾
+Claude Code、Codex、Cursor、Antigravity、Gemini CLI 都可以。**不需要另外安裝**：Claude Code 會自動載入 `.claude/skills/`，其他 AI 助理會讀 `AGENTS.md`。
 
-#### 安裝至全域 Antigravity 設定（所有專案通用）：
+### 3. 把教材交給它
+> 「這是我這週的學習單，請幫我做成自製電子書。」
+
+完成後，成品會存到 `ebook/<科目>/`，並自動登記到目錄。**用瀏覽器打開 `ebook/index.html`，就能看到你做過的所有電子書。**
+
+### 電子書目錄 `ebook/index.html`
+- 依科目、年級篩選，可搜尋書名或標籤，按建立日期排序。
+- 小考系列（第一次、第二次……）會合併成一張卡片，每次小考各有一顆按鈕。
+- 內建 3 本範例電子書，可用「顯示範例電子書」開關隱藏；不需要時，直接請 AI 助理刪掉 `demo: true` 的紀錄。
+- 目錄資料在 `ebook/index.html` 的 `<script id="ebook-catalog">` JSON 裡。如果有電子書漏登記，可以執行：
+  ```bash
+  node .claude/skills/self-made-ebook/scripts/rebuild-index.mjs ebook
+  ```
+- 不想把自己的電子書推上 GitHub？取消 `.gitignore` 最後兩行的註解即可。
+
+### （選用）在其他資料夾也能做電子書
+把 Skills 安裝到全域，之後在任何資料夾都能使用；成品會存到該資料夾的 `ebook/`，第一次使用時會自動建立目錄頁。
+
+Windows：
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts/install-skills.ps1
 ```
-
-#### 安裝至指定專案目錄 (`.agent/skills`)：
-```powershell
-powershell -ExecutionPolicy Bypass -File scripts/install-skills.ps1 -TargetWorkspace "C:\path\to\your\project"
+macOS / Linux：
+```bash
+bash scripts/install-skills.sh
 ```
+可加參數只裝某一個 AI 助理（`claude` / `antigravity`），或指定專案資料夾，詳見腳本開頭的說明。
 
 ---
 
@@ -123,6 +140,7 @@ powershell -ExecutionPolicy Bypass -File scripts/install-skills.ps1 -TargetWorks
 - **英文單字手冊**：「幫我出這 30 個單字的 16 頁四頁式單字隨堂手冊」
 - **數學漸進式電子書**：「幫我做數學電子書，單元是一元一次方程式……」
 - **YouTube 影片轉講義**：「幫我把這個 YouTube 影片做成 4 頁雙模式電子書：[網址]」
+- **整理電子書目錄**：「把範例電子書從目錄移除」、「幫我檢查目錄有沒有漏登記的電子書」
 
 ---
 

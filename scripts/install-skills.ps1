@@ -1,30 +1,40 @@
-# self-made-ebook 雙模式備課電子書 5 大核心大師 Skills 安裝腳本 (PowerShell)
-# 支援安裝至全域 (~/.gemini/config/skills) 或 指定工作區 (.agent/skills)
+﻿# self-made-ebook 電子書 Skills 安裝腳本 (PowerShell)
+# 直接在這個 repo 裡使用 AI 助理時「不需要」執行本腳本（.claude/skills 與 AGENTS.md 會自動生效）。
+# 只有想在「其他資料夾」也能做電子書時才需要安裝：
+#   全域安裝（預設同時裝到 Claude Code 與 Antigravity）：
+#     powershell -ExecutionPolicy Bypass -File scripts/install-skills.ps1
+#   只裝到某個 AI 助理：-Agent claude 或 -Agent antigravity
+#   裝到指定專案資料夾：-TargetWorkspace "C:\path\to\project"
 
 param (
-    [switch]$Global = $true,
+    [ValidateSet("all", "claude", "antigravity")]
+    [string]$Agent = "all",
     [string]$TargetWorkspace = ""
 )
 
-$SourceDir = Join-Path $PSScriptRoot "..\skills"
+$SourceDir = Join-Path $PSScriptRoot "..\.claude\skills"
 $Skills = Get-ChildItem -Path $SourceDir -Directory
 
+$Destinations = @()
 if ($TargetWorkspace -ne "") {
-    $DestBase = Join-Path $TargetWorkspace ".agent\skills"
-    Write-Host "📦 準備安裝 Skills 至目標工作區: $DestBase" -ForegroundColor Cyan
-} elseif ($Global) {
-    $DestBase = Join-Path $env:USERPROFILE ".gemini\config\skills"
-    Write-Host "🌐 準備安裝 Skills 至全域 Antigravity 設定: $DestBase" -ForegroundColor Cyan
+    if ($Agent -in @("all", "claude")) { $Destinations += Join-Path $TargetWorkspace ".claude\skills" }
+    if ($Agent -in @("all", "antigravity")) { $Destinations += Join-Path $TargetWorkspace ".agent\skills" }
+} else {
+    if ($Agent -in @("all", "claude")) { $Destinations += Join-Path $env:USERPROFILE ".claude\skills" }
+    if ($Agent -in @("all", "antigravity")) { $Destinations += Join-Path $env:USERPROFILE ".gemini\config\skills" }
 }
 
-if (-not (Test-Path $DestBase)) {
-    New-Item -ItemType Directory -Path $DestBase -Force | Out-Null
+foreach ($DestBase in $Destinations) {
+    Write-Host "📦 安裝 Skills 至: $DestBase" -ForegroundColor Cyan
+    if (-not (Test-Path $DestBase)) {
+        New-Item -ItemType Directory -Path $DestBase -Force | Out-Null
+    }
+    foreach ($skill in $Skills) {
+        $dest = Join-Path $DestBase $skill.Name
+        if (Test-Path $dest) { Remove-Item -Path $dest -Recurse -Force }
+        Copy-Item -Path $skill.FullName -Destination $dest -Recurse -Force
+        Write-Host "  ✅ $($skill.Name)" -ForegroundColor Green
+    }
 }
 
-foreach ($skill in $Skills) {
-    $dest = Join-Path $DestBase $skill.Name
-    Copy-Item -Path $skill.FullName -Destination $dest -Recurse -Force
-    Write-Host "  ✅ 已安裝 Skill: $($skill.Name)" -ForegroundColor Green
-}
-
-Write-Host "`n🎉 雙模式備課電子書 5 大核心大師 Skills 安裝/同步完成！" -ForegroundColor Yellow
+Write-Host "`n🎉 安裝完成！在任何資料夾說「幫我做成電子書」，成品會存到該資料夾的 ebook/，目錄頁為 ebook/index.html。" -ForegroundColor Yellow

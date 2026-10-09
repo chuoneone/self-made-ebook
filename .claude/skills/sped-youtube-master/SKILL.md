@@ -1,7 +1,7 @@
 ---
 name: sped-youtube-master
 description: >-
-  國中特教與適性影音電子書大師 / YouTube 影片轉雙模式電子書大師。專門將教師提供的 YouTube 影片連結、影片主題、字幕或影音備課教材，一鍵轉換為 4 頁標準 B-D-A 階梯式架構的「國中教材庫」雙模式互動 HTML 檔案。具備動態 QR Code 影片探索卡（免 iframe 輕量防阻擋）、右下角極簡時間戳記（⏱️）、看前暖身預測是非題、看中時間軸尋寶、看後深究、1 分鐘口說發表挑戰（帶淺基線手寫框）、心智圖視覺筆記塗鴉區、右上角懸浮藥丸控制盒、直接列印純淨 A4 學習單（window.print()）與逐題獨立點擊顯答。當使用者提到「YouTube轉電子書」、「影片轉學習單」、「YouTube學習單」、「做影片電子書」、「影音電子書」、「影片轉教材」或提供 YouTube 網址/影片主題時觸發。
+  國中特教與適性影音電子書大師 / YouTube 影片轉雙模式電子書大師。專門將教師提供的 YouTube 影片連結、影片主題、字幕或影音備課教材，一鍵轉換為 4 頁標準 B-D-A 階梯式架構的雙模式互動 HTML 電子書。具備動態 QR Code 影片探索卡（免 iframe 輕量防阻擋）、右下角極簡時間戳記（⏱️）、看前暖身預測是非題、看中時間軸尋寶、看後深究、1 分鐘口說發表挑戰（帶淺基線手寫框）、心智圖視覺筆記塗鴉區、右上角懸浮藥丸控制盒、直接列印純淨 A4 學習單（window.print()）與逐題獨立點擊顯答。當使用者提到「YouTube轉電子書」、「影片轉學習單」、「YouTube學習單」、「做影片電子書」、「影音電子書」、「影片轉教材」或提供 YouTube 網址/影片主題時觸發。
 ---
 
 # 國中特教與適性影音電子書大師 (sped-youtube-master)
@@ -24,7 +24,7 @@ description: >-
 
 ---
 
-## 📐 國中教材庫 — 純淨排版核心鐵律（Strict Requirements）
+## 📐 純淨排版核心鐵律（Strict Requirements）
 
 ### 1. 載體與字體規範
 - **嚴格產出純 HTML**：單一獨立自包含 .html 檔案，所有 CSS、JS、SVG 內嵌，無需後端，開箱即用。
@@ -266,3 +266,12 @@ function toggleTocMenu(e) {
   if (m) m.classList.toggle('show');
 }
 ```
+
+---
+
+## 💾 存檔與電子書目錄（必做）
+
+本 skill 只規範本科的教學內容與版面。存檔位置、`ebook:*` meta、🏠 回目錄按鈕與目錄登記，一律依 `self-made-ebook` skill 的「§11 工作區、存檔與電子書目錄」：
+- **檔名**：`ebook/video/video-[grade]-[影片主題英文短詞].html`（年級用 7／8／9）。
+- **登記**：完成後在 `ebook/index.html` 的 `<script id="ebook-catalog">` JSON 陣列新增一筆（`path` 已存在則更新），`subject` 填 `"video"`，`type` 填 `"video"`，並在 `tags` 放入影片主題。
+- **交付**：回報檔案路徑，並提醒教師打開 `ebook/index.html` 即可看到所有電子書。
