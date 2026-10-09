@@ -177,6 +177,7 @@ description: 國中特教與適性國文備課大師。專門依據國中國語�
 ## 💾 存檔與電子書目錄（必做）
 
 本 skill 只規範本科的教學內容與版面。存檔位置、`ebook:*` meta、🏠 回目錄按鈕與目錄登記，一律依 `self-made-ebook` skill 的「§11 工作區、存檔與電子書目錄」：
+- **提問**：需要問教師問題（例如學生程度）時，依 `self-made-ebook` 的「提問方式」規則：有可點選的提問工具就用，沒有就列編號選項讓教師回數字。
 - **檔名**：`ebook/chinese/chinese-[grade]-[unit].html`（年級用 7／8／9）。
 - **登記**：完成後在 `ebook/index.html` 的 `<script id="ebook-catalog">` JSON 陣列新增一筆（`path` 已存在則更新），`subject` 填 `"chinese"`，`type` 填 `"handout"`（小考為 `"quiz"`）。
 - **交付**：回報檔案路徑，並提醒教師打開 `ebook/index.html` 即可看到所有電子書。

@@ -16,6 +16,7 @@
 
 **不論哪一科，都必須遵守 `.claude/skills/self-made-ebook/SKILL.md` 的「§11 工作區、存檔與電子書目錄」**，也就是：
 
+0. 需要問教師問題時，依 `self-made-ebook/SKILL.md` 的「提問方式」：有可點選的提問工具就用，沒有就列編號選項（標出建議選項），讓教師回一個數字就能答完；一次最多 3 題。
 1. 成品存到 `ebook/<subject>/<subject>-<grade>-<unit>[-<type>].html`。
 2. 從 `.claude/skills/self-made-ebook/resources/template.html` 起手；`<head>` 填好 `ebook:*` meta，工具列保留 🏠 回目錄按鈕。
 3. 完成後在 `ebook/index.html` 的 `<script id="ebook-catalog">` JSON 陣列中新增或更新一筆。只改這段 JSON，不要動頁面其他部分。
