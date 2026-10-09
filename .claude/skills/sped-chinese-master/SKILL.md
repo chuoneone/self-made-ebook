@@ -12,7 +12,7 @@ description: 國中特教與適性國文備課大師。專門依據國中國語�
 
 ## 🌟 黃金典範標竿：七上國文 L3《吃冰的滋味》（30 頁雙模式講義）
 
-本 Skill 產出的國文電子書，必須 100% 依循《吃冰的滋味》（`ebook/chinese/chinese-1-3.html`）的旗艦規格，包含 **5 大核心模組**：
+本 Skill 產出的國文電子書，必須 100% 依循《吃冰的滋味》的旗艦規格（若你的 `ebook/chinese/` 已有該課成品，可直接打開參考），包含 **5 大核心模組**：
 1. **作家探索檔案（2 頁）**：筆名由來、伯樂貴人、生命歷程與寫作初衷。
 2. **逐段雙頁循環精讀（每段 2 頁，8～10 段共 16～20 頁）**：
    - **奇數頁（輸入）**：段落情境圖 ＋ 雙軌原文與易讀對照 ＋ 注音田字格生字練寫 ＋ 重點精要。
@@ -25,7 +25,7 @@ description: 國中特教與適性國文備課大師。專門依據國中國語�
 
 ## 📐 30 頁分頁架構與模組規劃
 
-- **檔案命名**：`ebook/chinese/chinese-[grade]-[unit].html`（例如 `chinese-1-3.html`、`chinese-1-2.html`、`chinese-8-1.html`、`chinese-9-1.html`）。
+- **檔案命名**：`ebook/chinese/chinese-[grade]-[unit].html`（年級用 7～9，例如 `chinese-7-3.html`、`chinese-8-1.html`、`chinese-9-1.html`）。
 - **容器規格**：全書每頁嚴格控制高度為 `1123px`（標準 A4 高度），單頁單一任務，題目絕不跨頁切割，列印剛好一張 A4 零空白頁。
 
 ### 模組一：作家探索檔案（P.1～P.2，共 2 頁）
@@ -156,25 +156,9 @@ description: 國中特教與適性國文備課大師。專門依據國中國語�
 
 ---
 
-## 📋 總目錄入口首頁整合規範（`ebook/index.html`）
+## 💾 存檔與電子書目錄（必做）
 
-生成後，自動在 `ebook/index.html` 國文科專區新增卡片：
-```html
-<div class="card-item bg-white rounded-3xl border border-sky-100 shadow-xs flex flex-col justify-between overflow-hidden card-hover" data-category="chinese" data-grade="7">
-  <div class="p-6 pb-4">
-    <div class="flex items-center justify-between gap-2 mb-3">
-      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#FFF7ED] text-[#C2410C] border border-[#FDBA74]/30">
-        <span>📖</span><span>國文科</span>
-      </span>
-      <span class="text-xs font-semibold text-slate-500 bg-slate-100 px-3 py-0.5 rounded-full">共 30 頁 (A4)</span>
-    </div>
-    <h3 class="text-lg font-bold text-slate-900 leading-snug">七上國文 L3《課名》</h3>
-    <p class="text-xs text-slate-500 mt-1">作家探索、逐段雙軌易讀、注音田字格、修辭句意剖析、5組字族文辨析與隨堂評量</p>
-  </div>
-  <div class="px-5 py-3 bg-[#f8fbff] border-t border-sky-100/60">
-    <a href="chinese/chinese-1-3.html" target="_blank" class="w-full py-1.5 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-xs bg-[#EA580C] hover:bg-[#C2410C] text-white">
-      <i class="fa-solid fa-chalkboard-user text-xs"></i><span>開始上課</span>
-    </a>
-  </div>
-</div>
-```
+本 skill 只規範本科的教學內容與版面。存檔位置、`ebook:*` meta、🏠 回目錄按鈕與目錄登記，一律依 `self-made-ebook` skill 的「§11 工作區、存檔與電子書目錄」：
+- **檔名**：`ebook/chinese/chinese-[grade]-[unit].html`（年級用 7／8／9）。
+- **登記**：完成後在 `ebook/index.html` 的 `<script id="ebook-catalog">` JSON 陣列新增一筆（`path` 已存在則更新），`subject` 填 `"chinese"`，`type` 填 `"handout"`（小考為 `"quiz"`）。
+- **交付**：回報檔案路徑，並提醒教師打開 `ebook/index.html` 即可看到所有電子書。

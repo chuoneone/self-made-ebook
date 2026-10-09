@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>我的電子書庫</title>
+  <style>
+    :root {
+      --bg: #f6f7fb; --surface: #ffffff; --surface-2: #f1f4f9; --line: #e2e7f0;
+      --text: #1e293b; --muted: #64748b; --accent: #2563eb; --accent-text: #ffffff;
+      --shadow: 0 1px 2px rgba(15, 23, 42, .05), 0 4px 14px rgba(15, 23, 42, .05);
+      --radius: 16px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #0f141c; --surface: #18202b; --surface-2: #1f2935; --line: #2b3746;
+        --text: #e5ebf3; --muted: #93a1b4; --accent: #60a5fa; --accent-text: #0b1220;
+        --shadow: none;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", system-ui, sans-serif;
+      line-height: 1.5;
+    }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 32px 20px 64px; }
+    header { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; margin-bottom: 24px; }
+    h1 { margin: 0; font-size: 28px; letter-spacing: .02em; }
+    .count { color: var(--muted); font-size: 14px; margin-top: 4px; }
+    .controls { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    input[type="search"], select {
+      font: inherit; font-size: 15px; color: var(--text); background: var(--surface);
+      border: 1px solid var(--line); border-radius: 12px; padding: 9px 14px; min-height: 42px;
+    }
+    input[type="search"] { flex: 1 1 260px; min-width: 0; }
+    .chip {
+      font: inherit; font-size: 14px; cursor: pointer; border: 1px solid var(--line);
+      background: var(--surface); color: var(--text); border-radius: 999px; padding: 6px 14px;
+      display: inline-flex; gap: 6px; align-items: center; min-height: 36px;
+    }
+    .chip .n { color: var(--muted); font-size: 12px; }
+    .chip[aria-pressed="true"] { background: var(--text); color: var(--bg); border-color: var(--text); }
+    .chip[aria-pressed="true"] .n { color: inherit; opacity: .7; }
+    label.toggle { font-size: 14px; color: var(--muted); display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+    .card {
+      background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+      box-shadow: var(--shadow); display: flex; flex-direction: column; overflow: hidden;
+    }
+    .card-body { padding: 18px 18px 14px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 12px; }
+    .badge { border-radius: 999px; padding: 2px 10px; font-weight: 700; background: var(--sub-bg); color: var(--sub-fg); }
+    .pill { border-radius: 999px; padding: 2px 9px; background: var(--surface-2); color: var(--muted); }
+    .pill.demo { border: 1px dashed var(--line); }
+    .card h2 { margin: 2px 0 0; font-size: 17px; line-height: 1.4; }
+    .summary { margin: 0; font-size: 13.5px; color: var(--muted); }
+    .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: auto; padding-top: 4px; }
+    .tag { font-size: 12px; color: var(--muted); }
+    .card-foot { border-top: 1px solid var(--line); background: var(--surface-2); padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; }
+    .date { font-size: 12px; color: var(--muted); }
+    .btn {
+      display: flex; justify-content: center; align-items: center; gap: 6px; text-decoration: none;
+      font-weight: 700; font-size: 14px; border-radius: 10px; padding: 8px 12px; min-height: 38px;
+      background: var(--sub-fg); color: #fff;
+    }
+    .btn:hover { filter: brightness(1.08); }
+    .btn.ghost { background: var(--surface); color: var(--text); border: 1px solid var(--line); font-weight: 600; }
+    .parts { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .empty, .error {
+      background: var(--surface); border: 1px dashed var(--line); border-radius: var(--radius);
+      padding: 32px 24px; text-align: center; color: var(--muted);
+    }
+    .error { border-color: #ef4444; color: #b91c1c; text-align: left; white-space: pre-wrap; font-family: ui-monospace, Consolas, monospace; font-size: 13px; }
+    .empty strong { color: var(--text); display: block; font-size: 17px; margin-bottom: 6px; }
+    .empty code { background: var(--surface-2); padding: 2px 6px; border-radius: 6px; }
+    @media (max-width: 560px) {
+      .wrap { padding: 20px 16px 48px; }
+      h1 { font-size: 23px; }
+    }
+  </style>
+</head>
+<body>
+  <!--
+    電子書目錄資料：AI 助理新增電子書時，只需在下方 JSON 陣列中新增或更新一筆。
+    欄位：title, subject(chinese|english|math|science|social|video|other), grade(7|8|9|"all"),
+          type(handout|quiz|vocab|grammar|video|review|other), pages, path(相對於 ebook/), date(YYYY-MM-DD),
+          summary, tags[], parts[{label, path}](小考系列用), demo(true 表示範例，可整筆刪除)
+  -->
+  <script id="ebook-catalog" type="application/json">
+[
+  {
+    "title": "七上數學 1-1 正數與負數",
+    "subject": "math",
+    "grade": 7,
+    "type": "handout",
+    "pages": 10,
+    "path": "../.claude/skills/self-made-ebook/examples/math-7s1-1-1-ebook.html",
+    "date": "2026-10-01",
+    "summary": "策略地圖 ＋ 去國字極簡答案的正負數入門講義",
+    "tags": [
+      "正負數",
+      "範例"
+    ],
+    "demo": true
+  },
+  {
+    "title": "七上數學 1-2 正負數的加減",
+    "subject": "math",
+    "grade": 7,
+    "type": "handout",
+    "pages": 12,
+    "path": "../.claude/skills/self-made-ebook/examples/math-7s1-1-2-ebook.html",
+    "date": "2026-10-02",
+    "summary": "3～4 行留白計算框，一個等號一步驟的漸進算式",
+    "tags": [
+      "正負數",
+      "漸進鷹架",
+      "範例"
+    ],
+    "demo": true
+  },
+  {
+    "title": "英語 Unit 1 be 動詞與家人介紹",
+    "subject": "english",
+    "grade": 7,
+    "type": "grammar",
+    "pages": 5,
+    "path": "../.claude/skills/self-made-ebook/examples/reference_example.html",
+    "date": "2026-10-03",
+    "summary": "5 頁闖關式文法講義，含連連看與情境會話",
+    "tags": [
+      "be動詞",
+      "範例"
+    ],
+    "demo": true
+  }
+]
+  </script>
+
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>📚 我的電子書庫</h1>
+        <div class="count" id="count"></div>
+      </div>
+    </header>
+
+    <div class="controls">
+      <div class="row">
+        <input type="search" id="q" placeholder="搜尋書名、單元、標籤…" aria-label="搜尋電子書">
+        <select id="grade" aria-label="年級">
+          <option value="">全部年級</option>
+          <option value="7">七年級</option>
+          <option value="8">八年級</option>
+          <option value="9">九年級</option>
+        </select>
+        <select id="sort" aria-label="排序">
+          <option value="new">最新優先</option>
+          <option value="old">最舊優先</option>
+          <option value="title">依書名</option>
+        </select>
+      </div>
+      <div class="row" id="subjects" role="group" aria-label="科目篩選"></div>
+      <div class="row">
+        <label class="toggle"><input type="checkbox" id="showDemo" checked> 顯示範例電子書</label>
+      </div>
+    </div>
+
+    <main id="list"></main>
+  </div>
+
+  <script>
+    const SUBJECTS = {
+      chinese: { name: "國文", icon: "📖", bg: "#fff1e6", fg: "#c2410c" },
+      english: { name: "英文", icon: "🔤", bg: "#e8f1ff", fg: "#1d4ed8" },
+      math:    { name: "數學", icon: "📐", bg: "#e7f8ef", fg: "#047857" },
+      science: { name: "自然", icon: "🔬", bg: "#e6f7fa", fg: "#0e7490" },
+      social:  { name: "社會", icon: "🌏", bg: "#fdf3dc", fg: "#a16207" },
+      video:   { name: "影音", icon: "🎬", bg: "#fdecef", fg: "#be123c" },
+      other:   { name: "其他", icon: "📚", bg: "#eef0f4", fg: "#475569" }
+    };
+    const TYPES = { handout: "講義", quiz: "小考", vocab: "單字手冊", grammar: "文法講義", video: "影音學習單", review: "複習卷", other: "教材" };
+    const GRADES = { 7: "七年級", 8: "八年級", 9: "九年級", all: "跨年級" };
+
+    const $ = id => document.getElementById(id);
+    const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    const safeHref = p => /^\s*javascript:/i.test(String(p)) ? "#" : encodeURI(String(p ?? ""));
+
+    let books = [];
+    try {
+      const raw = JSON.parse($("ebook-catalog").textContent || "[]");
+      if (!Array.isArray(raw)) throw new Error("目錄資料必須是 JSON 陣列 [ ... ]");
+      books = raw.filter(b => b && b.title && b.path);
+    } catch (err) {
+      $("list").innerHTML = `<div class="error">⚠️ 電子書目錄資料格式有誤，請 AI 助理修正 ebook/index.html 中 id="ebook-catalog" 的 JSON。\n\n${esc(err.message)}</div>`;
+    }
+
+    const state = { q: "", subject: "", grade: "", sort: "new", showDemo: true };
+    try { Object.assign(state, JSON.parse(localStorage.getItem("ebook-index-state") || "{}")); } catch (e) {}
+    const save = () => { try { localStorage.setItem("ebook-index-state", JSON.stringify({ subject: state.subject, grade: state.grade, sort: state.sort, showDemo: state.showDemo })); } catch (e) {} };
+
+    function subjectOf(b) { return SUBJECTS[b.subject] ? b.subject : "other"; }
+
+    function renderChips(pool) {
+      const counts = {};
+      pool.forEach(b => { const s = subjectOf(b); counts[s] = (counts[s] || 0) + 1; });
+      const keys = Object.keys(SUBJECTS).filter(k => counts[k]);
+      if (state.subject && !counts[state.subject]) state.subject = "";
+      $("subjects").innerHTML =
+        `<button class="chip" data-s="" aria-pressed="${!state.subject}">全部 <span class="n">${pool.length}</span></button>` +
+        keys.map(k => `<button class="chip" data-s="${k}" aria-pressed="${state.subject === k}">${SUBJECTS[k].icon} ${SUBJECTS[k].name} <span class="n">${counts[k]}</span></button>`).join("");
+    }
+
+    function card(b) {
+      const s = SUBJECTS[subjectOf(b)];
+      const grade = GRADES[b.grade] ? `<span class="pill">${GRADES[b.grade]}</span>` : "";
+      const type = TYPES[b.type] ? `<span class="pill">${TYPES[b.type]}</span>` : "";
+      const pages = b.pages ? `<span class="pill">${esc(b.pages)} 頁</span>` : "";
+      const demo = b.demo ? `<span class="pill demo">範例</span>` : "";
+      const tags = Array.isArray(b.tags) && b.tags.length ? `<div class="tags">${b.tags.map(t => `<span class="tag">#${esc(t)}</span>`).join(" ")}</div>` : "";
+      const parts = Array.isArray(b.parts) && b.parts.length
+        ? `<div class="parts">${b.parts.map(p => `<a class="btn ghost" href="${safeHref(p.path)}" target="_blank" rel="noopener">${esc(p.label)}</a>`).join("")}</div>` : "";
+      const mainLabel = b.parts && b.parts.length ? "開啟全卷合輯" : "開始上課";
+      return `<article class="card" style="--sub-bg:${s.bg};--sub-fg:${s.fg}">
+        <div class="card-body">
+          <div class="meta"><span class="badge">${s.icon} ${s.name}</span>${grade}${type}${pages}${demo}</div>
+          <h2>${esc(b.title)}</h2>
+          ${b.summary ? `<p class="summary">${esc(b.summary)}</p>` : ""}
+          ${tags}
+        </div>
+        <div class="card-foot">
+          ${parts}
+          <a class="btn" href="${safeHref(b.path)}" target="_blank" rel="noopener">${mainLabel}</a>
+          ${b.date ? `<div class="date">建立於 ${esc(b.date)}</div>` : ""}
+        </div>
+      </article>`;
+    }
+
+    function render() {
+      const pool = books.filter(b => state.showDemo || !b.demo);
+      renderChips(pool);
+      const q = state.q.trim().toLowerCase();
+      let list = pool.filter(b =>
+        (!state.subject || subjectOf(b) === state.subject) &&
+        (!state.grade || String(b.grade) === state.grade) &&
+        (!q || [b.title, b.summary, b.path, ...(b.tags || []), (SUBJECTS[subjectOf(b)] || {}).name].join(" ").toLowerCase().includes(q)));
+      list.sort((a, b) =>
+        state.sort === "title" ? String(a.title).localeCompare(String(b.title), "zh-Hant")
+        : state.sort === "old" ? String(a.date || "").localeCompare(String(b.date || ""))
+        : String(b.date || "").localeCompare(String(a.date || "")));
+
+      const own = books.filter(b => !b.demo).length;
+      $("count").textContent = `共 ${own} 本電子書` + (books.length > own ? `（另有 ${books.length - own} 本範例）` : "");
+
+      if (!pool.length) {
+        $("list").innerHTML = `<div class="empty"><strong>還沒有電子書</strong>把學習單、講義或課文交給 AI 助理，說「<code>幫我做成電子書</code>」，完成後就會出現在這裡。</div>`;
+      } else if (!list.length) {
+        $("list").innerHTML = `<div class="empty"><strong>找不到符合的電子書</strong>試試其他關鍵字，或清除科目／年級篩選。</div>`;
+      } else {
+        $("list").innerHTML = `<div class="grid">${list.map(card).join("")}</div>`;
+      }
+    }
+
+    $("q").addEventListener("input", e => { state.q = e.target.value; render(); });
+    $("grade").addEventListener("change", e => { state.grade = e.target.value; save(); render(); });
+    $("sort").addEventListener("change", e => { state.sort = e.target.value; save(); render(); });
+    $("showDemo").addEventListener("change", e => { state.showDemo = e.target.checked; save(); render(); });
+    $("subjects").addEventListener("click", e => {
+      const chip = e.target.closest(".chip");
+      if (!chip) return;
+      state.subject = chip.dataset.s; save(); render();
+    });
+
+    $("grade").value = state.grade;
+    $("sort").value = state.sort;
+    $("showDemo").checked = state.showDemo;
+    if (!$("list").innerHTML) render();
+  </script>
+</body>
+</html>

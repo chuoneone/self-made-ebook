@@ -1,3 +1,7 @@
 ﻿.DS_Store
 Thumbs.db
 *.tmp
+
+# 若不想把自己的電子書推上 GitHub，取消下面兩行的註解
+# ebook/**
+# !ebook/index.html

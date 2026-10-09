@@ -35,7 +35,7 @@ description: 國中特教與適性英文備課大師。專門依據教師提供�
 
 ## 🌟 支柱一：【12 頁關卡式文法精華講義】標準架構（以國一 Unit 2 為標竿）
 
-凡製作文法講義（`english-[grade]u[unit].html`），嚴格遵守 12 頁標準分頁：
+凡製作文法講義（`ebook/english/english-[grade]-u[unit]-grammar.html`），嚴格遵守 12 頁標準分頁：
 
 ### 📄 12 頁分頁藍圖
 - **P.1 📖 簡約條列式目錄頁（Table of Contents）**：
@@ -66,7 +66,7 @@ description: 國中特教與適性英文備課大師。專門依據教師提供�
 
 ## 🌟 支柱二：【16 頁單字隨堂學習手冊】標準架構（每節 4 頁合一）
 
-凡製作單字教材，將整課單字（約 25～36 個）拆分為 **4 節課**，每節課嚴格配置 **4 頁（一頁一焦點）**，整本 16 頁合一於單一 HTML（`english-[grade]u[unit]-vocab.html`）：
+凡製作單字教材，將整課單字（約 25～36 個）拆分為 **4 節課**，每節課嚴格配置 **4 頁（一頁一焦點）**，整本 16 頁合一於單一 HTML（`ebook/english/english-[grade]-u[unit]-vocab.html`）：
 
 ### 📄 四頁式黃金循環（每節 4 頁，共 4 節 16 頁）
 - **第 1 頁（單字探索與四線格抄寫）**：
@@ -180,3 +180,12 @@ body {
    - 若為**課文對話/閱讀篇章/文法考題** ➔ 啟動【支柱一：12 頁關卡式文法講義】，提煉出 4 大關卡，生成 P.1 目錄至 P.12 漸進組句講義。
 2. **自動套用組件**：全面套用純 Emoji 膠囊工具列、逐題獨立點擊顯答、學生列印 `@media print` 純淨保護。
 3. **無縫交付**：產出 100% 獨立自包含、開箱即用的單一 HTML 檔案。
+
+---
+
+## 💾 存檔與電子書目錄（必做）
+
+本 skill 只規範本科的教學內容與版面。存檔位置、`ebook:*` meta、🏠 回目錄按鈕與目錄登記，一律依 `self-made-ebook` skill 的「§11 工作區、存檔與電子書目錄」：
+- **檔名**：`ebook/english/english-[grade]-u[unit]-grammar.html 或 -vocab.html`（年級用 7／8／9）。
+- **登記**：完成後在 `ebook/index.html` 的 `<script id="ebook-catalog">` JSON 陣列新增一筆（`path` 已存在則更新），`subject` 填 `"english"`，`type` 填 `"grammar"` 或 `"vocab"`。
+- **交付**：回報檔案路徑，並提醒教師打開 `ebook/index.html` 即可看到所有電子書。

@@ -69,17 +69,9 @@ description: 國中特教與適性數學備課大師。專門依據教師提供�
 
 ---
 
-## 🔒 系統維護與 Git 鐵則
-
-- **我說 push 再 push 絕對規則**：
-  - 產出或修改任何教材後，所有變更一律在**本機執行 git commit** 保存版本。
-  - **在教師未明確下達 "push" 指令前，絕對嚴禁擅自執行 `git push`！**
-
----
-
 ## 📐 單元分頁架構（一題型／一觀念獨立一頁 A4）
 
-- **檔案路徑**：`ebook/math/math-[grade]-[unit].html`（例如 `math-1-3.html`、`math-1-4.html`）。
+- **檔案路徑**：`ebook/math/math-[grade]-[unit].html`（年級用 7～9，例如 `math-7-1-3.html`、`math-7-1-4.html`）。
 - **分頁規範**：全書依單元概念與子題型劃分為獨立 A4 頁面（每頁配置單一題型 4～5 題同構題，列印剛好一張 A4 零空白頁）。
 - **每一頁標準結構**：
 
@@ -190,3 +182,12 @@ description: 國中特教與適性數學備課大師。專門依據教師提供�
   - 第 2～3 題保留乾淨空白底線。
   - 第 4 題保留純淨留白計算框。
   - 列印即為完全無干擾文字的標準紙本適性練習單！
+
+---
+
+## 💾 存檔與電子書目錄（必做）
+
+本 skill 只規範本科的教學內容與版面。存檔位置、`ebook:*` meta、🏠 回目錄按鈕與目錄登記，一律依 `self-made-ebook` skill 的「§11 工作區、存檔與電子書目錄」：
+- **檔名**：`ebook/math/math-[grade]-[unit].html`（年級用 7／8／9）。
+- **登記**：完成後在 `ebook/index.html` 的 `<script id="ebook-catalog">` JSON 陣列新增一筆（`path` 已存在則更新），`subject` 填 `"math"`，`type` 填 `"handout"`（小考為 `"quiz"`）。
+- **交付**：回報檔案路徑，並提醒教師打開 `ebook/index.html` 即可看到所有電子書。
